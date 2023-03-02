@@ -1,0 +1,246 @@
+---
+title: "PS 6 - Data Visualization 3: Now with even more plots!"
+author: "Elise Hellwig"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+Previously created a figure with a single plot. In this problem set, we will create figures with multiple plots. We will also use this opportunity to explore the `Figure` and `Axes` classes in more detail.
+
+# Setup
+
+A lot of the setup is the same as last time. However, we also define some useful functions and variables for plotting as well as use the `numpy` package to create some dummy data to use in one of the examples. 
+
+## Read in Data
+This section is the same as last time, we are reading in the housing data and formatting it for plotting.
+
+```{python readin}
+
+import pandas as pd #load pandas and call it pd
+import matplotlib.pyplot as plt # load pyplot module of matplotlib
+import matplotlib.ticker as tck # load the ticker module of matplotlib
+import numpy.random as rand #load random module of numpy and call it rand
+
+yrs = range(2008, 2020) # years in dataset
+
+#Load in data from csv
+sales = pd.read_csv('data/raw_sales.csv') 
+
+#only include 3-bedroom houses so we are comparing apples to apples
+sales = sales.loc[sales.propertyType=='house']
+sales = sales.loc[sales.bedrooms==3]
+
+#Converting datestring to datetime class
+sales['datesold'] = pd.to_datetime(sales['datesold'], format="%Y-%m-%d %H:%M:%S")
+
+# Extracting year from datetime class
+sales['Year'] = sales.datesold.dt.year
+
+#Price by year
+yr_sales = sales.loc[:, ['Year', 'price']].groupby('Year')
+median_price = yr_sales.median().reset_index() 
+
+#List of data by year for boxplot
+yr_list = [sales.loc[sales.Year==y].price for y in yrs]
+
+
+```
+
+## Define variables
+
+There are a few variables and functions that we will use a number of times in this problem set. This section of code stores them all in one place. This way, if I want to change all of my plots to font size 14 (instead of 12), I only have to change my code in one place. 
+```{python functions}
+
+pt12 = {'fontsize': 12} # set font size to 12
+
+blue = dict(color='#002E72') # set specific shade of blue
+
+def ToYear(x, pos): #turn x value for boxplot into year
+    return x + 2007
+
+def ToThousands(x, pos): #function to convert number to thousands
+    kn = round(x/1000) # divide by 1000 and turn into an integer
+    kn_str = "{:,}".format(kn) + 'k' #add a k on the end to denote thousands
+    
+    return kn_str
+
+
+```
+
+
+# Multiplots: Creating the Structure
+
+Sometimes it can be helpful to display more than one plot at once. We can do this using the `plt.subplots()` function in matplotlib. However, this time we are changing the default inputs. The `plt.subplots()` function allows you to create a 1- or 2-dimensional array of plots that can be accessed using the bracket notation (`[,]`), just like a list or `DataFrame` in pandas. In this case we only need a 1-dimensional array, because we are only doing two plots. If we wanted to do 6 plots we could do a (2-dimensional) 2x3 array or a 3x2 array of plots.
+
+When we create a multiplot using `plt.subplots()`, the first element returned (`fig1` below) is still a Figure object. However the second element (`ax1` below), is now a numpy array. If we want to access Axes object we have to use the bracket notation.
+
+
+```{python multiplot_setup}
+
+fig1, ax1 = plt.subplots(nrows=1, ncols=2)
+
+len(ax1)
+type(ax1)
+
+type(ax1[0])
+
+
+```
+
+# Multiplots: Adding the Data
+
+Once we have created the array of Axes objects, we can modify each of them individually, like the Axes objects in PS 5. We can also use the `suptitle()` method for Figures to add a Figure title in addition to the individual plot titles.
+
+```{python multiplot_createPlots, results = 'hide'}
+
+ax1[0].plot(median_price.Year[1:], median_price.price[1:], color='#002E72') # add line to plot
+ax1[0].set_title('Median Home Prices')
+ax1[0].set_ylim(ymin=0, ymax=1e6) # Question 1
+ax1[0].yaxis.set_major_formatter(tck.FuncFormatter(ToThousands)) # format y axis
+
+ax1[1].boxplot(yr_list[1:], showfliers=False, medianprops=blue)
+ax1[1].set_ylim(ymin=0, ymax=1e6) # Question 1
+ax1[1].yaxis.set_major_formatter(tck.FuncFormatter(ToThousands)) # Question 2AB, format y axis
+ax1[1].xaxis.set_major_formatter(tck.FuncFormatter(ToYear)) #format x axis
+ax1[1].tick_params(axis='x', labelrotation = 90) #rotate x axis labels
+ax1[1].set_title('Home Price Distribution')
+
+fig1.suptitle('Figure 1. RI Single Family 3-bedroom Home Prices', fontsize=16)
+
+plt.show()
+
+```
+
+
+# Multiplot: Formatting Axes and Figure Objects
+
+Now that we have two plots in our figure, things have started to get a little cramped. The default tick mark locations and values for the line plot also no longer work. 
+
+```{python sharedMulti, results = 'hide'}
+
+
+#create figure and 2 subplots (1 row, 2 cols) with shared y axis
+fig2, ax2 = plt.subplots(nrows=1, ncols=2, sharey=True, figsize=(6.4, 5.4))
+
+#First Subplot
+ax2[0].plot(median_price.Year[1:], median_price.price[1:], color='#002E72') # add line to figure
+ax2[0].set_title('Median Home Prices')
+ax2[0].set_ylim(ymin=0, ymax=1e6) 
+ax2[0].set_ylabel('House Price ($)', fontdict=pt12) #set y label
+ax2[0].set_xticks([2008, 2011, 2014, 2017]) # set x axis tick locations, Question 2D
+ax2[0].tick_params(axis='x', labelrotation = 45) #rotate x axis labels
+ax2[0].yaxis.set_major_formatter(tck.FuncFormatter(ToThousands)) # format y axis
+
+# Second Subplot
+ax2[1].boxplot(yr_list[1:], showfliers=False, medianprops=blue) #add boxplot to figure
+ax2[1].set_xticks([1, 4, 7, 10])  # set x axis tick locations, Question 2D
+ax2[1].xaxis.set_major_formatter(tck.FuncFormatter(ToYear)) #format x axis
+ax2[1].tick_params(axis='x', labelrotation = 45) #rotate x axis labels
+ax2[1].set_title('Home Price Distribution') #add subplot title
+
+
+#adding figure title
+fig2.suptitle('Figure 2. RI Single Family 3-bedroom Home Prices', fontsize=16, 
+                y=1)
+#adding shared X axis label
+fig2.text(0.5, 0.01, 'Year', ha='center', fontdict=pt12)
+
+
+plt.subplots_adjust(wspace=0) #remove space between two subplots
+plt.show()
+
+
+```
+
+# 2-D Multiplots
+
+## Create Dummy Data
+
+Sometimes we have a function or process (in this case plotting) that we want to test or learn about, but we don't have the right type of data easily accessible. In this case, we can create what is called "dummy data" or randomly generated data that we use as an example or a test case. We will use this data to demonstrate creating multiplots, with more than just 1 row or column of plots.
+
+```{python random}
+
+rand.seed(5) #question 3C
+
+a = rand.choice(range(50),50) #Question 3A
+b = rand.choice(range(50),50)
+
+x = rand.uniform(-10, 10, 50) #Question 3B
+y = rand.uniform(0, 6, 50)
+
+
+Ax = a*0.85 + x
+Ay =  a*-0.25 + y
+Bx = b*-.4 + x
+By = b*0.6 + y
+
+
+df = pd.DataFrame({'A':a, 'B':b, 'Ax': Ax, 'Ay':Ay, 'Bx':Bx, 'By':By})
+
+```
+
+## Creating the Plots
+
+Sometimes there are many plots you want to show all at once. In this case, both the nrows and ncols arguments of your `subplots()` function will be greater than 1. This means instead of just using one number to index the Axes array you will use two, separated by a comma (see below). 
+
+```{python 2dmultiplot}
+
+
+fig3, ax3 = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True)
+
+ax3[0,0].scatter(df.A, df.Ax, s=8) #First row, first column
+ax3[0,0].set_ylabel('Random Data A', fontdict=pt12)
+
+ax3[0,1].scatter(df.A, df.Ay, s=8) #First row, second column
+
+ax3[1,0].scatter(df.B, df.Bx, s=8) #Second row, first column
+ax3[1,0].set_ylabel('Random Data B', fontdict=pt12)
+ax3[1,0].set_xlabel('Random Data X', fontdict=pt12)
+
+ax3[1,1].scatter(df.B, df.By, s=8) #second row, second column
+ax3[1,1].set_xlabel('Random Data Y', fontdict=pt12)
+
+
+fig3.suptitle('Figure 3. Displaying some randomly generated data', fontsize=16)
+
+#removing space between the plots both horizontally and vertically
+plt.subplots_adjust(wspace=0, hspace=0)
+
+plt.show()
+
+
+```
+
+
+# Questions
+
+
+1. What would have happened if I did not include `ymax=1e6` in the two lines of code commented with "Question 2"?
+
+2. Formatting Tickmark Labels
+    A. What does the function `FuncFormatter()` do (see line with comment Question 3AB)and what is the class of object it takes as a primary argument?
+    B. What does the method `set_major_formatter()` do (see line with comment Question 3AB) and what is the class of object it takes as a primary argument?
+    C. Why do I refer to `FuncFormatter()` as a function and `set_major_formatter()` as a method?
+    D. Why are the inputs for `set_xticks()` not the same for the two plots on the lines commented Question 3D?
+    
+3. Random Number Generation (RNG) 
+    A. What does the function `choices()` do with the arguments given in the line of code commented question 3A?
+    B. What does the function `seed()` in the line of code commented question 3B?
+    C. Why would we use the function `seed()` in the line of code commented question 3C? 
+
+
+4. Create a multiplot where none of the axes are shared. 
+
+5. Write a custom function that you can use (via `set_major_formatter()`) to make the figure you created in Question 4 easier to read.
+
+6. Create a multiplot where at least one of the axes are shared.
+
+7. Create a multiplot with 2 dimensions of plots using dummy data you generated.
+
+

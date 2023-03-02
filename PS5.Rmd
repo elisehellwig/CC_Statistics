@@ -1,0 +1,204 @@
+---
+title: "PS 5 - Data Visualization 2: Creating Plots"
+author: "Elise Hellwig"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+Now that we know what not to do when making visualizations, it is time to create some of our own. This problem set will show you how to create a number of different kinds of plots. It will also demonstrate how to format them so they are easy to read. To do this we will use the `matplotlib` library. `matplotlib` is a massive library with hundreds of functions and methods designed to make highly customizable visualizations. Because of this, it is also very complex. Thankfully, the developers of `matplotlib` have lots of [**good documentation**](https://matplotlib.org/stable/api/index.html), [**tutorials**](https://matplotlib.org/stable/tutorials/index.html), and [**cheatsheets**](https://matplotlib.org/cheatsheets/).
+
+One thing to remember when creating visualizations is that even for someone with a lot of experience, it can take many iterations (and a lot of googling) to get the plot to look how you want. And sometimes, there isn't a way to get the plot just right outside of something like Photoshop. The key is to keep trying, and don't be afraid to ask for help. If you are interested in pursuing computer science, data science, or just science in general, I would highly recommend making an account at [**StackOverflow**](https://stackoverflow.com/). While StackOverflow is great place to search for answers, sometimes no one has asked the question you need help answering. With an account, you can ask questions, and once you feel more confident, answer them as well. 
+
+
+# Setup
+
+Like before we need to load the pandas library and read in our data. We also need to load the `matplotlib` library, specifically the `pyplot` and `ticker` modules. As a note while we are using only 2 modules directly (and several indirectly), there are over 40 `matplotlib` modules. This problem set is only scratching the surface of what is possible visualization-wise. 
+
+
+```{python readin, results = 'hide'}
+
+import pandas as pd #load pandas and call it pd
+import matplotlib.pyplot as plt # load pyplot module of matplotlib
+import matplotlib.ticker as tck # load the ticker module of matplotlib
+
+yrs = range(2007, 2020) # years in dataset
+
+#set options so large numbers are not converted to scientific notation
+pd.set_option('display.float_format', lambda x: '%.2f' % x) # Question 1
+
+#Load in data from csv
+sales = pd.read_csv('data/raw_sales.csv') 
+
+#only include 3-bedroom houses so we are comparing apples to apples
+sales = sales.loc[sales.propertyType=='house']
+sales = sales.loc[sales.bedrooms==3]
+
+#Converting datestring to datetime class
+sales['datesold'] = pd.to_datetime(sales['datesold'], format="%Y-%m-%d %H:%M:%S")
+
+# Extracting year from datetime class
+sales['Year'] = sales.datesold.dt.year
+
+#Price by year
+yr_sales = sales.loc[:, ['Year', 'price']].groupby('Year')
+avg_price = yr_sales.mean().reset_index() # Question 2
+median_price = yr_sales.median().reset_index() 
+
+#Question 3
+yr_list = [sales.loc[sales.Year==y].price for y in yrs]
+
+
+```
+
+# Creating Plots with Matplotlib: Functional vs. Object Oriented
+
+The `matplotlib` library has two interfaces you can use to create plots: the Pyplot interface and the Object Oriented interface. Pyplot is a functional interface. It relies on running functions (not creating variables), and is easier to use. Pyplot can can be very helpful for getting a quick look at your data, for example to make sure you don't have any major issues or missing observations.
+
+The object oriented (OO) interface offers more customization, but is more complicated. Unlike the pyplot interface, when we use the OO interface, we create objects (variables) of a particular class or classes, that we then modify with methods.
+
+*As a reminder, methods are functions that are associated with a particular class of objects. You access them using the dot (.) notation. `groupby()` is a method of the DataFrame object class.* 
+
+# My First (Py)Plot
+
+With `matplotlib`, we can use the `Pyplot` interface to create a basic line plot using the function `plt.plot(x, y)`, where `x` and `y` are two sequences of data. We can then display the plot using `plt.show()`. Because this is a functional interface, we do not need to create any variables (objects) to create a plot. All we need is a few functions. If we do not specify anything else in our plot function, `matplotlib` will use the default settings for everything else. As you can see, if we use the default settings, there are a lot of issues with the plot. 
+
+
+```{python initial_plot, results = 'hide'}
+
+#Question 4
+plt.plot(median_price.Year, median_price.price) #create plot
+plt.show() #display plot
+
+```
+
+## Pyplot Formatting
+
+Because we are working in a functional interface, if we want to modify our plot we need to use functions (not methods). To make the plot better, we can use various other `pyplot` functions to modify the plot before we display it. In the code below we set lower bound of the y-axis to be 0 and the upper bound to be 600,000. We add a title and a subtitle, along with x- and y-axis labels. These do make the plot less misleading, but there are still some issues. One of the biggest ones is we have little or no control over how the axes are displayed. This includes the the tick placement and label formatting. We also cannot display more than one plot in an image.
+
+
+```{python better_plot, results = 'hide'}
+
+pt12 = {'fontsize': 12}
+
+# Question 5
+line_title = ' Median Rhode Island Home Prices, 2007-2019\n  '
+subtitle = 'Single Family 3-bedroom'
+
+plt.plot(median_price.Year, median_price.price, color='#002E72', marker='o') 
+plt.ylim(ymin=0, ymax=6e5) 
+plt.title("Figure 1." + line_title + subtitle, loc='left', fontdict=pt12) 
+plt.xlabel('Year') 
+plt.ylabel('House Price ($)')
+plt.show() 
+
+```
+
+
+# Object Oriented Programming: Figures and Axes
+
+While you can create visualizations using the Pyplot interface, it is a relatively limited tool. For professional and/or complex plotting, it is useful to have more control over your visualization. Enter the Object Oriented (OO) interface. 
+
+The OO interface consists of a series of classes and their associated methods. The ones we will be discussing are the `Figure` and `Axes` classes. A `Figure` is a class of objects act as a container for one or more plots  These plots have the class `Axes`. The code below shows how to create a plot using these two object classes.
+
+
+```{python better_figure, results = 'hide'}
+
+def ToThousands(x, pos): #function to convert number to thousands
+    kn = round(x/1000) # divide by 1000 and turn into an integer
+    kn_str = "{:,}".format(kn) + 'k' #add a k on the end to denote thousands
+    
+    return kn_str
+
+fig2, ax2 = plt.subplots() #Question 6, create objects to use to create our line plot
+ax2.plot(median_price.Year, median_price.price, color='#002E72') # add line data to plot
+ax2.set_title('Figure 2.' + line_title + subtitle, loc='left', fontdict=pt12) #title
+ax2.set_ylabel('House Price ($)', fontdict=pt12) #set x label
+ax2.set_xlabel('Year', fontdict=pt12) #set y label
+ax2.set_ylim(ymin=0, ymax=6e5) #start y axis at 0
+ax2.yaxis.set_major_formatter(tck.FuncFormatter(ToThousands)) #Question 8
+plt.show()
+
+```
+
+# Other Types of Plots: Box Plots
+
+Based on our line plot, we can definitely tell the median price of a home is going up over time. However, the median is a measure of central tendency, it doesn't capture the variation in housing prices over time. As mentioned in Problem Set 4, box plots do show variation of a particular variable (aka their distribution). If we want to get a fuller picture of housing prices in Rhode Island, we can create a box plot. 
+
+Unlike line plots which require two arguments (x and y), boxplots only require one. For a single box plot, it is just a list of values in the distribution. However, for Figure 3, we want a box plot for each year, so we need a list of lists, with one sub-list for each year.
+
+```{python first_boxplot, results = 'hide'}
+
+box_title = " Rhode Island Home Price Distributions, 2007-2019\n  "
+
+fig3, ax3 = plt.subplots() #create figure and subplot
+ax3.boxplot(yr_list) #add boxplot to figure
+ax3.set_ylim(ymin=0) #set y minimum to 0
+ax3.set_title('Figure 3.' + box_title + subtitle, #Add title
+                loc='left', fontdict=pt12) # set title location and size
+ax3.set_ylabel('House Price ($)', fontdict=pt12) #set x label, and size
+ax3.set_xlabel('Year', fontdict=pt12) #set y label and size
+plt.show()
+
+```
+
+## A Better Box Plot
+
+Yikes! Figure 3 has some problems. First, and maybe most obviously, this plot has a lot of 'fliers', `matplotlib`'s name for outlier data points that are very far away from the median. These points are plotted individually, instead as part of the box and whiskers. While it can be helpful to show these sometimes (I would never turn them off by default), in this plot they make it impossible to differentiate between the distributions of housing prices in different years. Additionally, while a few people may spend 5 million dollars on a house, that isn't indicative of the housing market overall. We also have some formatting to do on the x and y axis tick labels, and the median line could be easier to see. 
+
+Once we remove the outliers, we can see something interesting happening with the data. The median housing price has increased because people have started buying more expensive houses, not because people have stopped buying less expensive ones. You can still get a house for less than \$400,000, but you also have a fair chunk of people buying houses for more than \$600,000. 
+
+```{python better_boxplot, results = 'hide'}
+
+orange = dict(color='#E07102', linewidth=2)
+
+
+def ToYear0(x, pos): #turn x value for boxplot into year
+    return x + 2006
+
+fig4, ax4 = plt.subplots() #create subplot
+ax4.boxplot(yr_list, showfliers=False, medianprops=orange,# add boxplot to figure without outliers
+            notch=True, bootstrap=int(1e4)) #Question 11
+ax4.set_ylim(ymin=0)
+ax4.set_title('Figure 4.' + box_title + subtitle, loc='left', fontdict=pt12)
+ax4.set_ylabel('House Price ($)', fontdict=pt12) #set y label
+ax4.set_xlabel('Year', fontdict=pt12) #set x label
+ax4.xaxis.set_major_formatter(tck.FuncFormatter(ToYear0)) #format x axis
+ax4.yaxis.set_major_formatter(tck.FuncFormatter(ToThousands)) # format y axis
+ax4.tick_params(axis='x', labelrotation = 45) #rotate x axis labels
+plt.show()
+
+
+```
+
+# Questions
+
+1. What does the code `lambda x:` mean in the line of code commented with "Question 1"?
+2. What does `reset_index()` do in the line commented with "Question 2"?
+3. What does the line commented "Question 3" do, and for extra credit what is that form of code called?
+4. List all the problems with the plot created using the code commented with "Question 4".
+5. What does each line of the code chunk labeled "Question 5" do? 
+6. We use the function `plt.subplots()` a lot in this problem set. 
+    a) What classes are the variables `fig` and `ax` it creates on the line commented with "Question 6"?
+    b) what are the default values for the required arguments for `plt.subplots()`?
+7. There are 5 ways dots/periods (`.`) are used in this problem set. List at least 3 of them. 
+8. Explain the line of code labeled "Question 8".
+9. What are the units on the y-axis of Figure 3?
+10. PASS
+11. What does the argument `Notch=True` do in the line commented "Question 11", and what does the resulting plot tell us about the data?
+12. Unlike line plots, box plots show us something about the distribution of our data. However what the visualization means depends on the parameters we set for our plot In this problem set, I used the default parameter values when creating my box plots, but that may not always be appropriate.
+    a) What do the default values for the whiskers, and upper, middle and lower ends of the box, of a `matplotlib` box plot? 
+    b) How do you go about changing those default values?
+13. How would you improve Figure 4? Would you include the data from 2007? Why or why not?
+14. What is something the distribution of housing prices in Figures 4 does not take into account?
+15. We created two different types of visualizations in this problem sets: line plots (`plt.plot()`) and boxplots (`plt.boxplot`). However, a quick review of the matplotlib documentation suggests there are many types of visualizations we can create in python.
+    a) What function or method would you use to create each of the 6 common types of visualizations from Problem Set 4? 
+    b) What is a type of visualization `matplotlib` can create that was not discussed in Problem Set 4? When would this type of visualization be useful?
+16. Create a line plot that is easy to read and communicates accurate information.
+17. Create a boxplot that is easy to read and communicates accurate information.
+18. Create a bar chart or scatterplot that is easy to reach and communicates accurate information.

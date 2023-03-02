@@ -1,0 +1,131 @@
+---
+title: "PS 3 - Aggregation and Computation with Pandas"
+author: "Elise Hellwig"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+      extra_dependencies: ["xcolor", "float"]
+  html_document:
+    df_print: paged
+---
+
+\definecolor{shadecolor}{RGB}{245,235,220}
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.pos = 'H')
+
+library(reticulate)
+options(scipen=999)
+
+
+```
+
+
+# Introduction
+
+Now that you have the basics of data manipulation in pandas, we can start doing some actual statistics. In this problem set we will be doing aggregation and computation. Functionally, these two processes are generally similar, and sometimes the same. The difference lies in the goal. 
+
+With aggregation, we are combining multiple values (or datapoints) into one value (or datapoint), with the intention of doing future future analysis on that data. For example, many weather stations in California provide hourly temperature data. If you are doing climate change research, you don't need to know the temperature every hour, or even every day. You probably only care about the annual minimum or maximum temperatures. You an then use those minimum or maximum temperatures to determine whether or not a particular area is getting warmer over time. This is generally important with data that have a lot of variability aka noise.
+
+With computation we are also combining multiple values into a single one, but that single value is the end product. For example, we may want to estimate the average number of COVID deaths per day before and after the vaccine became available. We would take the average of all the daily deaths before and after say May 2021, and that would give us our answer. We may also want to calculate a measure of spread (like the standard deviation), but we wouldn't use the averages to do that, we would go back to the original data.
+
+This problem set will focus on the practial aspects of aggregation and computation. it will be up to you to determine which is the relevant label in each case.
+
+# Setup
+
+Like before we need to load the pandas library and read in our data. You may also need to do some variable type manipulation as well.
+
+
+```{python readin}
+
+import pandas as pd #load pandas and call it pd
+
+#set options so large numbers are not converted to scientific notation
+pd.set_option('display.float_format', lambda x: '%.2f' % x)
+
+#create data frame from csv
+sales = pd.read_csv('data/raw_sales.csv') 
+
+#some data manipulation
+sales['postcode'] = sales['postcode'].astype(str)
+
+sales['postcode'] =  '0' + sales['postcode']
+
+sales['datesold'] = pd.to_datetime(sales['datesold'], format="%Y-%m-%d %H:%M:%S")
+
+# Question 1
+sales['Month'] = sales.datesold.dt.to_period('M')
+
+```
+
+
+
+# Basic Calculations
+
+Most of the basic summary statistics for quantitative data can be done using by column using reasonably named methods. You an also use these summary statistic methods on the entire DataFrame and pandas will calculate the statistic for any of the columns it makes sense for. 
+
+If you have qualitative or categorical data though, the most useful statistic is the the frequency (or count). You can access via the `value_counts()` method.
+
+```{python summarystats}
+
+round(sales.price.mean(), 2)
+
+sales.min()
+
+sales.bedrooms.value_counts()
+
+```
+
+
+
+# Calculations by Group
+More often, you will want to do calculations by group. For example, I might want to find the average home price for each zip code so I could focus in on areas are more likely to have houses in my price range. 
+
+```{python groupby}
+
+sales.groupby('postcode').price.mean()
+
+```
+
+# Rolling Calculations
+
+With very noisy data, displaying a raw times series may obscure trends we are trying to show. In this case we may want to calculate a rolling (or moving) statistic. This is a statistic that takes is values from a window or subset of data in a dataset, generally a time series.
+
+![14-Day Moving Average of COVID-19 Cases in Georgia](data/CovidMovingAverage.png)
+
+```{python rolling}
+
+# Question 7
+price_ts = sales.loc[sales.postcode=='02615'].groupby(['Month'], as_index=False).price.mean()
+
+price_ts['RollingAvg'] = price_ts.price.rolling(12).mean()
+
+price_ts
+
+price_ts.dropna(inplace=True)
+
+price_ts
+
+```
+
+
+# Questions
+
+1. What is the output of the code below the "Question 1" comment? What is its data type? 
+
+2. Calculate frequencies for a categorical or boolean variable. Is this easily comparable across datasets? Is there anything you could do to make it more comparable. 
+
+3. Find and use two measures of central tendency and two measures of spread (not referenced in this problem set) on all the columns of your data that you can calculate them for.
+
+4. What does the `describe` method do? What does each of the numbers represent?
+
+5. Calculate a measure of central tendency and one measure of spread for one of your variables. Use least two grouping variables.
+
+6. Why would your data in particular benefit from a moving average to show trends?
+
+7. What does the code below the comment "Question 7" do. How does the `as_index` argument change the output?
+
+8. Why were there NAs in my data after I calculated a moving average? Is there anything I could do to prevent that from happening?
+
+9. What does the argument `inplace=True` do? Is it generally a good practice to use it? Why or why not?

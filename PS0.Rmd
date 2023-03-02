@@ -1,0 +1,71 @@
+---
+title: "PS 0 - Summary Statistics"
+author: "Elise Hellwig"
+date: "`r Sys.Date()`"
+output: pdf_document
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Housekeeping 
+
+Try to install the numpy and pandas modules at home. You won't need them for this problem set but you will need them for the next one.
+
+# What is Statistics?
+
+Watch [**What is Statistics**](https://www.youtube.com/watch?v=sxQaBpKfDRk&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=2) and [**Mathematical Thinking**](https://www.youtube.com/watch?v=tN9Xl1AcSv8&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=3) before answering the following questions.
+
+1. What are the two meanings of the word statistics?
+2. What is the difference between descriptive and inferential statistics? Give an example of a scenario where you would use each.
+3. What do you think Mark Twain meant when he said "There are lies, damn lies, and statistics"?
+
+# Summary Statistics
+
+One of the purposes of statistics is to take large amounts of data and summarize it with simple, easy to understand numbers. The way this is done is using what are called summary statistics, sometimes called descriptive statistics. Some of these you have probably already heard of, for example the mean. Others may not be as familiar, like the variance. This problem set will show you how to calculate summary statistics as well as detail what they are for.
+
+You can use the following Sacramento, CA annual rainfall data (in mm) from the past 11 years if you wish, or you can find your own.
+
+rain = [503, 200, 668, 483, 690, 581, 208, 469, 156, 576, 445, 569]
+
+
+## Measures of Central Tendency: Mean, Median and Mode
+
+Watch [**Mean, Median and Mode: Measures of Central Tendency**](https://www.youtube.com/watch?v=kn83BA7cRNM&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=4) before answering the following questions. Code for answering these questions should only use base python, no numpy or statistics modules. 
+
+4.  The Mean
+    a.  Write out an equation, or procedure, for calculating the mean.
+    b.  Define and use a function that calculates the mean of a list of data.
+    c.  What types of data are well summarized by the mean?
+    d.  What types of can we not calculate the mean for?
+5.  The Median
+    a.  Write out the procedure for finding the median of a list of numbers.
+    b.  Define and use a function that calculates the median of a list of data
+    c.  For what types of data is the median a useful summary statistic?
+    d.  When would we prefer to use the median instead of the mean? Give a specific example.
+6.  The Mode
+    a.  Write out a procedure for finding the mode of a list of data.
+    b.  Define and use a function that calculates the mode of the list of data.
+    c.  What types of data is the mode most useful for?
+    d.  Are there any types of data where we can't use the mode?
+7. **EC:** Why would it be preferable to save data in millimeters rather than inches (or centimeters)?
+
+## Measures of Spread
+
+Watch [**Measures of Spread**](https://www.youtube.com/watch?v=R4yfNi_8Kqw&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=6) before answering the following questions. Code for answering these questions should only use base python, no numpy or statistics modules. 
+
+8. What does a measure of spread tell us? What do we lose by leaving it out?
+
+9. The Range
+    a. Write a procedure to calculate the range.
+    b. Define and use a function that calculates the range of a list of data.
+    c. When is the range a good measure of spread to use? When would it be misleading?
+    d. What is an alternative measure of spread that is less sensitive to this issue?
+    
+10. The Standard Deviation
+    a. Write out the equation for the standard deviation for a list of numbers. 
+    b. Define and use a function to calculate the standard deviation of a list of data.
+    c. Are there data types we can't calculate the standard deviation of?
+11. How might you measure the "spread" of a class of students' favorite colors?

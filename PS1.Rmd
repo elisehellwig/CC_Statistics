@@ -1,0 +1,71 @@
+---
+title: "PS 1 - Introduction to Data in Python"
+author: "Elise Hellwig"
+date: "`r Sys.Date()`"
+output: pdf_document
+urlcolor: blue
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+
+```
+
+# Data Sources
+
+The data you will be using for this problem set comes from the following sources. 
+
+* [**COVID-19 Time-Series Metrics by County and State**](https://data.chhs.ca.gov/dataset/covid-19-time-series-metrics-by-county-and-state) - Statewide COVID-19 Cases Deaths Tests
+
+* [**NOAA Climate Data Online**](https://www.ncei.noaa.gov/cdo-web/search) - Daily Summaries - Station: Yosemite Park Headquarters, CA US (GHCND:USC00049855) 
+
+Citing your data sources is very important, because it is key for making your work reproducible. 
+
+
+# Data Types
+As you saw in the last problem set, there is more than one type of data. Previously, we focused on the difference between numeric and non-numeric (categorical) data. However, depending on how you define it there are 4 or 5 different types of data. 
+
+1. Define the following types of data and give an example of each
+    a. nominal
+    b. ordinal
+    c. logical
+    d. discrete
+    e. continuous
+
+2. Which of those 5 could be considered a special case of one of the others?
+
+3. Under which data type does a date fall?
+
+# Data Formats
+Data can come in a variety of formats, both in how the data is stored (ex file type) and in how the different variables are represented. 
+
+## File Types
+
+Data is stored in a number of file formats. The most common one we will see is CSV or Comma Separated Values. These are text files that use commas to separate different variables. If you open up your data in a text editor (like TextEdit or Notepad), as opposed to Excel or a similar program, you will see what this actually looks like. 
+
+4. What are the benefits and drawbacks of CSVs?
+
+5. List 4 other file formats that data could be stored in and any notable benefits or drawbacks of those.
+
+## Tidy Data 
+
+### Rectangular Data
+Whenever you are working with data, you want to keep it in a "rectangular" format. In rectangular data, each column represent a variable (ex, height, temperature, distance, color). Each row represents an observation, or the values of each of the variables under a particular set of conditions.
+
+6. What are the variables in your dataset and what is each of their types?
+
+7. What change in conditions does each observation represent?
+
+### Types of Variables
+Generally speaking, there are two types of variables: key variables and value variables. Key variables tell you under what conditions the observation was taken. The value variables tell you what was actually observed. Both of these are independent of data types. A key variable can be any data type as can a value variable.
+
+
+8. What are the key variables in your dataset?
+
+9. What are the value variables in your dataset?
+
+10. There is a special type of variable called an ID or identifier variable. What do you think the purpose of this variable is?
+
+11. Does your dataset have an ID variable?
+
+### A Note on (In)dependence 
+In statistics we will be talking a lot of about independent and dependent variables. Sometimes these correspond to key variables and value variables respectively, but not always. Additionally, with observational data (what we are using, as opposed to experimental data), it can be difficult to tell which way the arrow of causality is pointing. This means that while we may be able to say that one variable predicts another variable, knowing which one is the "independent" variable may be more difficult.

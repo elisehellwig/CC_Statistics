@@ -1,0 +1,288 @@
+---
+title: "PS 2 - Data Manipulation and Pandas"
+author: "Elise Hellwig"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+      extra_dependencies: ["xcolor", "float"]
+  html_document:
+    df_print: paged
+---
+
+\definecolor{shadecolor}{RGB}{245,235,220}
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.pos = 'H')
+
+library(reticulate)
+options(scipen=999)
+
+
+```
+
+
+# Introduction
+
+Most of 'base' python (ie no libraries) is structured to use 1-dimensional arrays, things like lists, sets, tuples, and dictionaries. However, with data analysis and statistics, that is too restrictive. So to supplement base python, we use a library called `pandas`, that allows you to worked with 2-dimensional data, that is, data with rows and columns. This is the kind of data you work with in a spreadsheet (ex. in Excel, Numbers or Google Sheets). 
+
+The lion's share of `pandas` is a new class called a `DataFrame`, and many associated methods. It also includes functions that you can use to create, interact with, and transform `DataFrames`. 
+
+Rarely do we find data that is in the format we want to use right off the bat. Generally speaking we need to do some "data massaging" first. This problem set will take you through the various tasks you may need do in order to get the data in a format you can use to do analysis or make pretty plots. The four main tasks we will over in this problem set are 
+
+1. Data viewing
+2. Variable type manipulation
+3. Data filtering
+4. Data reshaping
+
+There is one more task that you will need before you do much plotting—data aggregation and computation. We will cover that in PS3.
+
+# Setup
+
+The first thing you need to do is load the library using import and read in your data file. In this case I will be using housing sales data from Rhode Island. Why Rhode Island? Because it was easily accessible on the internet. 
+
+Whenever we want to use a function in `pandas`, we have to refer to it with the dot notation, like `pandas.function_name()`. If you look below you will see I have renamed the pandas library `pd` for this script, so I don't have to type out `pandas` every time I want to refer to a function in the library.
+
+
+```{python readin}
+
+import pandas as pd #load pandas and call it pd
+
+#set options so large numbers are not converted to scientific notation
+pd.set_option('display.float_format', lambda x: '%.2f' % x)
+
+#create data frame from csv
+sales = pd.read_csv('data/raw_sales.csv') 
+
+
+```
+
+
+
+# Data Viewing
+
+Unlike in program like Excel, Numbers or Google Sheets, you generally can't view the entirety of a data set all at once in python. Instead there are various functions and methods you can use to get a sense of the data without trying to view thousands of lines of observations in your python console. 
+
+## Viewing Data Chunks
+
+Sometimes we want to just view a few lines of the data to see what it looks like. The head() and tail() methods show use the first and last 5 lines of the dataset respectively.
+
+
+```{python headtail}
+
+sales.head() # first 6 rows of dataframe
+
+sales.tail() # last 6 rows of dataframe
+
+```
+
+## Variable Information
+
+Other times we want to know what variables are in the dataset (as head and tail don't necessarily show all variables), or how many of them there are. We may also want to know the type of each variable, and the values it can take on.
+
+```{python varinfo}
+
+sales.columns #variable names
+
+sales.shape #(rows, columns)
+
+sales.dtypes #variable types
+
+```
+
+&nbsp;
+ 
+We may also want to refer to or get information about a specific variable. We can do that in two ways, bracket notation and dot notiation. Bracket notations uses brackets to enclose the variable name, which is specified as a string (ex. `sales['postcode']`). Dot notation connects the name of the name of the DataFrame to the name of the column using a dot (ex `sales.postcode`). You can always use bracket notation, however it can be harder to read. Dot notation is generally easier to read, but it doesn't work if the variable name has a space in it, and it can't be used to create new variables.
+
+&nbsp;
+
+```{python values}
+
+sales['postcode'].unique() # all of the different values of postcode
+
+sales.propertyType.value_counts() #the number of observations of each propertyType
+```
+
+
+# Variable Type Manipulation
+
+
+## Number to String
+
+In this dataset, the zip/postal codes were read in as integers, but we really want to view them as strings. This is because while zip codes have leading 0s, integers do not. In general, you can change the variable type using the `.astype()` method. 
+
+
+```{python createvars}
+
+sales['postcode'] = sales['postcode'].astype(str)
+
+sales['ZipCode'] =  '0' + sales['postcode']
+
+sales.ZipCode.head()
+```
+
+## String to Date
+
+Dates can be written in many different formats. February 30, 2022 could be written as 2/30/22, 30/2/22 (if you are in Europe), 2022-02-30 (if you like to sort things by date), or 2 Feb 2022 if you want to make sure people know which is the month and which is the day. Because of this, pandas generally reads in dates as strings. This means if we want pandas view them as dates we need to do a conversion.
+
+
+```{python datetype}
+
+sales['datesold'] = pd.to_datetime(sales['datesold'], format="%Y-%m-%d %H:%M:%S")
+
+sales.dtypes
+
+sales.datesold.head()
+
+```
+
+
+
+# Filtering
+
+Many times, you only want to use part of your data. Maybe I only want to look at the price of houses, since that is what I am looking to buy. Or maybe I only want to look at sales in a certain zip code. We do this by filtering. The main tools used for filtering in pandas are `.iloc` and `.loc`. With `.iloc`, we filter `DataFrames` using the number of the rows and columns. With `.loc` we can filter using labels, and more importantly, boolean arrays (True/False).
+
+## .iloc
+
+With `.iloc` we can filter row and column numbers using the slice notation we learned previously. This means that the end of a slice will not be included. So `sales.iloc[:4]` will not include the fifth row (row 4). `.iloc` filtering works for both rows and columns. We can also use negative numbers to start counting from the back. This is especially useful when our dataset is large enough that we don't actually know (or remember) how many rows it has. It pays to be careful with `.iloc` though because if you add or remove rows/columns from your DataFrame, you may end up referring to different data then you thought.
+
+```{python iloc}
+
+sales.iloc[1:4] #2nd through 4th rows of the data
+
+sales.iloc[:, -2:] #all rows but only the last 2 columns
+
+```
+
+## Filtering by Labels with .loc
+
+The row labels are called the `index` and the column labels are just called `columns`. The index may look a lot like the row numbers we used with `.iloc`, but they behave differently. First, the end label is included in the the filter. So `sales.loc[:4]` contains 5 rows, not 4. Also, if you filter out the first 5 rows, nothing will be returned if you refer to the indexes 0-4 using `.loc` at a later point. Columns, on the other hand behave about the same as you would expect.
+
+```{python loc}
+
+sales.loc[:, ['ZipCode', 'datesold']] 
+
+sales.loc[:3] # filter to the first 4 rows of the DataFrame
+
+some_sales = sales.loc[7:13]
+
+some_sales.iloc[:4]
+some_sales.loc[:4]
+
+
+```
+
+
+## Filtering by Boolean Array
+
+Frequently we want only data that satisfies a certain condition. In that case we filter using a boolean array. The most common types of boolean statements use greater than (>), less than (<), equal to (==) and not equal to (!=). You can also link multiple conditions together using 'and' (&) and 'or' (|). Finally you can use 'not' (~) to negate a condition.
+
+```{python locbool}
+
+
+sales.loc[sales['price'] > 1000000]
+
+sales.loc[(sales['ZipCode']=='02612') & (sales['price'] < 500000)]
+
+```
+
+\newpage 
+
+# Reshaping Data
+
+When talking about the "shape" of data, we can have "wide" data or "long" data. Though in practice you may find data that is a bit in between long and wide data, having some attributes of each.
+
+![Wide vs. Long Data](data/wideLong1-1.png)
+
+## Long Data
+
+Long data has only a few columns but many rows. It is harder for people to read, but can be easier to work with on a computer. It generally doesn't have NAs for missing data and it is more flexible when adding different data types and observations. If you are using long data, it is important to make sure you have an index variable that uniquely identifies each observation, because observations will be spread over multiple rows of data.
+
+
+```{python melt}
+
+sales['Sale_ID'] = range(sales.shape[0])
+
+value_cols = ['datesold', 'price', 'bedrooms','propertyType']
+
+# wide to long
+sales_long = sales.melt(
+    id_vars=['Sale_ID', 'ZipCode'], #ID variables
+    value_vars=value_cols, #value variables, columns to be melted 
+    var_name='Variable', #stores previous column names
+    value_name='Value' #stores previous column values
+    ) 
+
+sales_long[sales_long.Sale_ID==0]
+
+```
+
+## Wide Data
+
+Wide data has many columns but fewer rows. Each row represents single set of conditions and each column is the value of an observed variable those conditions. Wide data is more common because it is easier for people to read. However, it has some drawbacks. First it is prone to having NAs for missing data. Depending on what analysis you are trying to do or what data types you are using, this may be an issue. Second, it is less flexible to changes in what type data is included.
+
+```{python cast}
+
+sales_wide = sales_long.pivot(index=['Sale_ID', 'ZipCode'], 
+                              columns='Variable',
+                              values='Value').reset_index()
+
+sales_wide.head()
+
+```
+
+## Pivoting
+
+You can also use 'pivoting', or going from long to wide data, to do calculations. For example, we can find the average price and bedroom number by zip code. This process is called 'aggregating' data, and we will talk about it more in the next problem set. In this case zip code is the grouping variable.
+
+```{python cast_avg}
+
+#Question 12
+sales_long2 = sales_long.loc[~sales_long.Variable.isin(['propertyType', 'datesold'])]
+
+sales_avg = sales_long2.pivot_table(index='ZipCode', 
+                                    columns='Variable',
+                                    values='Value').reset_index()
+
+sales_avg.head()
+
+```
+
+# Questions
+
+## Data Viewing
+1. Use the `head()`, `tail()` and `unique()` methods to view different parts of your data. What was something you saw that you didn't expect?
+
+3. How many rows and columns are in your dataset?
+
+2. Use the `dtypes` attribute of of a DataFrame to determine the pandas data type of each of the variables in your dataset. Which data type from PS1 does each pandas data type correspond to?
+
+3. Are there any pandas data types that are not represented in your dataset? What are they?
+
+## Variable Type Manipulation
+
+4. Convert a variable in your dataset from one type to another. 
+
+5. What happens when you convert a float to an int?
+
+6. Convert the datestring variable to a pandas datetime variable.
+
+7. If the dates in your data were formatted like 09/27/19, what would the format argument in the to_datetime function look like?
+
+## Filtering
+
+8. Select the 45-79th rows of your data using `.iloc` and `.loc`. 
+
+9. Select all observations for a single year. How many observations are there?
+
+10. Select the first 100 rows of your data, and the 1st, third, and fourth columns using `.loc`.
+
+## Reshaping Data
+
+11. Is your data in long or wide format? Convert it to the other format.
+
+12. What does the line of code commented with "Question 12" do?
+
+13. Use the `pivot_table()` method to take the mean of at least 2 of the variables in your dataset. What makes sense to use as the grouping variable for this calculation?
+
+
