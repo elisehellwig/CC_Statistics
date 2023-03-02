@@ -1,0 +1,181 @@
+---
+title: "PS 4 - Data Visualization 1: Reading Plots"
+author: "Elise Hellwig"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+      extra_dependencies: ["xcolor", "float"]
+  html_document:
+    df_print: paged
+---
+
+\definecolor{shadecolor}{RGB}{245,235,220}
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.pos = "!H", out.extra = "")
+
+library(reticulate)
+options(scipen=999)
+
+
+```
+
+
+# Introduction
+
+Before doing this problem set, please watch [**Charts Are Like Pasta**](https://www.youtube.com/watch?v=hEWY6kkBdpo) and [**Plots, Outliers, and Justin Timberlake**](https://www.youtube.com/watch?v=HMkllhBI91Y&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=7&t=100s).
+
+# Types of Visualizations
+
+Images from this section come from [**Material Design**](https://m2.material.io/design/communication/data-visualization.html#types).
+
+There are many types of visualizations, and new ones are being created regularly. However, the most common, and the ones we will focus on, are line plots, bar plots, pie charts, scatterplots, boxplots and histograms. 
+
+
+![Common Visualization Types](data/plots/Allplots.png){width=90%}
+
+We can group these six types of plots based on what type of information each plot is conveying:
+
+* Comparison - comparing data from different categories or at different points in time (line, bar) 
+* Composition - how much of each part makes up a whole (pie) 
+* Relationship - how is one variable related to another variable (scatterplot)
+* Distribution - how frequent are values from a single variable (boxplot, histogram)
+
+Line plots work well for displaying time series (ex. temperature, daily COVID cases). Bar charts work well for displaying data by category (ex. housing prices by region). Pie chars, and other composition charts, show parts of a whole. This means they are not suited for data where there is no obvious "whole" or when data points can fit into multiple "parts". Scatterplots show the relationship (or correlation) between two (or more) variables. For example, this could be how much candy people eat on Halloween by age, or the average minimum temperature by latitude for cities in the United States. Distribution plots show how spread out data is for a single variable. This could be the height of women in the United States or standardized test scores for high school sophomores in the state of California. Because boxplots are more compact, they can display distributions by group (ex. standardized test scores for CA high school sophomores by county).
+
+# Reading plots
+
+This section will focus on the things that can go wrong with creating a visualization, both intentional and unintentional. This is so you can create accurate and informative visualizations and so you can view any plots you see with a critical eye. Most of the visualizations in this section are on the topic of the COVID-19, mostly because nothing brings out bad data like [**public health**](https://99percentinvisible.org/episode/florence-nightingale-data-viz-pioneer/). However, because the creators of some of the plots below have been shamed into removing them from the internet, many of the images actually come from [**The Good, the Bad, and the Ugly Coronavirus Graphs**](https://www.usu.edu/math/symanzik/talks/2021_SouthwestMichiganChapter.pdf) by Jürgen Symanzik from Utah State University.
+
+Listed below is a (non-exhaustive) list of the common problems you will see with visualizations.
+
+1. Wrong type of visualization (done)
+
+2. Misleading data grouping/binning (done)
+
+3. Cherry-picking data (done)
+
+4. Poorly ordered data (done)
+
+5. Differences in size are not proportional (done)
+
+6. Changes in scales (done)
+
+7. Poor or changing baseline
+
+8. Bad or missing title and labels (done)
+
+9. Low contrast and poor color choice (done)
+
+
+# 1. Wrong type of chart
+
+![COVID-19 Worries Pie Chart](data/plots/BiggestCovidWorries.jpeg){width=60%}
+
+As we discussed above, different types of charts lend themselves to displaying different types of data. Data that is easy to interpret using one chart may be almost incomprehensible using a different type. Be wary of new or more complicated types of visualizations. It is much easier to come to the wrong conclusions if you are unfamiliar with the 
+
+Pie charts are the most commonly misused type of visualization. This is because for a pie chart to be accurate, all of the parts/categories must add up to 100% of the whole, and each category must be mutually exclusive from the other categories. If this is not the case, your best option is probably to use a bar plot. Figure 2 below messes up on both counts. It also gets an honorable mention for cherry picking data. I can't imagine those things were the only things people have been worried about during the pandemic.
+
+&nbsp;&nbsp;
+
+# 2. Misleading data grouping
+
+Many times it is necessary to group (or bin) data in order to present it on a plot. It would be very hard to see the data points on a COVID-19 death rate graph that had a bar for every age from 0 to 100 (or however the oldest person is now). It also wouldn't be very useful, because while there is a big difference between COVID-19 death rates in between people who are 25 and people who are 65, there isn't much of a difference in deaths between people who are 25 and 26.
+
+Nonetheless, improper binning can be used to mislead or obfuscate the underlying data. Even worse than using bad binning techniques, is using different binning schemes in the same plot, like the Georgia Health Department did in Figure 3. Their color choice also contributes to the deceptive nature of the plot.
+
+![Map of Georgia COVID-19 case rates by county at two points in July 2020](data/plots/BadGeorgiaMap.jpg){width=60%}
+
+&nbsp;&nbsp;
+
+# 3. Cherry-picking data
+
+One common tactic for creating misleading plots, and in fact misleading research, is cherry-picking which data is actually included. This can mean leaving relevant data out or including non-relevant data. In Figure 4, the map creator showed COVID-19 case rates over time noting the presence or absence of mask mandates for each time series. No justification is given for why these particular countries were picked, and others (Russia, Switzerland, and the Netherlands) were left out. Additionally, while it is true that these countries different mask mandate statuses at this time during the pandemic, it is certainly not the only or even most notable difference in the countries responses to the pandemic. This plot also gets a honorable mention for poor labeling, as it is impossible to tell which line corresponds to which country. 
+
+![COVID-19 case counts for various European countries.](data/plots/EuropeanMasks.jpeg){width=60%}
+
+
+# 4. Poorly ordered data
+
+Figure 5 is an example of poorly ordered data at its best/worst. The Georgia Health Department changes the order of the counties changes between different dates, making it hard to compare case counts by county. Even worse, the dates themselves are not in order, so we have no idea whether cases are increasing or decreasing over time. This means at first glance, it seems like cases are improving, when as we know, the opposite was happening. It also gets an honorable mention for wrong type of chart, low contrast, and hard to read labeling. 
+
+![Georgia Department of Public Health COVID-19 Data](data/plots/GeorgiaDPHCovid19.png){width=90%}
+
+&nbsp;
+
+# 5. Differences in aize are not proportional to differences in value
+
+Another common way people create misleading visualizations is by having differences in the size of an object be independent of the number that object represents. Figure 6 is from Russia early on in the Pandemic. If you don't look too closely, it seems like case counts are leveling off. If you look at the numbers instead of the bars, they are getting worse, much worse. This also gets an honorable mention for poor labeling by not even having a Y axis labeled.
+
+![Number of people infected with COVID19 in Russia each day in March of 2020](data/plots/RussianCOVIDNumbers.png){width=60%}
+
+&nbsp;&nbsp;
+
+
+# 6. Changes in axis scales
+
+While it may seem obvious, the scale of the X and Y axes should not change within a given plot, and ideally within a given visualization (if it contains multiple plots).
+
+In Figure 7, neither the X and Y axes are consistently scaled. On the X axis, the same amount of space represents 9, 5, and 4 days on the scale. On the Y axis the same distance can represent 5 thousand cases or 15 thousand cases. 
+
+
+![Number of people infected with COVID19 in Russia each day in March of 2020](data/plots/ChangeAxes.jpeg){width=60%}
+
+&nbsp;&nbsp;
+
+# 7. Poor or changing baseline
+
+When creating a plot, especially a comparison plot, values need to be plotted relative to a reasonable (and stable) baseline. This means that axes for numeric visualizations should include 0, or an appropriate substitution based on the situation (ex. 7 for pH). It also means that stacked plots should be avoided unless the bar are labeled in the plot, like in Figure 8. 
+
+![Example of a properly labeled stacked bar chart](data/plots/stackedbarchart.png){width=50%}
+
+Figure 9, is a particularly egregious example of choosing a misleading baseline. Because the scale starts at 34\% and not 0\%, the size of the bar for the higher tax rate is several times larger than the bar for the lower tax rate, even though it is only a 13\% difference in value. 
+
+![Top tax rate with and without the bush tax cuts.](data/plots/Bush_cuts2.jpeg){width=60%}
+
+&nbsp;&nbsp;
+
+
+# 8. Poor or missing title and labels
+
+
+All plots should have a plot title as well as axes labels that tell you what is being plotted, at what scale, and what the units are (if applicable). Tick marks on the axes should also have clear labels. No overlapping or too small to read text, and numbers should be formatted so they are easy to interpret. For example, \$7 million or 7,000,000 is better than 7000000 and $2.3\cdot 10^{-5}$ is better than 0.000023. Figure 10 is missing the y axis entirely and its x axis is barely labeled.
+
+![Marlboro Market Share in 2015](data/plots/Bad-Chart-Malboro.jpg){width=60%}
+
+&nbsp;&nbsp;
+
+
+# 9. Low contrast and poor color choice
+
+Contrast refers to the difference in brightness between two colors. To make plots easy to read, the contrast between the text/graphic and the background should be high. This means if the background is light the text should be dark and visa versa. [**Webaim**](https://webaim.org/resources/contrastchecker/) has a contrast checker that allows you to see if your foreground and background colors are sufficiently different so as to to be easy to read.
+
+Even if the foreground and background colors are high contrast, you also need to make sure colors used in the plot are distinguishable from each other. This is especially important if you are using color to communicate data, as in Figure 11. If you aren't sure what colors to use, or you want to make sure that the colors are visually distinct for people who are colorblind you can use the [**Color Brewer**](https://colorbrewer2.org/) website for color palette recommendations. 
+
+![Changes in projected chance of winning the NFC West over a single day](data/plots/BadColors.png){width=50%}
+
+&nbsp;&nbsp;
+
+
+# Questions
+
+1. Categorize the following plot types as Comparison, Composition, Relationship, Distribution, or a combination of them.
+    a) bubble plot
+    b) stacked bar plot
+    c) density plot
+    d) radar plot
+    e) area plot
+2. Give an example of a time unequal sized groups or bins that would help people better understand the data, instead of misleading them.  
+3. List two color palettes, one for July 2 and one for July 20, that would make the maps from Figure 3 less misleading.
+4. List 3 reasons, other than presence of mask mandate, why the countries in Figure 4 might have the COVID-19 case rates they do? 
+5. For Figures labeled with Question 5, list the type of plot and all of the problems each visualization has.
+
+![Question 5A](data/plots/CovidDeathsMasks.jpeg){width=80%}
+
+![Question 5B](data/plots/Skateboards.png){width=80%}
+
+![Question 5C](data/plots/MedianIncome.png)
+
+![Question 5D](data/plots/australiaplot.jpeg)
+
