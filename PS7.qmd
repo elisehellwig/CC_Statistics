@@ -1,34 +1,198 @@
 ---
-title: "PS7 - Distributions"
+title: "PS7 - Data Distributions"
 format: pdf
 jupyter: python3
 ---
 
 # Introduction
 
-Please watch [The Shape of Data: Distributions](https://youtu.be/bPFNxD3Yg6U/) before 
-
-For most of this problem set, we will be generating our own data, so we won't need 
+Please watch [The Shape of Data: Distributions](https://youtu.be/bPFNxD3Yg6U/) before starting the problem set
 
 # Setup
 
+In addition to looking at real world data, we also will generate some of our own data using a random number generator. `random` module from the `numpy` package.
+
 ```{python}
-import pandas as pd
+
+import statistics as st
+import numpy as np
 import numpy.random as rand
 import matplotlib.pyplot as plt
 
+#create random number generator
+rng = rand.default_rng(seed=3289) #set seed so that our results are replicable
+
+#generate some random numbers
+r1d6 = rng.choice(range(1, 7), size=10000) # 10,000 simulated rolls of a 6-sided die.
 
 ```
 
 # Distributions
 
-Use LaTeX to write equations:
+A data distribution tells you how frequently a particular value appears in a data set. This can be expressed as a count ("frequency"), or it can be expressed as a likelihood ("probability"). In the setup code, we simulated 10,000 rolls of a 6-sided die. The frequency of 4 for that particular set of rolls was 1656. The probability of getting a 4 for that set of rolls was 0.1656, or approximately 16.6%. While both frequencies and probabilities can be useful, we see probabilities used more frequently in real life situations. This is because it is easier to compare between data sets. While can choose how much data we want to simulate in a computer program, scientists often don't have that option in real life.
+
+Figure 1 depicts the frequency distribution of rolls from our simulated data. Figure 2 shows the probability distribution. 
+
+```{python}
+
+bins = np.arange(1, 6 + 1.5) - 0.5 #set up bins for histogram
+
+fig1, ax1 = plt.subplots()
+
+ax1.hist(r1d6, bins=bins, rwidth=0.9, edgecolor='black')
+ax1.set_title("Figure 1. Data Distribution of Rolling a 6-sided Die 10,000 times (Frequency)")
+ax1.set_xlabel('Outcome (possible roll)')
+ax1.set_ylabel('Frequency')
+plt.show()
 
 
-# Correlation
+```
 
-Like you saw in the videos, 
+```{python}
+
+bins = np.arange(1, 6 + 1.5) - 0.5 #set up bins for histogram
+
+fig2, ax2 = plt.subplots()
+
+ax2.hist(r1d6, bins=bins, rwidth=0.9, edgecolor='black', density=True)
+ax2.set_ylim([0,1])
+ax2.set_title("Figure 2. Data Distribution of Rolling a 6-sided Die 10,000 times (Probability)")
+ax2.set_xlabel('Outcome (possible roll)')
+ax2.set_ylabel('Probability')
+plt.show()
+
+
+```
+
+
+# Distribution Characteristics
+
+Distributions have a number of characteristics that we can use to describe them. They can be continous or discrete. Continous distributions are distributions that can take on any value, within a given range. Human heights are continuously distributed, as is the length of time it takes people to run 100m. Discrete distributions can only take on specific values. Dice rolls have a discrete distribution, as do the number of times people have eaten ice cream in the past week.
+
+Distributions can also be symmetric or skewed. Symmetric distributions are distributions that look the same if you fold them in half. Skewed distributions have more data on one side of the distribution than the other. A distribution is positively (or right) skewed if it has a long tail to the right. Income levels in the United States are right skewed, as are housing prices (Figure _). A distribution is negatively (or left) skewed if it has a long tail to the left. Age of non-accidental death in the United States is negatively skewed.
+
+The mode of a dataset is the most common value. The mode of a distribution is the peak frequency or probability. Most data distributions we see on a regular basis are uni-modal, meaning they only have one peak. This includes almost all the examples previously mentioned, with the exception of rolling a single die. Some distributions have more than one peak though. This was the case for age of death prior to modern medicine. Many people died in childhood, but if you survived childhood you were fairly likely to live into your 50s or 60s. This resulted in a bimodal distribution of age of death.
+
+Distribution Characteristics
+
+* continuous or discrete
+* Symmetric or skewed
+* Unimodal or multi-modal
+
+In addition to these characteristics, we can also describe a distribution using a number of different statistics:
+
+* mean ($\mu$)
+* median
+* mode
+* standard deviation ($\sigma$)
+
+The mean and standard deviation are particularly important, so we give them their own special symbols. We can use python to calculate these statistics fairly easily for our siimulated dice rolls with functions we've already used.
+
+```{python}
+#| echo: false
+d6mean = np.mean(r1d6).round(2)
+d6median = int(np.median(r1d6))  
+d6mode = st.mode(r1d6)
+d6st_dev = np.std(r1d6).round(2)
+
+from IPython.display import display, Markdown
+
+display(Markdown("""
+For this sumulation the mean value of our die rolls was {d6mean}, the median was {d6median}, the mode was {d6mode}, and the standard deviation was {d6st_dev}. For a different set of 10,000 simulated rolls, some of the numbers would change. The mode in particular can change quite a bit 
+""".format(d6mean = d6mean, d6median=d6median, d6mode=d6mode,d6st_dev=d6st_dev)))
+```
+
+
+# Specific Distributions
+
+Some distributions are so common or important we have given them special names. We will cover two in this problem set 
+
+## Uniform distribution
+
+A uniform distribution is any distribution where all outcomes have the same likelihood of happening. They are *symetric*, they can be *discrete* or *continuous*, and they do not have a mode. This is because, if all the  The outcome of rolling a single die has a discrete uniform distribution. We can simulate this using the `choice()` method. Continous uniform distributions are not common in the real world. However, they can be used to simulate data using the `uniform()` method. 
+
+## Normal Distribution
+
+The normal distribution is probably the most common distribution. It is also frequently called a 'bell shaped curve' or a gaussian distribution. Be warned though, there are other curves that look similar that are not actually normal distributions. The normal distribution is *continuous*, *symmetric* and *unimodal*. 
 
 $$
-\chi' = \sum_{i=1}^n k_i s_i^2
+y(x) = \left( \frac{1}{\sigma\sqrt{2\pi}}\right)\left(e^{}\right)
 $$
+
+
+# Probability vs. Density
+
+When plotting the probability distribution of the outcomes of a 6-sided die roll, we set `density=True` to tell python to calculate probabilities instead of frequencies. 
+
+Density depends on the size of the bins that you use to group your data. In a density plot, the area of all of the bins will always add to 1. This means that if the width of the bin is less than 1, the value of the bar in the histogram can be greater than 1, even though it's not possible for something to have a greater than 100% chance of happening. 
+
+If we simulate two sets of data using two different normal distributions we can see how the effect 
+
+
+```{python}
+
+#generate some random numbers
+norm1 = rng.normal(0, 0.5, size=1000) # 10,000 normal(0,1) data pulls
+norm4 = rng.normal(0, 1, size=1000) # 10,000 normal(0,5) data pulls
+
+binorm = np.concatenate((rng.normal(0, 1, size=10000),
+rng.normal(3, 1, size=10000)))
+
+binsA = np.arange(-5, 5.5) - 0.5 #set up bins for histogram
+binsB = np.arange(-5, 5) #set up bins for histogram
+
+
+fig4, ax4 = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True)
+
+ax4[0,0].hist(norm1, bins=binsA, density=True, alpha=0.7)
+ax4[0,0].hist(norm4, bins=binsA, density=True, alpha=0.7)
+
+ax4[0,1].hist(norm1, bins=binsB, density=True, alpha=0.7)
+ax4[0,1].hist(norm4, bins=binsB, density=True, alpha=0.7)
+
+ax4[1,1].hist(norm1, bins=40, density=True, alpha=0.7)
+ax4[1,1].hist(norm4, bins=40, density=True, alpha=0.7)
+
+# ax4[0,1].scatter(df.A, df.Ay, s=8) #First row, second column
+
+# ax4[1,0].scatter(df.B, df.Bx, s=8) #Second row, first column
+# ax4[1,0].set_ylabel('Random Data B', fontdict=pt12)
+# ax4[1,0].set_xlabel('Random Data X', fontdict=pt12)
+
+# ax4[1,1].scatter(df.B, df.By, s=8) #second row, second column
+# ax4[1,1].set_xlabel('Random Data Y', fontdict=pt12)
+
+
+fig4.suptitle('Figure 4. Displaying some randomly generated data', fontsize=16)
+
+#removing space between the plots both horizontally and vertically
+#plt.subplots_adjust(wspace=0, hspace=0)
+
+plt.show()
+
+fig5, ax5 = plt.subplots()
+
+ax5.hist(binorm, bins=8, density=True, alpha=0.6)
+ax5.hist(binorm, bins=30, density=True, alpha=0.6)
+
+plt.show()
+
+
+```
+
+
+# Questions
+1 Frequencies vs. Probabilities
+    a. What is a specific situation where you would care as much about the frequencies of the data as you care about their probability?
+    b. What is a specific situation where only the data probability is important?
+2 Simulating Dice Rolls
+    a. Simulate 10,000 rolls of 2 6-sided dice, where the outcome is the sum of the dice added together.
+    b. Plot the frequencies of the data you just simulated.
+    c. Plot the probabilities of your simulated dice roll data.
+3. Describing your Dice Rolls
+    a. Describe the distribution of the dice rolls you simulated using the terminology from the Distribution Characteristics section. 
+    b. Calculate the mean, median, mode, and standard deviation for your dice roll data.
+4. Would we expect any of the mean, median, mode, and standard deviation to change very much between different sets of simulations for rolling a single die? How about for rolling 2 dice?
+
+3. Plot the distribution of a variable in your dataset. 
+6. What are the parameters of `uniform()` and what do they do?
