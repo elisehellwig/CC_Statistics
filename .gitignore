@@ -7,3 +7,5 @@ data/
 *.pdf
 *.html
 .venv
+IntroStats.Rproj
+.DS_Store
