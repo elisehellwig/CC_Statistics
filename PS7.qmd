@@ -221,7 +221,7 @@ plt.show()
 
 # Probability vs. Density
 
-When plotting the probability distribution of the outcomes of a 6-sided die roll, we set `density=True` to tell python to calculate probabilities instead of frequencies. 
+When plotting the probability distribution of the outcomes of a 6-sided die roll, we set `density=True` to tell python to calculate probabilities instead of frequencies. However density is not always the same as probabilitity.
 
 Density depends on the size of the bins that you use to group your data. In a density plot, the area of all of the bins will always add to 1. This means that if the width of the bin is less than 1, the value of the bar in the histogram can be greater than 1, even though it's not possible for something to have a greater than 100% chance of happening. When the width of the bins are exactly 1, the density is the same as the probability.
 
@@ -233,45 +233,47 @@ If we simulate two sets of data using two different distributions we can see how
 ```{python}
 
 #generate some random numbers
-norm1 = rng.normal(0, 0.5, size=1000) # 10,000 normal(0,1) data pulls
-norm4 = rng.normal(0, 1, size=1000) # 10,000 normal(0,5) data pulls
+normX = rng.normal(0, 0.5, size=1000) # 10,000 normal(0, 0.5) data pulls
+xlab = '$\mu=0$, $\sigma=0.5$'
+
+normY = rng.normal(0, 1, size=1000) # 10,000 normal(0, 1) data pulls
+ylab = '$\mu=0$, $\sigma=1$'
+
+
 
 binorm = np.concatenate((rng.normal(0, 1, size=10000), rng.normal(3, 1, size=10000)))
 
-binsA = np.arange(-5, 5.5) - 0.5 #set up bins for histogram 
-binsB = np.arange(-5, 5) #set up bins for histogram (Offset)
+binsA = np.arange(-5, 5) #set up bins for histogram 
+binsB = np.arange(-5, 5.5) - 0.5 #set up bins for histogram (Offset)
 
 
-fig5, ax5 = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True)
+fig5, ax5 = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True,
+figsize=(8, 6))
 
-ax5[0,0].hist(norm1, bins=binsA, density=True, alpha=0.7)
-ax5[0,0].hist(norm4, bins=binsA, density=True, alpha=0.7)
+ax5[0,0].hist(normX, bins=binsA, density=True, alpha=0.7, label=xlab)
+ax5[0,0].hist(normY, bins=binsA, density=True, alpha=0.7, label=ylab)
 ax5[0,0].annotate('A.', xy=(-5,0.75))
 
-ax5[0,1].hist(norm1, bins=binsB, density=True, alpha=0.7)
-ax5[0,1].hist(norm4, bins=binsB, density=True, alpha=0.7)
+ax5[0,1].hist(normX, bins=binsB, density=True, alpha=0.7, label=xlab)
+ax5[0,1].hist(normY, bins=binsB, density=True, alpha=0.7, label=ylab)
 ax5[0,1].annotate('B.', xy=(-5,0.75))
 
+
+ax5[1,0].hist(normX, bins=15, density=True, alpha=0.7, label=xlab)
+ax5[1,0].hist(normY, bins=15, density=True, alpha=0.7, label=ylab)
 ax5[1,0].annotate('C.', xy=(-5,0.75))
 
-ax5[1,1].hist(norm1, bins=40, density=True, alpha=0.7)
-ax5[1,1].hist(norm4, bins=40, density=True, alpha=0.7)
+ax5[1,1].hist(normX, bins=40, density=True, alpha=0.7, label=xlab)
+ax5[1,1].hist(normY, bins=40, density=True, alpha=0.7, label=ylab)
 ax5[1,1].annotate('D.', xy=(-5,0.75))
 
-# ax5[0,1].scatter(df.A, df.Ay, s=8) #First row, second column
+handles, labels = ax5[1,1].get_legend_handles_labels()
+fig5.legend(handles, labels, loc='lower center')
 
-# ax5[1,0].scatter(df.B, df.Bx, s=8) #Second row, first column
-# ax5[1,0].set_ylabel('Random Data B', fontdict=pt12)
-# ax4[1,0].set_xlabel('Random Data X', fontdict=pt12)
-
-# ax5[1,1].scatter(df.B, df.By, s=8) #second row, second column
-# ax5[1,1].set_xlabel('Random Data Y', fontdict=pt12)
-
-
-fig5.suptitle('Figure 5. Displaying some randomly generated data', fontsize=16)
+fig5.suptitle('Figure 5. Randomly generated data with different binning schemes')
 
 #removing space between the plots both horizontally and vertically
-#plt.subplots_adjust(wspace=0, hspace=0)
+plt.subplots_adjust(wspace=0, hspace=0, top=0.95, bottom=0.15)
 
 plt.show()
 
