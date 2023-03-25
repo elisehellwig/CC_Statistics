@@ -190,16 +190,17 @@ norm_price2M = np.where(norm_price>3e6, 3e6, norm_price)
 
 nstats = CalcStats(norm_price, isInt=False, bins=price_bins)
 
-fig4, ax4 = plt.subplots(nrows=2, sharex=True)
+fig4, ax4 = plt.subplots(nrows=2, sharex=True, figsize=(8, 6))
 
 ax4[0].hist(price17_2M, bins=price_bins)
-ax4[0].axvline(x=pstats['mu'], color = 'black', linestyle='dashed')
-ax4[0].axvline(x=pstats['med'], color = 'black', linestyle='dotted')
-ax4[0].axvline(x=pstats['mode'], color = 'black', linestyle='solid')
+ax4[0].axvline(x=pstats['mu'], color = 'black', linestyle='dashed', label='Mean')
+ax4[0].axvline(x=pstats['med'], color = 'black', linestyle='dotted', label='Median')
+ax4[0].axvline(x=pstats['mode'], color = 'black', linestyle='solid', label='Mode')
 ax4[0].xaxis.set_major_formatter(tck.FuncFormatter(ToThousands))
 ax4[0].tick_params(axis='x', labelrotation = 45) #rotate x axis labels 
 ax4[0].set_title("")
 ax4[0].set_ylabel('Actual Sales')
+ax4[0].legend(loc='upper right')
 
 ax4[1].hist(norm_price2M, bins=price_bins)
 ax4[1].axvline(x=nstats['mu'], color = 'black', linestyle='dashed')
@@ -208,10 +209,12 @@ ax4[1].axvline(x=nstats['mode'], color = 'black', linestyle='solid')
 ax4[1].xaxis.set_major_formatter(tck.FuncFormatter(ToThousands))
 ax4[1].tick_params(axis='x', labelrotation = 45) #rotate x axis labels 
 ax4[1].set_xlabel('Price ($)')
-ax4[1].set_ylabel('Simulated Sales\n(simulated)')
+ax4[1].set_ylabel('Symmetric Sales\n(simulated)')
 
+fig4.suptitle('Figure 4. Mean, Median, and Mode for Skewed and Symmetric\n Distributions of 2017 Home Sales in New England', fontsize=16)
 
-fig4.suptitle('Figure 4. Mean, Median, and Mode for Symmetric and Skewed Distributions', fontsize=16)
+plt.subplots_adjust(hspace=0, top=0.9, bottom=0.17)
+
 plt.show()
 
 
