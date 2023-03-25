@@ -251,10 +251,6 @@ xlab = '$\mu=0$, $\sigma=0.5$'
 normY = rng.normal(0, 1, size=1000) # 10,000 normal(0, 1) data pulls
 ylab = '$\mu=0$, $\sigma=1$'
 
-
-
-binorm = np.concatenate((rng.normal(0, 1, size=10000), rng.normal(3, 1, size=10000)))
-
 binsA = np.arange(-5, 5) #set up bins for histogram 
 binsB = np.arange(-5, 5.5) - 0.5 #set up bins for histogram (Offset)
 
