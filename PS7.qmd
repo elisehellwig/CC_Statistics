@@ -217,6 +217,19 @@ plt.show()
 
 ```
 
+# Specific Distributions
+
+Some distributions are so common or important we have given them special names. We will cover two in this problem set: Uniform distributions and Normal Distributions. 
+
+## Uniform distribution
+
+A uniform distribution is any distribution where all outcomes have the same likelihood of happening. They are *symmetric*, they can be *discrete* or *continuous*, and they do not have a mode. This is because, if all the  The outcome of rolling a single die has a discrete uniform distribution. We can simulate this using the `choice()` method. Continous uniform distributions are not common in the real world. However, they can be used to simulate data using the `uniform()` method. 
+
+## Normal Distribution
+
+The normal distribution is probably the most common distribution. It is also frequently called a 'bell shaped curve' or a gaussian distribution. Be warned though, there are other curves that look similar that are not actually normal distributions. The normal distribution is *continuous*, *symmetric* and *unimodal*. 
+
+
 
 
 # Density and Binning
@@ -286,19 +299,6 @@ plt.show()
 
 
 ```
-
-
-# Specific Distributions
-
-Some distributions are so common or important we have given them special names. We will cover two in this problem set: Uniform distributions and Normal Distributions. 
-
-## Uniform distribution
-
-A uniform distribution is any distribution where all outcomes have the same likelihood of happening. They are *symmetric*, they can be *discrete* or *continuous*, and they do not have a mode. This is because, if all the  The outcome of rolling a single die has a discrete uniform distribution. We can simulate this using the `choice()` method. Continous uniform distributions are not common in the real world. However, they can be used to simulate data using the `uniform()` method. 
-
-## Normal Distribution
-
-The normal distribution is probably the most common distribution. It is also frequently called a 'bell shaped curve' or a gaussian distribution. Be warned though, there are other curves that look similar that are not actually normal distributions. The normal distribution is *continuous*, *symmetric* and *unimodal*. 
 
 
 
