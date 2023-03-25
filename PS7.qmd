@@ -203,6 +203,10 @@ plt.show()
 
 4. Would we expect any of the mean, median, mode, and standard deviation to change very much between different sets of simulations for rolling a single die? How about for rolling 2 dice?
 
-3. Plot the distribution of a variable in your dataset. 
+5. Real World Data Distributions
+    a. Plot the distribution of a variable in your dataset. Create at least 3 subplots, each with a different number of bins
+    b. How does the shape of the distribution change with the number of bins you use?
+    b. Estimate the mean, median, and mode visually based on your plot.
+    c. Calculate the mean, median, mode, and standard deviation. How far off were your estimates?
 
 6. What are the parameters of `uniform()` and what do they do?
