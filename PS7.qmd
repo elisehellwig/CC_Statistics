@@ -219,15 +219,15 @@ plt.show()
 
 
 
-# Probability vs. Density
+# Density and Binning
 
-When plotting the probability distribution of the outcomes of a 6-sided die roll, we set `density=True` to tell python to calculate probabilities instead of frequencies. However density is not always the same as probabilitity.
+When plotting the probability distribution of the outcomes of a 6-sided die roll, we set `density=True` to tell python to calculate probabilities instead of frequencies. However density is not always the same as probabilitity, and the value of density doesn't just depend on the data itself.
 
-Density depends on the size of the bins that you use to group your data. In a density plot, the area of all of the bins will always add to 1. This means that if the width of the bin is less than 1, the value of the bar in the histogram can be greater than 1, even though it's not possible for something to have a greater than 100% chance of happening. When the width of the bins are exactly 1, the density is the same as the probability.
+Density depends on what data you have, the size of the bins that you use to group your data, and the locations of those bins. In a density plot, the area of all of the bins will always add to 1. This means that if the width of the bin is less than 1, the value of the bar in the histogram can be greater than 1, even though it's not possible for something to have a greater than 100% chance of happening. 
 
-The density plotted also depends on the location of the bins, in addition to their width. 
+If we simulate two sets of data using two different distributions we can see how the size of the bins affects the density. In Figure 5A and B, the width of the bins are exactly 1, so the bin densities do correspond to the probability. Notice no more than one of the bins has a density of greater than 0.5. However in Figures 5C and D, the bin widths are much smaller and so there are quite a few densities that have a value of greater than 0.5.
 
-If we simulate two sets of data using two different distributions we can see how the effect 
+The density plotted depends on the location of the bins, in addition to their width. Figure 5A and 5B, both have the same bin width (1). However, their bins are offset from each other. Figure 5A has bins that end on the integers (-5 to -4, -4 to -3 etc), while Figure 5B has bins that end on the half steps (-5.5 to -4.5, -4.5 to -3.5 etc). Even though the blue and orange data in Figures 5A and 5B are the same, the blue distribution in Figure 5B looks much more narrow compared to the orange distribution. 
 
 
 ```{python}
@@ -252,20 +252,20 @@ figsize=(8, 6))
 
 ax5[0,0].hist(normX, bins=binsA, density=True, alpha=0.7, label=xlab)
 ax5[0,0].hist(normY, bins=binsA, density=True, alpha=0.7, label=ylab)
-ax5[0,0].annotate('A.', xy=(-5,0.75))
+ax5[0,0].annotate('A. Bin width = 1', xy=(-5.4,0.75))
 
 ax5[0,1].hist(normX, bins=binsB, density=True, alpha=0.7, label=xlab)
 ax5[0,1].hist(normY, bins=binsB, density=True, alpha=0.7, label=ylab)
-ax5[0,1].annotate('B.', xy=(-5,0.75))
+ax5[0,1].annotate('B. Bin width = 1, offset', xy=(-5.4,0.75))
 
 
 ax5[1,0].hist(normX, bins=15, density=True, alpha=0.7, label=xlab)
 ax5[1,0].hist(normY, bins=15, density=True, alpha=0.7, label=ylab)
-ax5[1,0].annotate('C.', xy=(-5,0.75))
+ax5[1,0].annotate('C. Bin width ~ 0.2', xy=(-5.4,0.75))
 
 ax5[1,1].hist(normX, bins=40, density=True, alpha=0.7, label=xlab)
 ax5[1,1].hist(normY, bins=40, density=True, alpha=0.7, label=ylab)
-ax5[1,1].annotate('D.', xy=(-5,0.75))
+ax5[1,1].annotate('D. Bin width ~ 0.08', xy=(-5.4,0.75))
 
 handles, labels = ax5[1,1].get_legend_handles_labels()
 fig5.legend(handles, labels, loc='lower center')
