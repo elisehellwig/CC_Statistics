@@ -209,4 +209,4 @@ plt.show()
     b. Estimate the mean, median, and mode visually based on your plot.
     c. Calculate the mean, median, mode, and standard deviation. How far off were your estimates?
 
-6. What are the parameters of `uniform()` and what do they do?
+6. What are the arguments of `uniform()` and what do they do?
