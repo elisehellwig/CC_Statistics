@@ -28,6 +28,36 @@ r1d6 = rng.choice(range(1, 7), size=10000) # 10,000 simulated rolls of a 6-sided
 
 ```
 
+```{python}
+#| echo: false
+
+price_bins = 40
+
+def NumericMode(v, bins):
+    h = np.histogram(v, bins=bins)
+    max_bin = np.argmax(h[0])
+    n_mode = (h[1][max_bin] + h[1][max_bin+1])/2
+
+    return(n_mode)
+
+
+def CalcStats(v, digits=2, isInt = True, bins=30):
+    d = {
+    'mu': np.mean(v).round(digits),
+    'std': np.std(v).round(digits)
+    }
+    
+    if isInt:
+        d['med'] = int(np.median(v)),
+        d['mode'] = st.mode(v)
+    
+    else: 
+        d['med'] = np.median(v).round(digits)
+        d['mode'] = NumericMode(v, bins)
+
+    return d
+
+```
 
 # Distributions
 
@@ -106,7 +136,7 @@ def ToThousands(x, pos): #function to convert number to thousands
 
 fig3, ax3 = plt.subplots()
 
-ax3.hist(price17_2M, bins=30)
+ax3.hist(price17_2M, bins=price_bins)
 ax3.xaxis.set_major_formatter(tck.FuncFormatter(ToThousands))
 ax3.tick_params(axis='x', labelrotation = 45) #rotate x axis labels 
 ax3.set_title("Figure 3. Histogram of 2017 Home Sales Prices in New England \n(Right Skewed)")
@@ -133,16 +163,14 @@ The mean and standard deviation are particularly important, so we give them thei
 
 ```{python}
 #| echo: false
-d6mean = np.mean(r1d6).round(2)
-d6median = int(np.median(r1d6))  
-d6mode = st.mode(r1d6)
-d6st_dev = np.std(r1d6).round(2)
+
+d6stats = CalcStats(r1d6)
 
 from IPython.display import display, Markdown
 
 display(Markdown("""
 For this sumulation the mean value of our die rolls was {d6mean}, the median was {d6median}, the mode was {d6mode}, and the standard deviation was {d6st_dev}. For a different set of 10,000 simulated rolls, some of the numbers would change. The mode in particular can change quite a bit 
-""".format(d6mean = d6mean, d6median=d6median, d6mode=d6mode,d6st_dev=d6st_dev)))
+""".format(d6mean = d6stats['mu'], d6median=d6stats['med'], d6mode=d6stats['mode'],d6st_dev=d6stats['std'])))
 ```
 
 
@@ -153,26 +181,34 @@ In a skewed distribution,
 ```{python}
 #| echo: false
 
-mu_price = np.mean(sales17.price)
-med_price = np.median(sales17.price)
-mode_price = st.mode(sales17.price)
-sig_price = np.std(sales17.price)
+pstats = CalcStats(sales17.price, isInt=False, bins=price_bins)
 
-norm_price = rng.normal(loc=mu_price, scale=sig_price)
+norm_price = rng.normal(loc=pstats['mode'], scale=pstats['std'], size=len(sales17.price))
 norm_price2M = np.where(norm_price>3e6, 3e6, norm_price)
+
+nstats = CalcStats(norm_price, isInt=False, bins=price_bins)
 
 fig4, ax4 = plt.subplots(nrows=2, sharex=True)
 
-ax4[0].hist
+ax4[0].hist(price17_2M, bins=price_bins)
+ax4[0].axvline(x=pstats['mu'], color = 'black', linestyle='dashed')
+ax4[0].axvline(x=pstats['med'], color = 'black', linestyle='dotted')
+ax4[0].axvline(x=pstats['mode'], color = 'black', linestyle='solid')
+ax4[0].xaxis.set_major_formatter(tck.FuncFormatter(ToThousands))
+ax4[0].tick_params(axis='x', labelrotation = 45) #rotate x axis labels 
+ax4[0].set_title("")
+ax4[0].set_ylabel('Actual Sales')
 
-
-ax4[1].hist(price17_2M, bins=40)
-ax4[1].axvline(x=mu_price, color = 'black', linestyle='dashed')
+ax4[1].hist(norm_price2M, bins=price_bins)
+ax4[1].axvline(x=nstats['mu'], color = 'black', linestyle='dashed')
+ax4[1].axvline(x=nstats['med'], color = 'black', linestyle='dotted')
+ax4[1].axvline(x=nstats['mode'], color = 'black', linestyle='solid')
 ax4[1].xaxis.set_major_formatter(tck.FuncFormatter(ToThousands))
 ax4[1].tick_params(axis='x', labelrotation = 45) #rotate x axis labels 
-ax4[1].set_title("")
 ax4[1].set_xlabel('Price ($)')
-ax4[1].set_ylabel('Number of Houses')
+ax4[1].set_ylabel('Simulated Sales\n(simulated)')
+
+
 fig4.suptitle('Figure 4. Mean, Median, and Mode for Symetric and Skewed Distributions', fontsize=16)
 plt.show()
 
