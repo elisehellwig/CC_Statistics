@@ -28,6 +28,7 @@ r1d6 = rng.choice(range(1, 7), size=10000) # 10,000 simulated rolls of a 6-sided
 
 ```
 
+
 # Distributions
 
 A data distribution tells you how frequently a particular value appears in a data set. This can be expressed as a count ("frequency"), or it can be expressed as a likelihood ("probability"). In the setup code, we simulated 10,000 rolls of a 6-sided die. The frequency of 4 for that particular set of rolls was 1656. The probability of getting a 4 for that set of rolls was 0.1656, or approximately 16.6%. While both frequencies and probabilities can be useful, we see probabilities used more frequently in real life situations. This is because it is easier to compare between data sets. While can choose how much data we want to simulate in a computer program, scientists often don't have that option in real life.
@@ -152,12 +153,27 @@ In a skewed distribution,
 ```{python}
 #| echo: false
 
-fig4, ax4 = plt.subplots(ncols=2)
+mu_price = np.mean(sales17.price)
+med_price = np.median(sales17.price)
+mode_price = st.mode(sales17.price)
+sig_price = np.std(sales17.price)
 
-ax4[1].hist(sales17.price, bins=30)
-ax4[1].set_title("Figure 3. Histogram of Home Sales Prices in New England (Right Skewed)")
+norm_price = rng.normal(loc=mu_price, scale=sig_price)
+norm_price2M = np.where(norm_price>3e6, 3e6, norm_price)
+
+fig4, ax4 = plt.subplots(nrows=2, sharex=True)
+
+ax4[0].hist
+
+
+ax4[1].hist(price17_2M, bins=40)
+ax4[1].axvline(x=mu_price, color = 'black', linestyle='dashed')
+ax4[1].xaxis.set_major_formatter(tck.FuncFormatter(ToThousands))
+ax4[1].tick_params(axis='x', labelrotation = 45) #rotate x axis labels 
+ax4[1].set_title("")
 ax4[1].set_xlabel('Price ($)')
 ax4[1].set_ylabel('Number of Houses')
+fig4.suptitle('Figure 4. Mean, Median, and Mode for Symetric and Skewed Distributions', fontsize=16)
 plt.show()
 
 
