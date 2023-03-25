@@ -101,7 +101,9 @@ plt.show()
 
 When plotting the probability distribution of the outcomes of a 6-sided die roll, we set `density=True` to tell python to calculate probabilities instead of frequencies. 
 
-Density depends on the size of the bins that you use to group your data. In a density plot, the area of all of the bins will always add to 1. This means that if the width of the bin is less than 1, the value of the bar in the histogram can be greater than 1, even though it's not possible for something to have a greater than 100% chance of happening. 
+Density depends on the size of the bins that you use to group your data. In a density plot, the area of all of the bins will always add to 1. This means that if the width of the bin is less than 1, the value of the bar in the histogram can be greater than 1, even though it's not possible for something to have a greater than 100% chance of happening. When the width of the bins are exactly 1, the density is the same as the probability.
+
+The density plotted also depends on the location of the bins, in addition to their width. 
 
 If we simulate two sets of data using two different distributions we can see how the effect 
 
@@ -112,23 +114,27 @@ If we simulate two sets of data using two different distributions we can see how
 norm1 = rng.normal(0, 0.5, size=1000) # 10,000 normal(0,1) data pulls
 norm4 = rng.normal(0, 1, size=1000) # 10,000 normal(0,5) data pulls
 
-binorm = np.concatenate((rng.normal(0, 1, size=10000),
-rng.normal(3, 1, size=10000)))
+binorm = np.concatenate((rng.normal(0, 1, size=10000), rng.normal(3, 1, size=10000)))
 
-binsA = np.arange(-5, 5.5) - 0.5 #set up bins for histogram
-binsB = np.arange(-5, 5) #set up bins for histogram
+binsA = np.arange(-5, 5.5) - 0.5 #set up bins for histogram 
+binsB = np.arange(-5, 5) #set up bins for histogram (Offset)
 
 
 fig5, ax5 = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True)
 
 ax5[0,0].hist(norm1, bins=binsA, density=True, alpha=0.7)
 ax5[0,0].hist(norm4, bins=binsA, density=True, alpha=0.7)
+ax5[0,0].annotate('A.', xy=(-5,0.75))
 
 ax5[0,1].hist(norm1, bins=binsB, density=True, alpha=0.7)
 ax5[0,1].hist(norm4, bins=binsB, density=True, alpha=0.7)
+ax5[0,1].annotate('B.', xy=(-5,0.75))
+
+ax5[1,0].annotate('C.', xy=(-5,0.75))
 
 ax5[1,1].hist(norm1, bins=40, density=True, alpha=0.7)
 ax5[1,1].hist(norm4, bins=40, density=True, alpha=0.7)
+ax5[1,1].annotate('D.', xy=(-5,0.75))
 
 # ax5[0,1].scatter(df.A, df.Ay, s=8) #First row, second column
 
@@ -296,20 +302,15 @@ The normal distribution is probably the most common distribution. It is also fre
 1. Frequencies vs. Probabilities
 
     a. What is a specific situation where you would care as much about the frequencies of the data as you care about their probability?
-
     b. What is a specific situation where only the data probability is important?
 
 2. Simulating Dice Rolls
-
     a. Simulate 10,000 rolls of 2 6-sided dice, where the outcome is the sum of the dice added together.
-
     b. Plot the frequencies of the data you just simulated.
-
     c. Plot the probabilities of your simulated dice roll data.
 
 3. Describing your Dice Rolls
     a. Describe the distribution of the dice rolls you simulated using the terminology from the Distribution Characteristics section. 
-
     b. Calculate the mean, median, mode, and standard deviation for your dice roll data.
 
 4. Would we expect any of the mean, median, mode, and standard deviation to change very much between different sets of simulations for rolling a single die? How about for rolling 2 dice?
@@ -318,10 +319,18 @@ The normal distribution is probably the most common distribution. It is also fre
     a. If you use the `st.mode()` function on a data series without any repeat values (ex. housing prices), what number does it return?
     b. Write a function called `NumericMode()` that provides a more useful output for a distribution of (non-repeating) numbers
 
+5. Plotting Real World Data
+    a. Plot the distribution of a variable in your dataset using the default values for `hist()`
+    b.  Plot the distribution of the same variable using 2 different numbers of bins.
+    c. Plot the same variable, but offset the bin cutoffs.
+    d. How did each of the plots in a-c change the way you thought about your data?
+
 5. Real World Data Distributions
-    a. Plot the distribution of a variable in your dataset. Create at least 3 subplots, each with a different number of bins
+    
     b. How does the shape of the distribution change with the number of bins you use?
     b. Estimate the mean, median, and mode visually based on your plot.
     c. Calculate the mean, median, mode, and standard deviation of your data. Use the `NumericMode()` from the previous question. How far off were your estimates?
 
 6. What are the arguments of `uniform()` and what do they do?
+
+7. What are the arguments of `normal()` and what do they do?
