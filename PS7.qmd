@@ -44,15 +44,14 @@ def NumericMode(v, bins):
 def CalcStats(v, digits=2, isInt = True, bins=30):
     d = {
     'mu': np.mean(v).round(digits),
-    'std': np.std(v).round(digits)
+    'std': np.std(v).round(digits),
+    'med': np.median(v).round(digits)
     }
     
     if isInt:
-        d['med'] = int(np.median(v)),
         d['mode'] = st.mode(v)
     
     else: 
-        d['med'] = np.median(v).round(digits)
         d['mode'] = NumericMode(v, bins)
 
     return d
@@ -173,12 +172,12 @@ d6stats = CalcStats(r1d6)
 from IPython.display import display, Markdown
 
 display(Markdown("""
-For this sumulation the mean value of our die rolls was {d6mean}, the median was {d6median}, the mode was {d6mode}, and the standard deviation was {d6st_dev}. For a different set of 10,000 simulated rolls, some of the numbers would change. The mode in particular can change quite a bit 
+For this simulation the mean value of our die rolls was {d6mean}, the median was {d6median}, the mode was {d6mode}, and the standard deviation was {d6st_dev}. For a different set of 10,000 simulated rolls, some of the numbers could change. 
 """.format(d6mean = d6stats['mu'], d6median=d6stats['med'], d6mode=d6stats['mode'],d6st_dev=d6stats['std'])))
 ```
 
 
-The qualitative characteristics of our distribution can have a large effect on the statistics of our distribution. In particular, the skew of a distribution has a predictable effect on the mean, median and mode. In a symmetric distribution, the mean, median, and mode are all close together, at the peak of the distribution. In a skewed distribution, the mode is still at the peak of the distribution. However, the mean is further toward the tail. The median generally falls in between the mean and the mode, for skewed distributions.
+The qualitative characteristics of our distribution can have a large effect on the statistics of our distribution. In particular, the skew of a distribution has a predictable effect on the mean, median and mode. For an example of this, see Figure 3. In a symmetric distribution, the mean, median, and mode are all close together, at the peak of the distribution. In a skewed distribution, the mode is still at the peak of the distribution. However, the mean is further toward the tail. The median generally falls in between the mean and the mode, for skewed distributions. 
 
 ```{python}
 #| echo: false
