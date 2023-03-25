@@ -10,7 +10,7 @@ Please watch [The Shape of Data: Distributions](https://youtu.be/bPFNxD3Yg6U/) b
 
 # Setup
 
-In addition to looking at real world data, we also will generate some of our own data using a random number generator. `random` module from the `numpy` package.
+In addition to looking at real world data, we also will generate some of our own data using a random number generator. The random number generator we will used is the `Generator` class from the random `random` module in the `numpy` package. Please see the [Generator documentation page](https://numpy.org/doc/stable/reference/random/generator.html) for more information.
 
 ```{python}
 
