@@ -316,6 +316,10 @@ plt.show()
 
 4. Would we expect any of the mean, median, mode, and standard deviation to change very much between different sets of simulations for rolling a single die? How about for rolling 2 dice?
 
+5. Numeric Mode
+    a. If you use the `st.mode()` function on a data series without any repeat values (ex. housing prices), what number does it return?
+    b. Write a function called `NumericMode()` that provides a more useful output for a distribution of (non-repeating) numbers
+
 5. Real World Data Distributions
     a. Plot the distribution of a variable in your dataset. Create at least 3 subplots, each with a different number of bins
     b. How does the shape of the distribution change with the number of bins you use?
