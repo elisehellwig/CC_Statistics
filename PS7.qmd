@@ -71,7 +71,7 @@ bins = np.arange(1, 6 + 1.5) - 0.5 #set up bins for histogram
 fig1, ax1 = plt.subplots()
 
 ax1.hist(r1d6, bins=bins, rwidth=0.9, edgecolor='black')
-ax1.set_title("Figure 1. Data Distribution of Rolling a 6-sided Die 10,000 times (Frequency)")
+ax1.set_title("Figure 1. Data Distribution of Rolling a 6-sided Die 10,000 times\n(Frequency)")
 ax1.set_xlabel('Outcome (possible roll)')
 ax1.set_ylabel('Frequency')
 plt.show()
@@ -87,7 +87,7 @@ fig2, ax2 = plt.subplots()
 
 ax2.hist(r1d6, bins=bins, rwidth=0.9, edgecolor='black', density=True)
 ax2.set_ylim([0,1])
-ax2.set_title("Figure 2. Data Distribution of Rolling a 6-sided Die 10,000 times (Probability)")
+ax2.set_title("Figure 2. Data Distribution of Rolling a 6-sided Die 10,000 times\n(Probability)")
 ax2.set_xlabel('Outcome (possible roll)')
 ax2.set_ylabel('Probability')
 plt.show()
