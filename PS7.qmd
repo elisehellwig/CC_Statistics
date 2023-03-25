@@ -64,20 +64,50 @@ plt.show()
 
 ```
 
+# Describing Distributions
 
-# Distribution Characteristics
+When we describe distributions, we can describe them qualitatively and quantitatively. 
 
-Distributions have a number of characteristics that we can use to describe them. They can be continous or discrete. Continous distributions are distributions that can take on any value, within a given range. Human heights are continuously distributed, as is the length of time it takes people to run 100m. Discrete distributions can only take on specific values. Dice rolls have a discrete distribution, as do the number of times people have eaten ice cream in the past week.
-
-Distributions can also be symmetric or skewed. Symmetric distributions are distributions that look the same if you fold them in half. Skewed distributions have more data on one side of the distribution than the other. A distribution is positively (or right) skewed if it has a long tail to the right. Income levels in the United States are right skewed, as are housing prices (Figure _). A distribution is negatively (or left) skewed if it has a long tail to the left. Age of non-accidental death in the United States is negatively skewed.
-
-The mode of a dataset is the most common value. The mode of a distribution is the peak frequency or probability. Most data distributions we see on a regular basis are uni-modal, meaning they only have one peak. This includes almost all the examples previously mentioned, with the exception of rolling a single die. Some distributions have more than one peak though. This was the case for age of death prior to modern medicine. Many people died in childhood, but if you survived childhood you were fairly likely to live into your 50s or 60s. This resulted in a bimodal distribution of age of death.
-
-Distribution Characteristics
+## Distribution Characteristics (Qualitative)
 
 * continuous or discrete
 * Symmetric or skewed
 * Unimodal or multi-modal
+
+Distributions have a number of characteristics that we can use to describe them. They can be continous or discrete. Continous distributions are distributions that can take on any value, within a given range. Human heights are continuously distributed, as is the length of time it takes people to run 100m. Discrete distributions can only take on specific values. Dice rolls have a discrete distribution, as do the number of times people have eaten ice cream in the past week.
+
+Distributions can also be symmetric or skewed. Symmetric distributions are distributions that look the same if you fold them in half. Skewed distributions have more data on one side of the distribution than the other. A distribution is positively (or right) skewed if it has a long tail to the right. Income levels in the United States are right skewed, as are housing prices (Figure 3). A distribution is negatively (or left) skewed if it has a long tail to the left. Age of non-accidental death in the United States is negatively skewed.
+
+```{python}
+#| echo: false
+import pandas as pd
+
+sales = pd.read_csv('data/raw_sales.csv')
+sales = sales.loc[sales.propertyType=='house'] 
+
+#Converting datestring to datetime class
+sales['datesold'] = pd.to_datetime(sales['datesold'], format="%Y-%m-%d %H:%M:%S")
+
+# Extracting year from datetime class
+sales['Year'] = sales.datesold.dt.year
+
+sales17 = sales.loc[sales.Year==2017]
+
+fig3, ax3 = plt.subplots()
+
+ax3.hist(sales17.price, bins=30)
+ax3.set_title("Figure 3. Histogram of Home Sales Prices in New England (Right Skewed)")
+ax3.set_xlabel('Price ($)')
+ax3.set_ylabel('Number of Houses')
+plt.show()
+
+
+```
+
+
+The mode of a dataset is the most common value. The mode of a distribution is the peak frequency or probability. Most data distributions we see on a regular basis are uni-modal, meaning they only have one peak. This includes almost all the examples previously mentioned, with the exception of rolling a single die. Some distributions have more than one peak though. This was the case for age of death prior to modern medicine. Many people died in childhood, but if you survived childhood you were fairly likely to live into your 50s or 60s. This resulted in a bimodal distribution of age of death.
+
+## Distribution Statistics (Quantitative)
 
 In addition to these characteristics, we can also describe a distribution using a number of different statistics:
 
@@ -103,9 +133,30 @@ For this sumulation the mean value of our die rolls was {d6mean}, the median was
 ```
 
 
+The qualitative characteristics of our distribution can have a large effect on the statistics of our distribution. In particular, the skew of a distribution has a predictable effect on the mean, median and mode. In a symetric distribution, the mean, median, and mode are all close together, at the peak of the distribution (Figure _).
+
+In a skewed distribution,
+
+```{python}
+#| echo: false
+
+norm
+
+fig4, ax4 = plt.subplots(ncols=2)
+
+ax4[1].hist(sales17.price, bins=30)
+ax4[1].set_title("Figure 3. Histogram of Home Sales Prices in New England (Right Skewed)")
+ax4[1].set_xlabel('Price ($)')
+ax4[1].set_ylabel('Number of Houses')
+plt.show()
+
+
+```
+
+
 # Specific Distributions
 
-Some distributions are so common or important we have given them special names. We will cover two in this problem set 
+Some distributions are so common or important we have given them special names. We will cover two in this problem set. 
 
 ## Uniform distribution
 
