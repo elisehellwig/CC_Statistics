@@ -289,14 +289,6 @@ plt.subplots_adjust(wspace=0, hspace=0, top=0.95, bottom=0.15)
 
 plt.show()
 
-fig6, ax6 = plt.subplots()
-
-ax6.hist(binorm, bins=8, density=True, alpha=0.6)
-ax6.hist(binorm, bins=30, density=True, alpha=0.6)
-
-plt.show()
-
-
 ```
 
 
@@ -318,26 +310,26 @@ plt.show()
 
 4. Would we expect any of the mean, median, mode, and standard deviation to change very much between different sets of simulations for rolling a single die? How about for rolling 2 dice?
 
-6. Uniform Distributions
+5. Uniform Distributions
     a. What are the arguments of `uniform()` and what do they do?
     b. Simulate data from two different uniform distributions with 2 different ranges. 
     c. Create density plots of both of them using the same bin width. How do the densities differ?
 
-7. Normal Distributions
+6. Normal Distributions
     a. Pick a mean ($\mu$), and standard deviation ($\sigma$), and simulate 3 sets of data, one with 100 data points, one with 1000, and one with 100,000 data points.
 
-5. Numeric Mode
+7. Numeric Mode
     a. If you use the `st.mode()` function on a data series without any repeat values (ex. housing prices), what number does it return?
     b. Write a function called `NumericMode()` that provides a more useful output for a distribution of (non-repeating) numbers
 
-5. Plotting Real World Data
+8. Plotting Real World Data
     a. Plot the distribution of a variable in your dataset using the default values for `hist()`
     b.  Plot the distribution of the same variable using 2 different numbers of bins.
     c. Plot the same variable, but offset the bin cutoffs.
     d. How did each of the plots in a-c change the way you thought about your data?
 
-5. Real World Data Distributions
-    b. How does the shape of the distribution change with the number of bins you use?
-    b. Estimate the mean, median, and mode visually based on your plot.
-    c. Calculate the mean, median, mode, and standard deviation of your data. Use the `NumericMode()` from the previous question. How far off were your estimates?
+9. Real World Statistics
+    b. Estimate the mean, median, and mode visually based on your plot from Question 8.
+    c. Calculate the mean, median, mode, and standard deviation of your data. Use the `NumericMode()` from Question 7. How far off were your estimates?
+    d. Add vertical lines to your plot located at the mean median and mode, and add an appropriate legend.
 
