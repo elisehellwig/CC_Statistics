@@ -96,6 +96,68 @@ plt.show()
 
 ```
 
+
+# Probability vs. Density
+
+When plotting the probability distribution of the outcomes of a 6-sided die roll, we set `density=True` to tell python to calculate probabilities instead of frequencies. 
+
+Density depends on the size of the bins that you use to group your data. In a density plot, the area of all of the bins will always add to 1. This means that if the width of the bin is less than 1, the value of the bar in the histogram can be greater than 1, even though it's not possible for something to have a greater than 100% chance of happening. 
+
+If we simulate two sets of data using two different distributions we can see how the effect 
+
+
+```{python}
+
+#generate some random numbers
+norm1 = rng.normal(0, 0.5, size=1000) # 10,000 normal(0,1) data pulls
+norm4 = rng.normal(0, 1, size=1000) # 10,000 normal(0,5) data pulls
+
+binorm = np.concatenate((rng.normal(0, 1, size=10000),
+rng.normal(3, 1, size=10000)))
+
+binsA = np.arange(-5, 5.5) - 0.5 #set up bins for histogram
+binsB = np.arange(-5, 5) #set up bins for histogram
+
+
+fig5, ax5 = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True)
+
+ax5[0,0].hist(norm1, bins=binsA, density=True, alpha=0.7)
+ax5[0,0].hist(norm4, bins=binsA, density=True, alpha=0.7)
+
+ax5[0,1].hist(norm1, bins=binsB, density=True, alpha=0.7)
+ax5[0,1].hist(norm4, bins=binsB, density=True, alpha=0.7)
+
+ax5[1,1].hist(norm1, bins=40, density=True, alpha=0.7)
+ax5[1,1].hist(norm4, bins=40, density=True, alpha=0.7)
+
+# ax5[0,1].scatter(df.A, df.Ay, s=8) #First row, second column
+
+# ax5[1,0].scatter(df.B, df.Bx, s=8) #Second row, first column
+# ax5[1,0].set_ylabel('Random Data B', fontdict=pt12)
+# ax4[1,0].set_xlabel('Random Data X', fontdict=pt12)
+
+# ax5[1,1].scatter(df.B, df.By, s=8) #second row, second column
+# ax5[1,1].set_xlabel('Random Data Y', fontdict=pt12)
+
+
+fig5.suptitle('Figure 5. Displaying some randomly generated data', fontsize=16)
+
+#removing space between the plots both horizontally and vertically
+#plt.subplots_adjust(wspace=0, hspace=0)
+
+plt.show()
+
+fig6, ax6 = plt.subplots()
+
+ax6.hist(binorm, bins=8, density=True, alpha=0.6)
+ax6.hist(binorm, bins=30, density=True, alpha=0.6)
+
+plt.show()
+
+
+```
+
+
 # Describing Distributions
 
 When we describe distributions, we can describe them qualitatively and quantitatively. 
@@ -108,7 +170,9 @@ When we describe distributions, we can describe them qualitatively and quantitat
 
 Distributions have a number of characteristics that we can use to describe them. They can be continous or discrete. Continous distributions are distributions that can take on any value, within a given range. Human heights are continuously distributed, as is the length of time it takes people to run 100m. Discrete distributions can only take on specific values. Dice rolls have a discrete distribution, as do the number of times people have eaten ice cream in the past week.
 
-Distributions can also be symmetric or skewed. Symmetric distributions are distributions that look the same if you fold them in half. Skewed distributions have more data on one side of the distribution than the other. A distribution is positively (or right) skewed if it has a long tail to the right. Income levels in the United States are right skewed, as are housing prices (Figure 3). A distribution is negatively (or left) skewed if it has a long tail to the left. Age of non-accidental death in the United States is negatively skewed.
+Distributions can also be symmetric or skewed. Symmetric distributions are distributions that look the same if you fold them in half. Our simulated die rolls have a roughly symmetric distributions.
+
+Skewed distributions have more data on one side of the distribution than the other. A distribution is positively (or right) skewed if it has a long tail to the right. Income levels in the United States are right skewed, as are housing prices (Figure 3). A distribution is negatively (or left) skewed if it has a long tail to the left. Age of non-accidental death in the United States is negatively skewed.
 
 ```{python}
 #| echo: false
@@ -207,7 +271,7 @@ ax4[1].set_xlabel('Price ($)')
 ax4[1].set_ylabel('Simulated Sales\n(simulated)')
 
 
-fig4.suptitle('Figure 4. Mean, Median, and Mode for Symetric and Skewed Distributions', fontsize=16)
+fig4.suptitle('Figure 4. Mean, Median, and Mode for Symmetric and Skewed Distributions', fontsize=16)
 plt.show()
 
 
@@ -216,80 +280,16 @@ plt.show()
 
 # Specific Distributions
 
-Some distributions are so common or important we have given them special names. We will cover two in this problem set. 
+Some distributions are so common or important we have given them special names. We will cover two in this problem set: Uniform distributions and Normal Distributions. 
 
 ## Uniform distribution
 
-A uniform distribution is any distribution where all outcomes have the same likelihood of happening. They are *symetric*, they can be *discrete* or *continuous*, and they do not have a mode. This is because, if all the  The outcome of rolling a single die has a discrete uniform distribution. We can simulate this using the `choice()` method. Continous uniform distributions are not common in the real world. However, they can be used to simulate data using the `uniform()` method. 
+A uniform distribution is any distribution where all outcomes have the same likelihood of happening. They are *symmetric*, they can be *discrete* or *continuous*, and they do not have a mode. This is because, if all the  The outcome of rolling a single die has a discrete uniform distribution. We can simulate this using the `choice()` method. Continous uniform distributions are not common in the real world. However, they can be used to simulate data using the `uniform()` method. 
 
 ## Normal Distribution
 
 The normal distribution is probably the most common distribution. It is also frequently called a 'bell shaped curve' or a gaussian distribution. Be warned though, there are other curves that look similar that are not actually normal distributions. The normal distribution is *continuous*, *symmetric* and *unimodal*. 
 
-$$
-y(x) = \left( \frac{1}{\sigma\sqrt{2\pi}}\right)\left(e^{}\right)
-$$
-
-
-# Probability vs. Density
-
-When plotting the probability distribution of the outcomes of a 6-sided die roll, we set `density=True` to tell python to calculate probabilities instead of frequencies. 
-
-Density depends on the size of the bins that you use to group your data. In a density plot, the area of all of the bins will always add to 1. This means that if the width of the bin is less than 1, the value of the bar in the histogram can be greater than 1, even though it's not possible for something to have a greater than 100% chance of happening. 
-
-If we simulate two sets of data using two different normal distributions we can see how the effect 
-
-
-```{python}
-
-#generate some random numbers
-norm1 = rng.normal(0, 0.5, size=1000) # 10,000 normal(0,1) data pulls
-norm4 = rng.normal(0, 1, size=1000) # 10,000 normal(0,5) data pulls
-
-binorm = np.concatenate((rng.normal(0, 1, size=10000),
-rng.normal(3, 1, size=10000)))
-
-binsA = np.arange(-5, 5.5) - 0.5 #set up bins for histogram
-binsB = np.arange(-5, 5) #set up bins for histogram
-
-
-fig4, ax4 = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True)
-
-ax4[0,0].hist(norm1, bins=binsA, density=True, alpha=0.7)
-ax4[0,0].hist(norm4, bins=binsA, density=True, alpha=0.7)
-
-ax4[0,1].hist(norm1, bins=binsB, density=True, alpha=0.7)
-ax4[0,1].hist(norm4, bins=binsB, density=True, alpha=0.7)
-
-ax4[1,1].hist(norm1, bins=40, density=True, alpha=0.7)
-ax4[1,1].hist(norm4, bins=40, density=True, alpha=0.7)
-
-# ax4[0,1].scatter(df.A, df.Ay, s=8) #First row, second column
-
-# ax4[1,0].scatter(df.B, df.Bx, s=8) #Second row, first column
-# ax4[1,0].set_ylabel('Random Data B', fontdict=pt12)
-# ax4[1,0].set_xlabel('Random Data X', fontdict=pt12)
-
-# ax4[1,1].scatter(df.B, df.By, s=8) #second row, second column
-# ax4[1,1].set_xlabel('Random Data Y', fontdict=pt12)
-
-
-fig4.suptitle('Figure 4. Displaying some randomly generated data', fontsize=16)
-
-#removing space between the plots both horizontally and vertically
-#plt.subplots_adjust(wspace=0, hspace=0)
-
-plt.show()
-
-fig5, ax5 = plt.subplots()
-
-ax5.hist(binorm, bins=8, density=True, alpha=0.6)
-ax5.hist(binorm, bins=30, density=True, alpha=0.6)
-
-plt.show()
-
-
-```
 
 
 # Questions
