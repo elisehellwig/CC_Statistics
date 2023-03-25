@@ -324,6 +324,6 @@ plt.show()
     a. Plot the distribution of a variable in your dataset. Create at least 3 subplots, each with a different number of bins
     b. How does the shape of the distribution change with the number of bins you use?
     b. Estimate the mean, median, and mode visually based on your plot.
-    c. Calculate the mean, median, mode, and standard deviation. How far off were your estimates?
+    c. Calculate the mean, median, mode, and standard deviation of your data. Use the `NumericMode()` from the previous question. How far off were your estimates?
 
 6. What are the arguments of `uniform()` and what do they do?
