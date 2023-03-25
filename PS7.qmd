@@ -148,16 +148,16 @@ plt.show()
 ```
 
 
-The mode of a dataset is the most common value. The mode of a distribution is the peak frequency or probability. Most data distributions we see on a regular basis are uni-modal, meaning they only have one peak. This includes almost all the examples previously mentioned, with the exception of rolling a single die. Some distributions have more than one peak though. This was the case for age of death prior to modern medicine. Many people died in childhood, but if you survived childhood you were fairly likely to live into your 50s or 60s. This resulted in a bimodal distribution of age of death.
+The mode of a dataset is the most common value. The mode of a distribution is the peak frequency or probability. Most data distributions we see on a regular basis are uni-modal, meaning they only have one peak. This includes almost all the examples previously mentioned. Some distributions have more than one peak though. This was the case for age of death prior to modern medicine. Many people died in childhood, but if you survived childhood you were fairly likely to live into your 50s or 60s. This resulted in a bimodal distribution of age of death.
 
 ## Distribution Statistics (Quantitative)
 
 In addition to these characteristics, we can also describe a distribution using a number of different statistics:
 
 * mean ($\mu$)
+* standard deviation ($\sigma$)
 * median
 * mode
-* standard deviation ($\sigma$)
 
 The mean and standard deviation are particularly important, so we give them their own special symbols. We can use python to calculate these statistics fairly easily for our siimulated dice rolls with functions we've already used.
 
@@ -174,9 +174,7 @@ For this sumulation the mean value of our die rolls was {d6mean}, the median was
 ```
 
 
-The qualitative characteristics of our distribution can have a large effect on the statistics of our distribution. In particular, the skew of a distribution has a predictable effect on the mean, median and mode. In a symetric distribution, the mean, median, and mode are all close together, at the peak of the distribution (Figure _).
-
-In a skewed distribution,
+The qualitative characteristics of our distribution can have a large effect on the statistics of our distribution. In particular, the skew of a distribution has a predictable effect on the mean, median and mode. In a symmetric distribution, the mean, median, and mode are all close together, at the peak of the distribution. In a skewed distribution, the mode is still at the peak of the distribution. However, the mean is further toward the tail. The median generally falls in between the mean and the mode, for skewed distributions.
 
 ```{python}
 #| echo: false
