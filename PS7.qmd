@@ -6,7 +6,7 @@ jupyter: python3
 
 # Introduction
 
-Please watch [The Shape of Data: Distributions](https://youtu.be/bPFNxD3Yg6U/) before starting the problem set
+Please watch [The Shape of Data: Distributions](https://youtu.be/bPFNxD3Yg6U/) before starting the problem set.
 
 # Setup
 
@@ -182,17 +182,27 @@ plt.show()
 
 
 # Questions
-1 Frequencies vs. Probabilities
+1. Frequencies vs. Probabilities
+
     a. What is a specific situation where you would care as much about the frequencies of the data as you care about their probability?
+
     b. What is a specific situation where only the data probability is important?
-2 Simulating Dice Rolls
+
+2. Simulating Dice Rolls
+
     a. Simulate 10,000 rolls of 2 6-sided dice, where the outcome is the sum of the dice added together.
+
     b. Plot the frequencies of the data you just simulated.
+
     c. Plot the probabilities of your simulated dice roll data.
+
 3. Describing your Dice Rolls
     a. Describe the distribution of the dice rolls you simulated using the terminology from the Distribution Characteristics section. 
+
     b. Calculate the mean, median, mode, and standard deviation for your dice roll data.
+
 4. Would we expect any of the mean, median, mode, and standard deviation to change very much between different sets of simulations for rolling a single die? How about for rolling 2 dice?
 
 3. Plot the distribution of a variable in your dataset. 
+
 6. What are the parameters of `uniform()` and what do they do?
