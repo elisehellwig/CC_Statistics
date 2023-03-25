@@ -177,7 +177,7 @@ For this simulation the mean value of our die rolls was {d6mean}, the median was
 ```
 
 
-The qualitative characteristics of our distribution can have a large effect on the statistics of our distribution. In particular, the skew of a distribution has a predictable effect on the mean, median and mode. For an example of this, see Figure 3. In a symmetric distribution, the mean, median, and mode are all close together, at the peak of the distribution. In a skewed distribution, the mode is still at the peak of the distribution. However, the mean is further toward the tail. The median generally falls in between the mean and the mode, for skewed distributions. 
+The qualitative characteristics of our distribution can have a large effect on the statistics of our distribution. In particular, the skew of a distribution has a predictable effect on the mean, median and mode. For an example of this, see Figure 4. In a symmetric distribution, the mean, median, and mode are all close together, at the peak of the distribution. In a skewed distribution, the mode is still at the peak of the distribution. However, the mean is further toward the tail. The median generally falls in between the mean and the mode, for skewed distributions. 
 
 ```{python}
 #| echo: false
@@ -189,7 +189,7 @@ norm_price2M = np.where(norm_price>3e6, 3e6, norm_price)
 
 nstats = CalcStats(norm_price, isInt=False, bins=price_bins)
 
-fig4, ax4 = plt.subplots(nrows=2, sharex=True, figsize=(8, 6))
+fig4, ax4 = plt.subplots(nrows=2, sharex=True, figsize=(7, 5))
 
 ax4[0].hist(price17_2M, bins=price_bins)
 ax4[0].axvline(x=pstats['mu'], color = 'black', linestyle='dashed', label='Mean')
@@ -210,9 +210,9 @@ ax4[1].tick_params(axis='x', labelrotation = 45) #rotate x axis labels
 ax4[1].set_xlabel('Price ($)')
 ax4[1].set_ylabel('Symmetric Sales\n(simulated)')
 
-fig4.suptitle('Figure 4. Mean, Median, and Mode for Skewed and Symmetric\n Distributions of 2017 Home Sales in New England', fontsize=16)
+fig4.suptitle('Figure 4. Mean, Median, and Mode for Skewed and Symmetric\n Distributions of 2017 Home Sales in New England', fontsize=14)
 
-plt.subplots_adjust(hspace=0, top=0.9, bottom=0.17)
+plt.subplots_adjust(hspace=0, top=0.89, bottom=0.17)
 
 plt.show()
 
