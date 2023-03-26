@@ -44,17 +44,23 @@ def NumericMode(v, bins):
     return(n_mode)
 
 
-def CalcStats(v, digits=2, isInt = True, bins=30):
-    d = {
-    'mu': np.mean(v).round(digits),
+def CalcStats(v, digits=2, bins=30):
+    # Calculates mean, median, mode and standard dev of vector v
+    # if v is an integer vector, statistics.mode is used, otherwise 
+    # a previously defined mode function is used.
+    # return dict with keys: mu, std, med, and mode
+
+    d = { #create dictionary with mean, median, and st dev
+    'mu': np.mean(v).round(digits), 
     'std': np.std(v).round(digits),
     'med': np.median(v).round(digits)
     }
     
-    if isInt:
+    #if v is an integer vector use regular mode
+    if isinstance(v[0], np.int64) or isinstance(v[0], int) :
         d['mode'] = mode(v)
     
-    else: 
+    else: #otherwise calculate mode based on bin frequency
         d['mode'] = NumericMode(v, bins)
 
     return d
@@ -123,6 +129,7 @@ Skewed distributions have more data on one side of the distribution than the oth
 #| echo: false
 import pandas as pd
 
+#import sales data and select only houses
 sales = pd.read_csv('data/raw_sales.csv')
 sales = sales.loc[sales.propertyType=='house'] 
 
@@ -132,26 +139,27 @@ sales['datesold'] = pd.to_datetime(sales['datesold'], format="%Y-%m-%d %H:%M:%S"
 # Extracting year from datetime class
 sales['Year'] = sales.datesold.dt.year
 
-sales17 = sales.loc[sales.Year==2017]
+sales17 = sales.loc[sales.Year==2017] #only 2017 sales
 
+# set all sales > $3 million equal to $3 million for ease of visualization
 price17_2M = np.where(sales17.price>3e6, 3e6, sales17.price)
 
 def ToThousands(x, pos): #function to convert number to thousands
     kn = round(x/1000) # divide by 1000 and turn into an integer
     kn_str = "{:,}".format(kn) + 'k' #add a k on the end to denote thousands
-    if x>=3e6:
+    if x>=3e6: #add greater than to 3 million label
         kn_str = '> ' + kn_str
     return kn_str
 
-fig3, ax3 = plt.subplots(figsize=(6,3.3))
+fig3, ax3 = plt.subplots(figsize=(6,3.3)) #create figure
 
-ax3.hist(price17_2M, bins=price_bins)
-ax3.xaxis.set_major_formatter(tck.FuncFormatter(ToThousands))
+ax3.hist(price17_2M, bins=price_bins) #add histogram
+ax3.xaxis.set_major_formatter(tck.FuncFormatter(ToThousands)) #convert to thousands of $
 ax3.tick_params(axis='x', labelrotation = 45) #rotate x axis labels 
-ax3.set_title("Figure 3. Histogram of 2017 Home Sales Prices in New England \n(Right Skewed)")
-ax3.set_xlabel('Price ($)')
-ax3.set_ylabel('Number of Houses')
-plt.show()
+ax3.set_title("Figure 3. Histogram of 2017 Home Sales Prices in New England \n(Right Skewed)") # add title 
+ax3.set_xlabel('Price ($)') # add x label
+ax3.set_ylabel('Number of Houses') #add y label
+plt.show() #display
 
 
 ```
@@ -172,14 +180,20 @@ The mean and standard deviation are particularly important, so we give them thei
 
 ```{python}
 #| echo: false
-
-d6stats = CalcStats(r1d6)
-
 from IPython.display import display, Markdown
 
+ #calculate descriptive statistics of simulated dice rolls
+d6stats = CalcStats(r1d6)
+
+# add calculated values to text
 display(Markdown("""
 For this simulation the mean value of our die rolls was {d6mean}, the median was {d6median}, the mode was {d6mode}, and the standard deviation was {d6st_dev}. For a different set of 10,000 simulated rolls, some of the numbers could change. 
-""".format(d6mean = d6stats['mu'], d6median=d6stats['med'], d6mode=d6stats['mode'],d6st_dev=d6stats['std'])))
+""".format(
+    d6mean = d6stats['mu'], # mean
+    d6median = d6stats['med'], # median
+    d6mode = d6stats['mode'],  # mode
+    d6st_dev = d6stats['std'] # standard deviation
+)))
 ```
 
 
@@ -188,16 +202,26 @@ The qualitative characteristics of our distribution can have a large effect on t
 ```{python}
 #| echo: false
 
-pstats = CalcStats(sales17.price, isInt=False, bins=price_bins)
+#calculate descriptive stats for 2017 home prices
+pstats = CalcStats(sales17.price, bins=price_bins)
 
-norm_price = rng.normal(loc=pstats['mode'], scale=pstats['std'], size=len(sales17.price))
+#generate normal data with the same mode and st dev as the real data
+norm_price = rng.normal(
+    loc=pstats['mode'], 
+    scale=pstats['std'], 
+    size=len(sales17.price)
+)
+
+#cap price at 3 million
 norm_price2M = np.where(norm_price>3e6, 3e6, norm_price)
 
-nstats = CalcStats(norm_price, isInt=False, bins=price_bins)
+#calculate descriptive states for normally distributed housing prices
+nstats = CalcStats(norm_price, bins=price_bins)
 
+#create figure with 2 subplots (real housing prices and simulated ones)
 fig4, ax4 = plt.subplots(nrows=2, sharex=True, figsize=(7, 5))
 
-ax4[0].hist(price17_2M, bins=price_bins)
+ax4[0].hist(price17_2M, bins=price_bins) #real price histogram
 ax4[0].axvline(x=pstats['mu'], color = 'black', linestyle='dashed', label='Mean')
 ax4[0].axvline(x=pstats['med'], color = 'black', linestyle='dotted', label='Median')
 ax4[0].axvline(x=pstats['mode'], color = 'black', linestyle='solid', label='Mode')
@@ -205,16 +229,16 @@ ax4[0].xaxis.set_major_formatter(tck.FuncFormatter(ToThousands))
 ax4[0].tick_params(axis='x', labelrotation = 45) #rotate x axis labels 
 ax4[0].set_title("")
 ax4[0].set_ylabel('Actual Sales')
-ax4[0].legend(loc='upper right')
+ax4[0].legend(loc='upper right') #create legend in upper right corner
 
-ax4[1].hist(norm_price2M, bins=price_bins)
-ax4[1].axvline(x=nstats['mu'], color = 'black', linestyle='dashed')
-ax4[1].axvline(x=nstats['med'], color = 'black', linestyle='dotted')
-ax4[1].axvline(x=nstats['mode'], color = 'black', linestyle='solid')
-ax4[1].xaxis.set_major_formatter(tck.FuncFormatter(ToThousands))
+ax4[1].hist(norm_price2M, bins=price_bins) #simulated price histogram
+ax4[1].axvline(x=nstats['mu'], color = 'black', linestyle='dashed') #sim price mean
+ax4[1].axvline(x=nstats['med'], color = 'black', linestyle='dotted') #sim price median
+ax4[1].axvline(x=nstats['mode'], color = 'black', linestyle='solid') #sim price mode
+ax4[1].xaxis.set_major_formatter(tck.FuncFormatter(ToThousands)) #formatting ticks
 ax4[1].tick_params(axis='x', labelrotation = 45) #rotate x axis labels 
-ax4[1].set_xlabel('Price ($)')
-ax4[1].set_ylabel('Symmetric Sales\n(simulated)')
+ax4[1].set_xlabel('Price ($)') #set x label
+ax4[1].set_ylabel('Symmetric Sales\n(simulated)') #set y label
 
 fig4.suptitle('Figure 4. Mean, Median, and Mode for Skewed and Symmetric\n Distributions of 2017 Home Sales in New England', fontsize=14)
 
