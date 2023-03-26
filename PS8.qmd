@@ -4,3 +4,20 @@ format: pdf
 jupyter: python3
 ---
 
+# Introduction
+
+Please watch [Correlation Does Not Equal Causation](https://www.youtube.com/watch?v=GtV-VYdNt_g&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=9&t=1s) before starting the problem set.
+
+
+```{python}
+from pydataset import data
+
+
+```
+
+
+
+
+```{python}
+
+```
