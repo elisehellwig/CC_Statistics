@@ -1,0 +1,6 @@
+---
+title: "PS8 - Scatterplots and Correlation"
+format: pdf
+jupyter: python3
+---
+
