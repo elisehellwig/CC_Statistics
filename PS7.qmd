@@ -206,7 +206,7 @@ pstats = CalcStats(sales17.price, bins=price_bins)
 
 #generate normal data with the same mode and st dev as the real data
 norm_price = rng.normal(
-    loc=pstats['mode'], 
+    loc=pstats['mu'], 
     scale=pstats['std'], 
     size=len(sales17.price)
 )
@@ -250,7 +250,7 @@ plt.show()
 
 # Specific Distributions
 
-Some distributions are so common or important we have given them special names. We will cover two in this problem set: Uniform distributions and Normal Distributions. 
+Some distributions are so common or important we have given them special names. We will cover two in this problem set: Uniform distributions and Normal distributions. 
 
 ## Uniform distribution
 
