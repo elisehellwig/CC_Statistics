@@ -14,10 +14,10 @@ In addition to looking at real world data, we also will generate some of our own
 
 ```{python}
 
-import statistics as st
-import numpy as np
-import numpy.random as rand
-import matplotlib.pyplot as plt
+from statistics import mode #load mode function 
+import numpy as np # load numpy
+import numpy.random as rand #load random number generation from numpy
+import matplotlib.pyplot as plt #load plot module from matplotlib
 import matplotlib.ticker as tck # load the ticker module of matplotlib
 
 #create random number generator
@@ -31,12 +31,15 @@ r1d6 = rng.choice(range(1, 7), size=10000) # 10,000 simulated rolls of a 6-sided
 ```{python}
 #| echo: false
 
-price_bins = 40
+price_bins = 40 #number of bins to use when calculating mode of housing prices
 
 def NumericMode(v, bins):
-    h = np.histogram(v, bins=bins)
-    max_bin = np.argmax(h[0])
-    n_mode = (h[1][max_bin] + h[1][max_bin+1])/2
+    #calculate mode of a numeric distribution (v) by calculating midpoint of 
+    #the bin with the highest frequency, given (bins) bins
+
+    h = np.histogram(v, bins=bins) #bin data
+    max_bin = np.argmax(h[0]) # find bin with max frequency
+    n_mode = (h[1][max_bin] + h[1][max_bin+1])/2 #mid point of max bin
 
     return(n_mode)
 
@@ -49,7 +52,7 @@ def CalcStats(v, digits=2, isInt = True, bins=30):
     }
     
     if isInt:
-        d['mode'] = st.mode(v)
+        d['mode'] = mode(v)
     
     else: 
         d['mode'] = NumericMode(v, bins)
@@ -68,13 +71,15 @@ Figure 1 depicts the frequency distribution of rolls from our simulated data. Fi
 
 bins = np.arange(1, 6 + 1.5) - 0.5 #set up bins for histogram
 
-fig1, ax1 = plt.subplots()
+sim_name = "Data Distribution of Rolling a 6-sided Die 10,000 times"
+fig1, ax1 = plt.subplots() #create figure
 
-ax1.hist(r1d6, bins=bins, rwidth=0.9, edgecolor='black')
-ax1.set_title("Figure 1. Data Distribution of Rolling a 6-sided Die 10,000 times\n(Frequency)")
-ax1.set_xlabel('Outcome (possible roll)')
-ax1.set_ylabel('Frequency')
-plt.show()
+# add frequency histogram to figure
+ax1.hist(r1d6, bins=bins, rwidth=0.9, edgecolor='black') 
+ax1.set_title('Figure 1. ' + sim_name + '\n(Frequency)') # add title to figure
+ax1.set_xlabel('Outcome (possible roll)') # add x axis label 
+ax1.set_ylabel('Frequency') # add y axis label
+plt.show() #show figure
 
 
 ```
@@ -83,14 +88,15 @@ plt.show()
 
 bins = np.arange(1, 6 + 1.5) - 0.5 #set up bins for histogram
 
-fig2, ax2 = plt.subplots()
+fig2, ax2 = plt.subplots() #create figure
 
+# add density histogram to figure
 ax2.hist(r1d6, bins=bins, rwidth=0.9, edgecolor='black', density=True)
-ax2.set_ylim([0,1])
-ax2.set_title("Figure 2. Data Distribution of Rolling a 6-sided Die 10,000 times\n(Probability)")
-ax2.set_xlabel('Outcome (possible roll)')
-ax2.set_ylabel('Probability')
-plt.show()
+ax2.set_ylim([0,1]) # set y axis from 0-1 for full probability scale
+ax2.set_title('Figure 2. ' + sim_name + '\n(Probability)') # add title to figure
+ax2.set_xlabel('Outcome (possible roll)') # add x axis label
+ax2.set_ylabel('Probability') # add y axis label
+plt.show() # show plot
 
 
 ```
@@ -246,40 +252,46 @@ The density plotted depends on the location of the bins, in addition to their wi
 
 ```{python}
 
-#generate some random numbers
-normX = rng.normal(0, 0.5, size=1000) # 10,000 normal(0, 0.5) data pulls
-xlab = '$\mu=0$, $\sigma=0.5$'
+#generate some random numbers from normal distributions 
 
-normY = rng.normal(0, 1, size=1000) # 10,000 normal(0, 1) data pulls
-ylab = '$\mu=0$, $\sigma=1$'
+normA = rng.normal(0, 0.5, size=1000) # 10,000 normal(0, 0.5) data pulls
+xlab = '$\mu=0$, $\sigma=0.5$' #A data label
 
-binsA = np.arange(-5, 5) #set up bins for histogram 
-binsB = np.arange(-5, 5.5) - 0.5 #set up bins for histogram (Offset)
+normB = rng.normal(0, 1, size=1000) # 10,000 normal(0, 1) data pulls
+ylab = '$\mu=0$, $\sigma=1$' #B Data label
 
+binsInt = np.arange(-5, 5) #set up bins for histogram 
+binsOffset = np.arange(-5, 5.5) - 0.5 #set up bins for histogram (Offset)
 
+#creating a 8x6 figure with 4 subplots, sharing the x and y axes
 fig5, ax5 = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True,
 figsize=(8, 6))
 
-ax5[0,0].hist(normX, bins=binsA, density=True, alpha=0.7, label=xlab)
-ax5[0,0].hist(normY, bins=binsA, density=True, alpha=0.7, label=ylab)
+#Adding A and B datasets with Integer endpoint bins, with bin width = 1
+ax5[0,0].hist(normA, bins=binsInt, density=True, alpha=0.7)
+ax5[0,0].hist(normB, bins=binsInt, density=True, alpha=0.7)
 ax5[0,0].annotate('A. Bin width = 1', xy=(-5.4,0.75))
 
-ax5[0,1].hist(normX, bins=binsB, density=True, alpha=0.7, label=xlab)
-ax5[0,1].hist(normY, bins=binsB, density=True, alpha=0.7, label=ylab)
+#Adding A and B datasets with half integer endpoint bins, with bin width = 1
+ax5[0,1].hist(normA, bins=binsOffset, density=True, alpha=0.7)
+ax5[0,1].hist(normB, bins=binsOffset, density=True, alpha=0.7)
 ax5[0,1].annotate('B. Bin width = 1, offset', xy=(-5.4,0.75))
 
-
-ax5[1,0].hist(normX, bins=15, density=True, alpha=0.7, label=xlab)
-ax5[1,0].hist(normY, bins=15, density=True, alpha=0.7, label=ylab)
+#A and B datasets with more bins and narrower bins
+ax5[1,0].hist(normA, bins=15, density=True, alpha=0.7)
+ax5[1,0].hist(normB, bins=15, density=True, alpha=0.7)
 ax5[1,0].annotate('C. Bin width ~ 0.2', xy=(-5.4,0.75))
 
-ax5[1,1].hist(normX, bins=40, density=True, alpha=0.7, label=xlab)
-ax5[1,1].hist(normY, bins=40, density=True, alpha=0.7, label=ylab)
+#A and B datasets with very many, very thin bins
+ax5[1,1].hist(normA, bins=40, density=True, alpha=0.7, label=xlab)
+ax5[1,1].hist(normB, bins=40, density=True, alpha=0.7, label=ylab)
 ax5[1,1].annotate('D. Bin width ~ 0.08', xy=(-5.4,0.75))
 
+#get info for legend
 handles, labels = ax5[1,1].get_legend_handles_labels()
-fig5.legend(handles, labels, loc='lower center')
+fig5.legend(handles, labels, loc='lower center') #create legend
 
+#Add Title
 fig5.suptitle('Figure 5. Randomly generated data with different binning schemes')
 
 #removing space between the plots both horizontally and vertically
