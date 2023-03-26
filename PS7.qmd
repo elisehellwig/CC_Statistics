@@ -44,9 +44,9 @@ def NumericMode(v, bins):
     return(n_mode)
 
 
-def CalcStats(v, digits=2, bins=30):
+def CalcStats(v, digits=2, stat_mode=False, bins=30):
     # Calculates mean, median, mode and standard dev of vector v
-    # if v is an integer vector, statistics.mode is used, otherwise 
+    # stat_mode bool, should statistics.mode be used to calculate mode, otherwise 
     # a previously defined mode function is used.
     # return dict with keys: mu, std, med, and mode
 
@@ -56,8 +56,7 @@ def CalcStats(v, digits=2, bins=30):
     'med': np.median(v).round(digits)
     }
     
-    #if v is an integer vector use regular mode
-    if isinstance(v[0], np.int64) or isinstance(v[0], int) :
+    if stat_mode: #should we calculate mode using the statistics module?
         d['mode'] = mode(v)
     
     else: #otherwise calculate mode based on bin frequency
@@ -183,7 +182,7 @@ The mean and standard deviation are particularly important, so we give them thei
 from IPython.display import display, Markdown
 
  #calculate descriptive statistics of simulated dice rolls
-d6stats = CalcStats(r1d6)
+d6stats = CalcStats(r1d6, stat_mode=True)
 
 # add calculated values to text
 display(Markdown("""
