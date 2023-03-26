@@ -251,6 +251,7 @@ The density plotted depends on the location of the bins, in addition to their wi
 
 
 ```{python}
+#Compare how the same data looks under 4 different binning schemes
 
 #generate some random numbers from normal distributions 
 normA = rng.normal(0, 0.5, size=1000) # 10,000 normal(0, 0.5) data pulls
