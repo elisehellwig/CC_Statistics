@@ -23,11 +23,11 @@ from sklearn.datasets import fetch_california_housing
 # load housing data
 ca_data = fetch_california_housing(as_frame=True)
 
+# get documenation on housing data
+ca_data.DESCR
+
 #extract data frame
 ca = ca_data.frame
-
-# get documenation on housing data
-ca.DESCR
 
 ```
 
