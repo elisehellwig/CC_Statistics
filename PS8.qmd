@@ -15,8 +15,9 @@ For this problem set we are going to load several new packages: `scikit-learn`, 
 This problem set uses the 1990 California Housing dataset from `scikit-learn` as an example. 
 
 ```{python}
-from pydataset import data
 import pandas as pd  
+import matplotlib.pyplot as plt
+from pydataset import data
 from sklearn.datasets import fetch_california_housing
 
 # load housing data
