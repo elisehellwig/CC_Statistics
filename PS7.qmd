@@ -350,6 +350,7 @@ plt.show()
 
 6. Normal Distributions
     a. Pick a mean ($\mu$), and standard deviation ($\sigma$), and simulate 3 sets of data, one with 100 data points, one with 1000, and one with 100,000 data points.
+    b. Create density plots of both of them using the same bin width. How do the densities differ?
 
 7. Numeric Mode
     a. If you use the `st.mode()` function on a data series without any repeat values (ex. housing prices), what number does it return?
