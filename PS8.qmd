@@ -74,3 +74,16 @@ plt.subplots_adjust(wspace=0, top=0.95, bottom=0.15)
 plt.show()
 
 ```
+
+
+
+# Questions
+For this problem set please use the `mtcars` dataset from the `pydatasets` package to answer the following questions. 
+
+1. Reading the Documentation: the `pydatasets` package does not have very good documetation for the the datasets it contains. Thankfully, `mtcars` is well documented elsewhere. 
+   a. Find an alternate source of documetation for the `mtcars` dataset on the internet.
+   b. Describe each variable in the `mtcars` dataset, including the units and data range if it is a numeric variable. 
+2. Prediction vs. Inference
+   a. What is a question of prediction we could ask about fuel efficiency using the `mtcars` data set.
+   b. What is an inferential question we could ask about fuel efficiency using the `mtcars` data set. 
+3. Visualization: create a figure with at least 3 scatterplot subplots, showing how fuel efficiency (mpg) changes.
