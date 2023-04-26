@@ -48,4 +48,29 @@ Flying Spaghetti Monster
 
 ```{python}
 
+x_names = ['Age', 'Sex', 'BMI', 'Blood Pressure', 'Total Cholestral', 
+"LDL ('Bad Cholesteral')", "HDL ('Good Cholesteral')", 'Total/HDL', 
+'Log(Serum Triglycerides Level)', 'Blood Sugar Level']
+
+ncol = 2
+nrow = int(len(x_names)/ncol)
+
+fig1, axs1 = plt.subplots(nrow, ncol, sharey=True, sharex=True,
+figsize=(8,10))
+
+for i, ax in enumerate(fig1.axes):
+    ax.scatter(diabetes.iloc[:, i], diabetes.target)
+    ax.set_xlabel(x_names[i])
+    if i % 2 == 0:
+        ax.set_ylabel('Disease Progression')
+
+#Add Title
+fig1.suptitle('Figure 1. Scatterplots of Diabetes Covariates')
+
+#removing space between the plots horizontally 
+plt.subplots_adjust(wspace=0, top=0.95, bottom=0.15)
+
+
+plt.show()
+
 ```
