@@ -18,16 +18,16 @@ This problem set uses the 1990 California Housing dataset from `scikit-learn` as
 import pandas as pd  
 import matplotlib.pyplot as plt
 from pydataset import data
-from sklearn.datasets import fetch_california_housing
+from sklearn.datasets import load_diabetes
 
-# load housing data
-ca_data = fetch_california_housing(as_frame=True)
+# load diabetes data
+diabetes_data = load_diabetes(as_frame=True)
 
-# get documenation on housing data
-ca_data.DESCR
+# get documenation on diabetes data
+print(diabetes_data.DESCR)
 
 #extract data frame
-ca = ca_data.frame
+diabetes = diabetes_data.frame
 
 ```
 
