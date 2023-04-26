@@ -12,7 +12,7 @@ Please watch [Correlation Does Not Equal Causation](https://www.youtube.com/watc
 
 For this problem set we are going to load several new packages: `scikit-learn`, `statsmodels`, and `pydataset`.  We will use `scikit-learn`, and `statsmodels` for doing statistical analysis. Both of these packages contain much of the same functionality, but their focus is a little different. The `pydataset` contains datasets we will practice doing statistics with.
 
-This problem set uses the 1990 California Housing dataset from `scikit-learn` as an example. 
+This problem set uses the Diabetes dataset from `scikit-learn` as an example. 
 
 ```{python}
 import pandas as pd  
