@@ -40,7 +40,7 @@ Whenever you sit down to do statistics, it is always a good idea to keep in mind
 Questions of prediction are questions that ask us to predict the outcome of a situation we do not know. For example, we may want to know how a student will do on a final, based on their grades during the rest of the class. We may want to predict which basketball team match-ups will be most competitive, so we don't buy tickets to a boring game. A very common prediction question is what will the weather be like tomorrow, or a week from tomorrow. For the diabetes dataset, we are interested in predicting how quickly a person's diabetes will progress once diagnosed. This is particularly of interest because uncontrolled diabetes can have very severe health outcomes. 
 
 ## Questions of inference
-Questions of inference are questions about how the world works. For example, we may want to know what effect an increase in atmospheric CO~2~ has summer temperatures in the Central Valley, or the severity of fire season. This won't tell us anything about what to wear next week, but it will inform whether or not we decide to move to a different state. For the diabetes dataset 
+Questions of inference are questions about how the world works. For example, we may want to know what effect an increase in atmospheric CO~2~ has summer temperatures in the Central Valley, or the severity of fire season. This won't tell us anything about what to wear next week, but it will inform whether or not we decide to move to a different state. For the diabetes dataset, we want to know what are the most useful risk factors to look for when assessing whether a person is likely to develop type II diabetes.
 
 ## Spurious Inference
 Flying Spaghetti Monster
