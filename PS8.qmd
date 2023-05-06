@@ -45,6 +45,9 @@ Questions of inference are questions about how the world works. For example, we 
 ## Spurious Inference
 Flying Spaghetti Monster
 
+# Visualizing The Dataset 
+
+Whenever we have a new dataset to analyze, a good first step is visualizing the variables in the dataset. For the Diabetes dataset, we are specifically interested in disease severity so we will be using `target`, a measure of diabetes disease progression.  Basically it tells us how bad a person's diabetes is. Higher numbers mean the diabetes is worse. Figure 1 shows every variable in the dataset plotted against our measure of disease progression in scatterplots. 
 
 ```{python}
 
