@@ -48,6 +48,38 @@ Questions of inference are questions about how the world works. For example, we 
 ## Spurious Inference
 Flying Spaghetti Monster
 
+# Summarizing the Dataset
+
+Before we do anything too fancy, it can be helpful to get a sense of what type of data we have. Are the variables numerical or categorical? Are the numeric variables integers are or decimal numbers? What range of values do the variables take? These questions are because the they will affect type of analysis we can do. There are many more types of analysis we can do on numeric data than on categorical data, but we don't always have that option. 
+
+```{python}
+
+print(diabetes.describe())
+
+```
+
+Looking at the data, we can see something a little bit peculiar about it. All of the variables except for `target` have the same mean and standard deviation. This is definitely not normal. Also the variables are not very well labeled. In particular, 6 of the variables are labelled `s1`-`s6`. Not very informative. Thankfully we can look at the documentation to get some explanations.
+
+```{python}
+
+# get documenation on diabetes data
+print(diabetes_data.DESCR)
+
+```
+
+The documentation gives us a number of pieces of information. First, the variable `target` is a measure of disease severity one year after diagnosis. So we will probably focus on predicting that variable. Also, we have descriptions of all of the variables, so we can label them in a way that is more helpful. Finally, there is a note stating that all the variables except `target` have been "mean centered and scaled by the standard deviation". What that means is that the researchers subtracted the mean and divided by the standard deviation for each data point in each of the 10 'predictor' variables. Researchers do this to make it easier to compare effect sizes between variables.
+
+```{python}
+namedict = {'s1': 'totchol', 's2':'ldl', 's3':'hdl', 's4':'tch', 
+'s5':'ltg', 's6':'glucose'}
+
+diabetes=diabetes.rename(columns=namedict)
+
+print(diabetes.head())
+
+```
+
+
 # Visualizing The Dataset 
 
 Whenever we have a new dataset to analyze, a good first step is visualizing the variables in the dataset. For the Diabetes dataset, we are specifically interested in disease severity so we will be using `target`, a measure of diabetes disease progression.  Basically it tells us how bad a person's diabetes is. Higher numbers mean the diabetes is worse. Figure 1 shows every variable in the dataset plotted against our measure of disease progression in scatterplots. 
