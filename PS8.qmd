@@ -20,6 +20,9 @@ import matplotlib.pyplot as plt
 from pydataset import data
 from sklearn.datasets import load_diabetes
 
+#set options to always display all columns in DataFrame
+pd.set_option('display.max_columns', None)
+
 # load diabetes data
 diabetes_data = load_diabetes(as_frame=True)
 
