@@ -113,6 +113,37 @@ plt.show()
 
 ```
 
+# Quantifying the Data set
+
+# Measuring Correlation
+Correlation is the measure of how much one variable changes as another one changes. If an increase in one variable also leads in an increase in a second variable, these two variables are positively correlated. An example of this would be height and weight in humans. If an increase in one variable leads to a decrease in a second variable, these variables are negatively correlated. An example of negatively correlated variables are the hours of sleep you get and the likelihood of you getting in a traffic accident.
+
+There are many ways of measuring correlation, but one of the most common is the [Pearson Correlation Coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient), which is represented with a lowercase $r$. Pearson's $r$ tells you how closely two variables follow a linear relationship (Figure 1). This means that there still could be a (non-linear) relationship between two variables even if $r$ is close to zero. That is why it is always important to plot your data!
+
+![Pearson's Correlation Coefficent](data/plots/Correlation_examples2.png)
+
+There are many functions in python you can use to calculate the correlation coefficient for two variables. 
+
+```{python }
+
+diabetes.corr()
+
+```
+
+
+# Correlation $\neq$ Causation
+
+Linear regression models assess the degree of correlation between two or more variables. However, just because two variables are correlated, does not mean one is necessarily caused by the other. This can happen in two primary ways: hidden causation and reverse causation. 
+
+## Reverse Causation
+One potential causation problem is if the causation is reversed: we use A to predict B, but in fact it is B that is causing A. This is the case with the [Waffle House Index](https://en.wikipedia.org/wiki/Waffle_House_Index). In the south, where Waffle Houses and hurricanes are both plentiful, a former member of the Federal Emergency Management Agency (FEMA) developed the Waffle House Index to assess potential damage and emergency response requirements early in a storm. This metric was based on how many Waffle Houses in the area were closed or on limited menus. Normally Waffle Houses are open 24/7, and they tend to remain open even in severe weather. So the more Waffle Houses were closed, the more severe FEMA would assume the damage would be. Now, obviously the Waffle House closures are not causing the storms to be bad, it is the other way around. However, because it is much easier to figure out whether a Waffle House is closed than assess property damage in a storm, we use the former to predict the latter.
+
+## Confounding Factors
+A confounding factor is a (often times unmeasured) variable that influences both the "cause" and the "effect". Consider a study trying to predict a child's reading ability. If you didn't understand anything about how the brain worked, you might decide to use a child's shoe size as a predictor of their reading skill. Now we all know that having a larger shoe size does not cause you to have a better ability to read. However, in children, both shoe size and reading ability increase with the confounding factor: age. 
+
+## Spurious Correlation
+
+Sometimes things are correlated by chance. For example, The Church of the Flying Spagetti Monster, a satirical religion, claims that since global pirate numbers have been falling since the early 1800s and average global temperatures has been rising since that time, climate change is a punishment for the lack of pirates. This is obviously not true, but it is a good example of how things can be correlated, even if they are entirely unrelated. A more famous, and harmful, example of this is a small study that came out in 1998 that claimed a link between the MMR vaccine and autism. It was later discovered that the author of the study ____, did not include all of his data. However, the damage had already been done. The hypothesis was originally put forward because people generally recieve the MMR vaccine around age 2, which is also the time people start exhibiting the first signs of autism.
 
 
 # Questions
