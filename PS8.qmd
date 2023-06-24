@@ -123,7 +123,7 @@ There are many ways of measuring correlation, but one of the most common is the 
 
 ![Pearson's Correlation Coefficent](data/plots/Correlation_examples2.png)
 
-There are many functions in python you can use to calculate the correlation coefficient for two variables. 
+There are many functions in python you can use to calculate the Pearson correlation coefficient. The `pandas` package has a method called `corr` that calculates the correlation coefficents for all pairs of variables in a DataFrame. This is very useful and efficient, but you need to make sure you don't have any string variables in your DataFrame.
 
 ```{python }
 
