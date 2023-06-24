@@ -84,6 +84,7 @@ print(diabetes.head())
 
 Whenever we have a new dataset to analyze, a good first step is visualizing the variables in the dataset. For the Diabetes dataset, we are specifically interested in disease severity so we will be using `target`, a measure of diabetes disease progression.  Basically it tells us how bad a person's diabetes is. Higher numbers mean the diabetes is worse. Figure 1 shows every variable in the dataset plotted against our measure of disease progression in scatterplots. 
 
+By looking at the scatterplots, we can get a good idea of which variables are likely to help us understand diabetes better, or at least better predict disease severity. Body Mass Index and Blood Triglycerides are positively correlated with more severe diabetes while High-Density Lipoproteins (Good Cholesteral) is possibly negatively correlated with severe diabetes. For the other variables, the data is too 'noisy' or spread out to tell from a visual inspection.
 ```{python}
 
 x_names = ['Age', 'Sex', 'BMI', 'Blood Pressure', 'Total Cholestral', 
