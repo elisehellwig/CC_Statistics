@@ -19,6 +19,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pydataset import data
 from sklearn.datasets import load_diabetes
+import numpy.random as rand #load random number generation from numpy
+
 
 #set options to always display all columns in DataFrame
 pd.set_option('display.max_columns', None)
