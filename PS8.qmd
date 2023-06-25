@@ -17,7 +17,6 @@ This problem set uses the Diabetes dataset from `scikit-learn` as an example.
 ```{python}
 import pandas as pd  
 import matplotlib.pyplot as plt
-from pydataset import data
 from sklearn.datasets import load_diabetes
 import numpy.random as rand #load random number generation from numpy
 
