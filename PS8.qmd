@@ -10,7 +10,7 @@ Please watch [Correlation Does Not Equal Causation](https://www.youtube.com/watc
 
 # Setup
 
-For this problem set we are going to load several new packages: `scikit-learn`, `statsmodels`, and `pydataset`.  We will use `scikit-learn`, and `statsmodels` for doing statistical analysis. Both of these packages contain much of the same functionality, but their focus is a little different. The `pydataset` contains datasets we will practice doing statistics with.
+For this problem set we are going to load several new packages: `scikit-learn`, `statsmodels`.  We will use `scikit-learn`, and `statsmodels` for doing statistical analysis. Both of these packages contain much of the same functionality, but their focus is a little different.
 
 This problem set uses the Diabetes dataset from `scikit-learn` as an example. 
 
@@ -24,6 +24,10 @@ import numpy.random as rand #load random number generation from numpy
 
 #set options to always display all columns in DataFrame
 pd.set_option('display.max_columns', None)
+
+#pd.set_option('display.precision', 2)
+
+pd.set_option('display.float_format', lambda x: '%.3f' % x)
 
 # load diabetes data
 diabetes_data = load_diabetes(as_frame=True)
@@ -43,9 +47,6 @@ Questions of prediction are questions that ask us to predict the outcome of a si
 
 ## Questions of inference
 Questions of inference are questions about how the world works. For example, we may want to know what effect an increase in atmospheric CO~2~ has summer temperatures in the Central Valley, or the severity of fire season. This won't tell us anything about what to wear next week, but it will inform whether or not we decide to move to a different state. For the diabetes dataset, we want to know what are the most useful risk factors to look for when assessing whether a person is likely to develop type II diabetes.
-
-## Spurious Inference
-Flying Spaghetti Monster
 
 # Summarizing the Dataset
 
@@ -86,18 +87,20 @@ Whenever we have a new dataset to analyze, a good second step is visualizing the
 By looking at the scatterplots, we can get a good idea of which variables are likely to help us understand diabetes better, or at least better predict disease severity. Body Mass Index and Blood Triglycerides are positively correlated with more severe diabetes while High-Density Lipoproteins (Good Cholesteral) is possibly negatively correlated with severe diabetes. For the other variables, the data is too 'noisy' or spread out to tell from a visual inspection.
 ```{python}
 
+#Names of X variables
 x_names = ['Age', 'Sex', 'BMI', 'Blood Pressure', 'Total Cholestral', 
 "LDL ('Bad Cholesteral')", "HDL ('Good Cholesteral')", 'Total/HDL', 
-'Log(Serum Triglycerides Level)', 'Blood Sugar Level']
+'Blood Triglycerides', 'Blood Sugar Level']
 
-ncol = 2
-nrow = int(len(x_names)/ncol)
+ncol = 2 #number of columns of subplots
+nrow = int(len(x_names)/ncol) #number of rows of subplots
 
+#create figure to display scatter plots of 
 fig1, axs1 = plt.subplots(nrow, ncol, sharey=True, sharex=True,
 figsize=(8,10))
 
 for i, ax in enumerate(fig1.axes):
-    ax.scatter(diabetes.iloc[:, i], diabetes.target)
+    ax.scatter(diabetes.iloc[:, i], diabetes.target, s=3)
     ax.set_xlabel(x_names[i])
     if i % 2 == 0:
         ax.set_ylabel('Disease Progression')
@@ -113,9 +116,21 @@ plt.show()
 
 ```
 
-# Quantifying the Data set
+# Quantifying the Dataset
+While it is helpful to look at data visually, if we want to make statistical statements, we need to get down to the numbers.
 
-# Measuring Correlation
+# Relationships Between Variables
+
+The simplest relationship between two variables is a linear relationship:
+
+$$y = m\cdot x + b$$
+
+Where y is the variable we are interested in predicting and x is a variable we will use to predict it. In our diabetes data, $y$ is our measure of disease progression (`target`) and $x$ could be any one of our other variables. For this example we will use BMI as our $x$ variable. 
+
+To find the line that best fits our data, we want to minimize the difference between the $y$ values of our line and the $y$ values of our data. This process is called linear regression.
+
+
+## Measuring Correlation
 Correlation is the measure of how much one variable changes as another one changes. If an increase in one variable also leads in an increase in a second variable, these two variables are positively correlated. An example of this would be height and weight in humans. If an increase in one variable leads to a decrease in a second variable, these variables are negatively correlated. An example of negatively correlated variables are the hours of sleep you get and the likelihood of you getting in a traffic accident.
 
 There are many ways of measuring correlation, but one of the most common is the [Pearson Correlation Coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient), which is represented with a lowercase $r$. Pearson's $r$ tells you how closely two variables follow a linear relationship (Figure 1). This means that there still could be a (non-linear) relationship between two variables even if $r$ is close to zero. That is why it is always important to plot your data!
@@ -141,22 +156,21 @@ While the correlation coefficent tells you how closely to variables move togethe
 
 n_rand = 500
 
-df = pd.DataFrame({X:rand.uniform(-5, 5, n_rand)})
-df['Y1'] = df.X*1/2 + rand.uniform(-0.1, 0.1, n_rand)
-df['Y2'] = df.X*1/2 + rand.uniform(-1, 1, n_rand)
-df['Y3'] = df.X*2 + rand.uniform(-0.1, 0.1, n_rand)
-df['Y4'] = df.X*2 + rand.uniform(-1, 1, n_rand)
+df = pd.DataFrame({'X':rand.uniform(-5, 5, n_rand)})
+df['Y1'] = df.X*0.8 + rand.normal(0, 2, n_rand)
+df['Y2'] = df.X*0.8 + rand.normal(0, 10, n_rand)
+df['Y3'] = df.X*3.5 + rand.normal(0, 2, n_rand)
+df['Y4'] = df.X*3.5 + rand.normal(0, 10, n_rand)
 
-titles = ['High Correlation']
+titles = ['High Correlation, Small Effect', 'Low Correlation, Small Effect',
+'High Correlation, Large Effect', 'Low Correlation, Large Effect']
 
 fig2, axs2 = plt.subplots(2, 2, sharey=True, sharex=True,
 figsize=(8,10))
 
 for i, ax in enumerate(fig2.axes):
     ax.scatter(df.X, df.iloc[:, i+1], s=3)
-    ax.set_title()
-    if i % 2 == 0:
-        ax.set_ylabel('Disease Progression')
+    ax.set_title(titles[i])
 
 
 
@@ -166,8 +180,10 @@ To determine the effect size we need ___.
 
 
 # Correlation $\neq$ Causation
+![Correlation - xkcd 552](data/plots/correlation_2x.png)
 
 Linear regression models assess the degree of correlation between two or more variables. However, just because two variables are correlated, does not mean one is necessarily caused by the other. This can happen in two primary ways: hidden causation and reverse causation. 
+
 
 ## Reverse Causation
 One potential causation problem is if the causation is reversed: we use A to predict B, but in fact it is B that is causing A. This is the case with the [Waffle House Index](https://en.wikipedia.org/wiki/Waffle_House_Index). In the south, where Waffle Houses and hurricanes are both plentiful, a former member of the Federal Emergency Management Agency (FEMA) developed the Waffle House Index to assess potential damage and emergency response requirements early in a storm. This metric was based on how many Waffle Houses in the area were closed or on limited menus. Normally Waffle Houses are open 24/7, and they tend to remain open even in severe weather. So the more Waffle Houses were closed, the more severe FEMA would assume the damage would be. Now, obviously the Waffle House closures are not causing the storms to be bad, it is the other way around. However, because it is much easier to figure out whether a Waffle House is closed than assess property damage in a storm, we use the former to predict the latter.
@@ -181,12 +197,15 @@ Sometimes things are correlated by chance. For example, The Church of the Flying
 
 
 # Questions
-For this problem set please use the `mtcars` dataset from the `pydatasets` package to answer the following questions. 
 
-1. Reading the Documentation: the `pydatasets` package does not have very good documetation for the the datasets it contains. Thankfully, `mtcars` is well documented elsewhere. 
-   a. Find an alternate source of documetation for the `mtcars` dataset on the internet.
-   b. Describe each variable in the `mtcars` dataset, including the units and data range if it is a numeric variable. 
+For this problem set please use the NBA Player dataset provided. It can be accessed through data.world, and the original source of the data is [hoopsstats.com](http://www.hoopsstats.com/basketball/) where you can find the documentation for the variables.
+
+1. Describe each variable in the NBA Players dataset, including the units and data range if it is a numeric variable. 
 2. Prediction vs. Inference
-   a. What is a question of prediction we could ask about fuel efficiency using the `mtcars` data set.
-   b. What is an inferential question we could ask about fuel efficiency using the `mtcars` data set. 
-3. Visualization: create a figure with at least 3 scatterplot subplots, showing how fuel efficiency (mpg) changes.
+   a. What is a question of prediction we could ask about fuel efficiency using the `NBA Player` data set.
+   b. What is an inferential question we could ask about fuel efficiency using the `NBA Player` data set. 
+3. Visualization: create a figure with scatterplots showing how total points scored changes with several of the numeric variables in the dataset.
+4.  Calculating Correlation
+   a. Based on the plot you created in Question 3, predict whether each variable (besides fuel efficiency) correlates with fuel efficiency (positive, negative, or close to 0).
+   b. Calculate the correlation coefficent for each variable.
+   c. If you used the `corr` method to calculate your correlation coefficent, find a different function that also calculates Pearson's correlation coefficient. What are the differences between the two functions?
