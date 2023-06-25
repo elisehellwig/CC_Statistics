@@ -130,6 +130,40 @@ diabetes.corr()
 ```
 
 
+By looking at how all the variables correlate with `target`, we can see that BMI, blood pressure, and blood triglicerides are positively correlated with our target variable. This is in line with what we saw in our scatterplots earlier. "Good Cholesteral" (HDL) is also negatively correlated with disease progression, but the strength of the correlation is weaker.
+
+## Linear Regression
+
+While the correlation coefficent tells you how closely to variables move together, it does not tell you 
+
+```{python }
+
+n_rand = 500
+
+df = pd.DataFrame({X:rand.uniform(-5, 5, n_rand)})
+df['Y1'] = df.X*1/2 + rand.uniform(-0.1, 0.1, n_rand)
+df['Y2'] = df.X*1/2 + rand.uniform(-1, 1, n_rand)
+df['Y3'] = df.X*2 + rand.uniform(-0.1, 0.1, n_rand)
+df['Y4'] = df.X*2 + rand.uniform(-1, 1, n_rand)
+
+titles = ['High Correlation']
+
+fig2, axs2 = plt.subplots(2, 2, sharey=True, sharex=True,
+figsize=(8,10))
+
+for i, ax in enumerate(fig2.axes):
+    ax.scatter(df.X, df.iloc[:, i+1], s=3)
+    ax.set_title()
+    if i % 2 == 0:
+        ax.set_ylabel('Disease Progression')
+
+
+
+```
+
+To determine the effect size we need ___. 
+
+
 # Correlation $\neq$ Causation
 
 Linear regression models assess the degree of correlation between two or more variables. However, just because two variables are correlated, does not mean one is necessarily caused by the other. This can happen in two primary ways: hidden causation and reverse causation. 
