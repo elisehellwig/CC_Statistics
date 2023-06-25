@@ -27,9 +27,6 @@ pd.set_option('display.max_columns', None)
 # load diabetes data
 diabetes_data = load_diabetes(as_frame=True)
 
-# get documenation on diabetes data
-print(diabetes_data.DESCR)
-
 #extract data frame
 diabetes = diabetes_data.frame
 
