@@ -4,3 +4,34 @@ format: pdf
 jupyter: python3
 ---
 
+# Setup
+
+We will continue using the `scikit-learn` package and `diabetes` dataset for this problem set.
+
+```{python}
+import pandas as pd  
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import StandardScaler
+import numpy.random as rand #load random number generation from numpy
+
+
+#set options to always display all columns in DataFrame
+pd.set_option('display.max_columns', None)
+
+#pd.set_option('display.precision', 2)
+
+pd.set_option('display.float_format', lambda x: '%.3f' % x)
+
+# load diabetes data
+diabetes_orig = pd.read_csv('https://www4.stat.ncsu.edu/~boos/var.select/diabetes.tab.txt', sep='\t')
+
+#rename diabetes data columns
+diabetes_orig = diabetes_orig.rename(columns=str.lower)
+
+namedict = {'s1': 'totchol', 's2':'ldl', 's3':'hdl', 's4':'tch', 
+'s5':'ltg', 's6':'glucose', 'y':'target'}
+
+diabetes_orig=diabetes_orig.rename(columns=namedict)
+```
