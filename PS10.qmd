@@ -1,6 +1,7 @@
 ---
 title: "Correlation"
-format: html
+format: pdf
+jupyter: python3
 ---
 
 
