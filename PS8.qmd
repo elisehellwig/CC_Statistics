@@ -1,5 +1,5 @@
 ---
-title: "PS8 - Scatterplots and Correlation"
+title: "PS8 - Intro To Linear Regression"
 format: pdf
 jupyter: python3
 ---
@@ -16,9 +16,11 @@ This problem set uses the Diabetes dataset from `scikit-learn` as an example.
 
 ```{python}
 import pandas as pd  
+import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import load_diabetes
 from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import StandardScaler
 import numpy.random as rand #load random number generation from numpy
 
 
@@ -67,18 +69,42 @@ print(diabetes_data.DESCR)
 
 ```
 
-The documentation gives us a number of pieces of information. First, the variable `target` is a measure of disease severity one year after diagnosis. So we will probably focus on predicting that variable. Also, we have descriptions of all of the variables, so we can label them in a way that is more helpful. Finally, there is a note stating that all the variables except `target` have been "mean centered and scaled by the standard deviation". What that means is that the researchers subtracted the mean and divided by the standard deviation for each data point in each of the 10 'predictor' variables. Researchers do this to make it easier to compare effect sizes between variables.
+The documentation gives us a number of pieces of information. First, the variable `target` is a measure of disease severity one year after diagnosis. So we will probably focus on predicting that variable. Also, we have descriptions of all of the variables, so we can label them in a way that is more helpful. Finally, there is a note stating that all the variables except `target` have been "mean centered and scaled to have squared length = 1 (x^2=1)". What that means is that the researchers transformed the data so that each of the 10 'predictor' variables would have similar values. Researchers do this to make it easier to compare effect sizes between variables. 
+
+However, in this case the transformation they chose was not linear (remember the x^2), which makes it harder to transform the variables back later. Thankfully, we can read in the [original data](https://www4.stat.ncsu.edu/~boos/var.select/diabetes.html) from the source, and rename the columns so it is easier to remember what they mean
 
 ```{python}
+
+diabetes_orig = pd.read_csv('https://www4.stat.ncsu.edu/~boos/var.select/diabetes.tab.txt', sep='\t')
+
+diabetes_orig = diabetes_orig.rename(columns=str.lower)
+
 namedict = {'s1': 'totchol', 's2':'ldl', 's3':'hdl', 's4':'tch', 
-'s5':'ltg', 's6':'glucose'}
+'s5':'ltg', 's6':'glucose', 'y':'target'}
 
-diabetes=diabetes.rename(columns=namedict)
+diabetes_orig=diabetes_orig.rename(columns=namedict)
 
-print(diabetes.head())
+print(diabetes_orig.head())
+
+print(diabetes_orig.describe())
 
 ```
 
+That looks more like the data we were expecting!
+
+If we still want our predictor variables to be scaled, we can use the linear  [Z-Score Transformation](https://www.listendata.com/2017/04/how-to-standardize-variable-in-regression.html) instead. The scikit-learn package has a class designed to do just that: `StandardScaler`.
+
+```{python}
+
+std_scaler = StandardScaler()
+ 
+diabetes_scaled = std_scaler.fit_transform(diabetes_orig.to_numpy())
+diabetes_scaled = pd.DataFrame(diabetes_scaled, columns=diabetes_orig.columns)
+
+diabetes = pd.concat([diabetes_scaled.iloc[:,0:10], diabetes_orig.iloc[:,10:12]],
+axis=1)
+
+```
 
 # Visualizing The Dataset 
 
@@ -119,93 +145,104 @@ plt.show()
 # Quantifying the Dataset
 While it is helpful to look at data visually, if we want to make statistical statements, we need to get down to the numbers.
 
-# Relationships Between Variables
+# Relationships Between Variables: Linear Regression
 
 The simplest relationship between two variables is a linear relationship:
 
 $$y = m\cdot x + b$$
 
-Where y is the variable we are interested in predicting and x is a variable we will use to predict it. In our diabetes data, $y$ is our measure of disease progression (`target`) and $x$ could be any one of our other variables. For this example we will use BMI as our $x$ variable. 
+where $y$ is the variable we are interested in predicting, which is also called the dependent or response variable. $x$ is a variable we will use to predict $y$, and is either called the independent variable or the predictor variable. In our diabetes data, $y$ is our measure of disease progression (`target`) and $x$ could be any one of our other variables. For this example we will use BMI as our predictor variable. 
 
-To find the line that best fits our data, we want to minimize the difference between the $y$ values of our line and the $y$ values of our data. This process is called linear regression.
+Linear regression is the process of finding a line (a model) that best fits our data. We call this line a model because it is a representation or summary of the relationship between the two variables. Most things in the world are not linearly related, but often times they are close enough that that a linear model can still be useful.
 
+![](data/plots/allmodelsarewrong.jpeg){width=300}
 
-## Measuring Correlation
-Correlation is the measure of how much one variable changes as another one changes. If an increase in one variable also leads in an increase in a second variable, these two variables are positively correlated. An example of this would be height and weight in humans. If an increase in one variable leads to a decrease in a second variable, these variables are negatively correlated. An example of negatively correlated variables are the hours of sleep you get and the likelihood of you getting in a traffic accident.
+Our linear model is summarized by two parameters: $m$ (slope) and $b$ (y-intercept). To find the parameters for the line that best fits our data, we minimize the squared differences between the $y$ values of our line and the $y$ values of our data. That is why this process is sometimes called "Least Squares Regression".
 
-There are many ways of measuring correlation, but one of the most common is the [Pearson Correlation Coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient), which is represented with a lowercase $r$. Pearson's $r$ tells you how closely two variables follow a linear relationship (Figure 1). This means that there still could be a (non-linear) relationship between two variables even if $r$ is close to zero. That is why it is always important to plot your data!
+There are several steps estimating the parameters for a linear regression in python using the `scikit-learn` package. First we need to import the `LinearRegression` class, which we did at the top of the problem set. Next we need to create an instance of that class, which we will call `model`. For now we can use the default parameter settings.
 
-![Pearson's Correlation Coefficent](data/plots/Correlation_examples2.png)
+```{python}
 
-There are many functions in python you can use to calculate the Pearson correlation coefficient. The `pandas` package has a method called `corr` that calculates the correlation coefficents for all pairs of variables in a DataFrame. This is very useful and efficient, but you need to make sure you don't have any string variables in your DataFrame.
-
-```{python }
-
-diabetes.corr()
+model = LinearRegression()
 
 ```
 
+Next we need to 'fit' the model. Fitting a model is providing that model with data that it can use to estimate the model parameters. In this case those parameters are $m$ and $b$. We use the `fit` method to fit a linear regression model, with the arguments being our predictor variable (BMI) and our response variable (target). Because `scikit-learn` is based off of the package `numpy` we will need to use double brackets instead of single ones when referring to our DataFrame columns.
 
-By looking at how all the variables correlate with `target`, we can see that BMI, blood pressure, and blood triglicerides are positively correlated with our target variable. This is in line with what we saw in our scatterplots earlier. "Good Cholesteral" (HDL) is also negatively correlated with disease progression, but the strength of the correlation is weaker.
+```{python}
 
-## Linear Regression
-
-While the correlation coefficent tells you how closely to variables move together, it does not tell you 
-
-```{python }
-
-n_rand = 500
-
-df = pd.DataFrame({'X':rand.uniform(-5, 5, n_rand)})
-df['Y1'] = df.X*0.8 + rand.normal(0, 2, n_rand)
-df['Y2'] = df.X*0.8 + rand.normal(0, 10, n_rand)
-df['Y3'] = df.X*3.5 + rand.normal(0, 2, n_rand)
-df['Y4'] = df.X*3.5 + rand.normal(0, 10, n_rand)
-
-titles = ['High Correlation, Small Effect', 'Low Correlation, Small Effect',
-'High Correlation, Large Effect', 'Low Correlation, Large Effect']
-
-fig2, axs2 = plt.subplots(2, 2, sharey=True, sharex=True,
-figsize=(8,10))
-
-for i, ax in enumerate(fig2.axes):
-    ax.scatter(df.X, df.iloc[:, i+1], s=3)
-    ax.set_title(titles[i])
-
-
+fit_model = model.fit(diabetes_orig[['bmi']], diabetes_orig[['target']])
 
 ```
 
-To determine the effect size we need ___. 
+Once we have fit the model, we can extract the parameters of our model using  
+`coef_` for the slope ($m$) and `intercept_` for the y intercept ($b$). This will tell us how much we predict an increase in BMI will change disease severity.
+
+```{python}
+
+m = np.round(fit_model.coef_, 2)
+b = np.round(fit_model.intercept_,2)
+
+print(m)
+print(b)
+```
+
+We can use these parameters to write out the equation of our linear model.
+
+$$y = 10.23\cdot x - 117.77$$
+
+This means that this model predicts an increase of 1 in BMI would lead to a predicted increase of approximately 10 in disease severity. To know the if that is a lot or a little, we would need to know more about how this measure of disease manifests in symptoms. We may also want to know how much an increasing someone's actual BMI from a healthy level (BMI=24.9) to being classified as obese (BMI = 30) effects their predicted disease severity. To do that we would just multiplty 5.1 by our slope.
+
+```{python} 
+
+m * (5.1)
+```
+
+Additionally this model predicts that someone with a BMI of zero would have a predicted disease severity of -117.77, this doesn't make sense biologically, but it is good to remember that our models have limits and if we use them to try to predict outcomes outside of the data range, we may get non-sensical results.
+
+If we were plotting the line by hand, we would also use the parameters to plot the line of the model. However, in python, it is easier to use another method for plotting: the predicted y values.
+
+In addition to using the `LinearRegression` class to fit models, we can also use it to predict values of the response variable (target) based on the values of the predictor variable (BMI). We can use the model to predict values of disease severity for the values of BMI of the participants in the study any given value of BMI:
+
+```{python}
+
+#predict disease severity for participants in the study
+target_predicted = fit_model.predict(diabetes_orig[['bmi']])
+
+```
+
+Then we can plot those predicted values as a line, along with the scatterplot of our original data.
+
+```{python}
+
+fig2, ax2 = plt.subplots() #create figure
+
+# Plot Linear model
+ax2.plot(diabetes_orig['bmi'],target_predicted, color='black')
+ax2.scatter(diabetes_orig['bmi'], diabetes_orig['target'], s=2)
+#ax2.set_ylim([0,1]) # set y axis from 0-1 for full probability scale
+ax2.set_title('Figure 2. Predicting Disease Severity Using BMI') # add title to figure
+ax2.set_xlabel('BMI') # add x axis label
+ax2.set_ylabel('Disease Severity') # add y axis label
+plt.show() # show plot
 
 
-# Correlation $\neq$ Causation
-![Correlation - xkcd 552](data/plots/correlation_2x.png)
-
-Linear regression models assess the degree of correlation between two or more variables. However, just because two variables are correlated, does not mean one is necessarily caused by the other. This can happen in two primary ways: hidden causation and reverse causation. 
-
-
-## Reverse Causation
-One potential causation problem is if the causation is reversed: we use A to predict B, but in fact it is B that is causing A. This is the case with the [Waffle House Index](https://en.wikipedia.org/wiki/Waffle_House_Index). In the south, where Waffle Houses and hurricanes are both plentiful, a former member of the Federal Emergency Management Agency (FEMA) developed the Waffle House Index to assess potential damage and emergency response requirements early in a storm. This metric was based on how many Waffle Houses in the area were closed or on limited menus. Normally Waffle Houses are open 24/7, and they tend to remain open even in severe weather. So the more Waffle Houses were closed, the more severe FEMA would assume the damage would be. Now, obviously the Waffle House closures are not causing the storms to be bad, it is the other way around. However, because it is much easier to figure out whether a Waffle House is closed than assess property damage in a storm, we use the former to predict the latter.
-
-## Confounding Factors
-A confounding factor is a (often times unmeasured) variable that influences both the "cause" and the "effect". Consider a study trying to predict a child's reading ability. If you didn't understand anything about how the brain worked, you might decide to use a child's shoe size as a predictor of their reading skill. Now we all know that having a larger shoe size does not cause you to have a better ability to read. However, in children, both shoe size and reading ability increase with the confounding factor: age. 
-
-## Spurious Correlation
-
-Sometimes things are correlated by chance. For example, The Church of the Flying Spagetti Monster, a satirical religion, claims that since global pirate numbers have been falling since the early 1800s and average global temperatures has been rising since that time, climate change is a punishment for the lack of pirates. This is obviously not true, but it is a good example of how things can be correlated, even if they are entirely unrelated. A more famous, and harmful, example of this is a small study that came out in 1998 that claimed a link between the MMR vaccine and autism. It was later discovered that the author of the study ____, did not include all of his data. However, the damage had already been done. The hypothesis was originally put forward because people generally recieve the MMR vaccine around age 2, which is also the time people start exhibiting the first signs of autism.
+```
 
 
 # Questions
 
-For this problem set please use the NBA Player dataset provided. It can be accessed through data.world, and the original source of the data is [hoopsstats.com](http://www.hoopsstats.com/basketball/) where you can find the documentation for the variables.
+For this problem set please use the NBA Player dataset provided. This has per 36 Minute data from the 2021-2022 season and total points scored from the 2022-2023 season. The original source of the data is [BasketballReference.com](https://www.basketball-reference.com/)'s [21-22](https://www.basketball-reference.com/leagues/NBA_2022_per_minute.html) and [22-23](https://www.basketball-reference.com/leagues/NBA_2023_totals.html) season data. where you can find the documentation for the variables.
 
 1. Describe each variable in the NBA Players dataset, including the units and data range if it is a numeric variable. 
 2. Prediction vs. Inference
-   a. What is a question of prediction we could ask about fuel efficiency using the `NBA Player` data set.
-   b. What is an inferential question we could ask about fuel efficiency using the `NBA Player` data set. 
-3. Visualization: create a figure with scatterplots showing how total points scored changes with several of the numeric variables in the dataset.
-4.  Calculating Correlation
-   a. Based on the plot you created in Question 3, predict whether each variable (besides fuel efficiency) correlates with fuel efficiency (positive, negative, or close to 0).
-   b. Calculate the correlation coefficent for each variable.
-   c. If you used the `corr` method to calculate your correlation coefficent, find a different function that also calculates Pearson's correlation coefficient. What are the differences between the two functions?
+   a. What is a question of prediction we could ask about total points scored in the 22-23 season using the `NBA Player` data set.
+   b. What is an inferential question we could ask about total points scored in the 22-23 season using the `NBA Player` data set. 
+3. Visualization: create a figure with scatterplots showing how total points scored changes with several of the numeric predictor variables in the dataset. Create these plots with both scaled and unscaled predictor variables. What are the differences, if any, between the plots?
+4. Why do we want to minimize the squared differences, instead of just the differences, to find the line of best fit?
+5. What are the arguments for the `LinearRegression()` function and what do they do?
+6. Create a linear regression model where you predict the total points scored (or fantasy basketball score) in 2023 based on one variable from data from the 2022 data.
+   a. What are the estimated values for the parameters in your model?
+   b. What is the interpretation of those parameter values? 
+7. Create a plot that includes both the line representing your model, and the original data you used to fit the model.
+
