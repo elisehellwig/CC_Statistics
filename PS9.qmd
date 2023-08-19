@@ -8,6 +8,25 @@ jupyter: python3
 
 Like Problem Set 8, this problem set also covers material discussed in [Correlation Does Not Equal Causation](https://www.youtube.com/watch?v=GtV-VYdNt_g&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=9&t=1s).
 
+```{python}
+import pandas as pd  
+import numpy as np
+import matplotlib.pyplot as plt
+import numpy.random as rand #load random number generation from numpy
+
+
+#set options to always display all columns in DataFrame
+pd.set_option('display.max_columns', None)
+
+#pd.set_option('display.precision', 2)
+
+pd.set_option('display.float_format', lambda x: '%.3f' % x)
+
+#load Original data
+diabetes_orig = pd.read_csv('https://www4.stat.ncsu.edu/~boos/var.select/diabetes.tab.txt', sep='\t')
+
+#convert variable names to lower case
+diabetes_orig = diabetes_orig.rename(columns=str.lower)
 
 ## Measuring Correlation
 Correlation is the measure of how much one variable changes as another one changes. If an increase in one variable also leads in an increase in a second variable, these two variables are positively correlated. An example of this would be height and weight in humans. If an increase in one variable leads to a decrease in a second variable, these variables are negatively correlated. An example of negatively correlated variables are the hours of sleep you get and the likelihood of you getting in a traffic accident.
