@@ -1,37 +1,83 @@
 ---
-title: "PS9 - Linear Regression Model Assessment"
+title: "PS9 - Correlation"
 format: pdf
 jupyter: python3
 ---
 
-# Setup
+# Introduction
 
-We will continue using the `scikit-learn` package and `diabetes` dataset for this problem set.
-
-```{python}
-import pandas as pd  
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
-from sklearn.preprocessing import StandardScaler
-import numpy.random as rand #load random number generation from numpy
+Like Problem Set 8, this problem set also covers material discussed in [Correlation Does Not Equal Causation](https://www.youtube.com/watch?v=GtV-VYdNt_g&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=9&t=1s).
 
 
-#set options to always display all columns in DataFrame
-pd.set_option('display.max_columns', None)
+## Measuring Correlation
+Correlation is the measure of how much one variable changes as another one changes. If an increase in one variable also leads in an increase in a second variable, these two variables are positively correlated. An example of this would be height and weight in humans. If an increase in one variable leads to a decrease in a second variable, these variables are negatively correlated. An example of negatively correlated variables are the hours of sleep you get and the likelihood of you getting in a traffic accident.
 
-#pd.set_option('display.precision', 2)
+There are many ways of measuring correlation, but one of the most common is the [Pearson Correlation Coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient), which is represented with a lowercase $r$. Pearson's $r$ tells you how closely two variables follow a linear relationship (Figure 1). This means that there still could be a (non-linear) relationship between two variables even if $r$ is close to zero. That is why it is always important to plot your data!
 
-pd.set_option('display.float_format', lambda x: '%.3f' % x)
+![Pearson's Correlation Coefficent](data/plots/Correlation_examples2.png)
 
-# load diabetes data
-diabetes_orig = pd.read_csv('https://www4.stat.ncsu.edu/~boos/var.select/diabetes.tab.txt', sep='\t')
+There are many functions in python you can use to calculate the Pearson correlation coefficient. The `pandas` package has a method called `corr` that calculates the correlation coefficents for all pairs of variables in a DataFrame. This is very useful and efficient, but you need to make sure you don't have any string variables in your DataFrame.
 
-#rename diabetes data columns
-diabetes_orig = diabetes_orig.rename(columns=str.lower)
+```{python }
 
-namedict = {'s1': 'totchol', 's2':'ldl', 's3':'hdl', 's4':'tch', 
-'s5':'ltg', 's6':'glucose', 'y':'target'}
+diabetes.corr()
 
-diabetes_orig=diabetes_orig.rename(columns=namedict)
 ```
+
+
+By looking at how all the variables correlate with `target`, we can see that BMI, blood pressure, and blood triglicerides are positively correlated with our target variable. This is in line with what we saw in our scatterplots earlier. "Good Cholesteral" (HDL) is also negatively correlated with disease progression, but the strength of the correlation is weaker.
+
+
+```{python }
+
+n_rand = 500
+
+df = pd.DataFrame({'X':rand.uniform(-5, 5, n_rand)})
+df['Y1'] = df.X*0.8 + rand.normal(0, 2, n_rand)
+df['Y2'] = df.X*0.8 + rand.normal(0, 10, n_rand)
+df['Y3'] = df.X*3.5 + rand.normal(0, 2, n_rand)
+df['Y4'] = df.X*3.5 + rand.normal(0, 10, n_rand)
+
+titles = ['High Correlation, Small Effect', 'Low Correlation, Small Effect',
+'High Correlation, Large Effect', 'Low Correlation, Large Effect']
+
+fig2, axs2 = plt.subplots(2, 2, sharey=True, sharex=True,
+figsize=(8,10))
+
+for i, ax in enumerate(fig2.axes):
+    ax.scatter(df.X, df.iloc[:, i+1], s=3)
+    ax.set_title(titles[i])
+
+
+
+```
+
+
+
+# Correlation $\neq$ Causation
+![Correlation - xkcd 552](data/plots/correlation_2x.png)
+
+Linear regression models assess the degree of correlation between two or more variables. However, just because two variables are correlated, does not mean one is necessarily caused by the other. This can happen in two primary ways: hidden causation and reverse causation. 
+
+
+## Reverse Causation
+One potential causation problem is if the causation is reversed: we use A to predict B, but in fact it is B that is causing A. This is the case with the [Waffle House Index](https://en.wikipedia.org/wiki/Waffle_House_Index). In the south, where Waffle Houses and hurricanes are both plentiful, a former member of the Federal Emergency Management Agency (FEMA) developed the Waffle House Index to assess potential damage and emergency response requirements early in a storm. This metric was based on how many Waffle Houses in the area were closed or on limited menus. Normally Waffle Houses are open 24/7, and they tend to remain open even in severe weather. So the more Waffle Houses were closed, the more severe FEMA would assume the damage would be. Now, obviously the Waffle House closures are not causing the storms to be bad, it is the other way around. However, because it is much easier to figure out whether a Waffle House is closed than assess property damage in a storm, we use the former to predict the latter.
+
+## Confounding Factors
+A confounding factor is a (often times unmeasured) variable that influences both the "cause" and the "effect". Consider a study trying to predict a child's reading ability. If you didn't understand anything about how the brain worked, you might decide to use a child's shoe size as a predictor of their reading skill. Now we all know that having a larger shoe size does not cause you to have a better ability to read. However, in children, both shoe size and reading ability increase with the confounding factor: age. 
+
+## Spurious Correlation
+
+Sometimes things are correlated by chance. For example, The Church of the Flying Spagetti Monster, a satirical religion, claims that since global pirate numbers have been falling since the early 1800s and average global temperatures has been rising since that time, climate change is a punishment for the lack of pirates. This is obviously not true, but it is a good example of how things can be correlated, even if they are entirely unrelated.
+
+A more famous, and harmful, example of this is the preported link between vaccines and autism. The hypothesis that the two were related was originally put forward because people generally recieve the MMR vaccine around age 2, which is also the time people start exhibiting the first signs of autism. Then, in 1998, Andrew Wakefield and a number of other collegues published a small study claiming there was a link between the MMR vaccine and autism. It was later discovered that the authors of the study cherrypicked their data to suit their pre-conceived notions and financial support. The paper was completely retracted by the journal it was published in, but the damage had already been done. 
+
+
+
+#predict disease severity for all BMI values
+#bmi_range = [np.arange(17, 42, 0.5)]
+#target_predicted_range = fit_model.predict(bmi_range)
+
+# Questions
+
+For this problem set please use the NBA Player dataset provided. This has per 36 Minute data from the 2021-2022 season and total points scored from the 2022-2023 season. The original source of the data is [BasketballReference.com](https://www.basketball-reference.com/)'s [21-22](https://www.basketball-reference.com/leagues/NBA_2022_per_minute.html) and [22-23](https://www.basketball-reference.com/leagues/NBA_2023_totals.html) season data. where you can find the documentation for the variables.
