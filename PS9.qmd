@@ -105,11 +105,6 @@ Sometimes things are correlated by chance. For example, The Church of the Flying
 A more famous, and harmful, example of this is the preported link between vaccines and autism. The hypothesis that the two were related was originally put forward because people generally recieve the MMR vaccine around age 2, which is also the time people start exhibiting the first signs of autism. Then, in 1998, Andrew Wakefield and a number of other collegues published a small study claiming there was a link between the MMR vaccine and autism. It was later discovered that the authors of the study cherrypicked their data to suit their pre-conceived notions and financial support. The paper was completely retracted by the journal it was published in, but the damage had already been done. 
 
 
-
-#predict disease severity for all BMI values
-#bmi_range = [np.arange(17, 42, 0.5)]
-#target_predicted_range = fit_model.predict(bmi_range)
-
 # Questions
 
 For this problem set please use the NBA Player dataset provided. This has per 36 Minute data from the 2021-2022 season and total points scored from the 2022-2023 season. The original source of the data is [BasketballReference.com](https://www.basketball-reference.com/)'s [21-22](https://www.basketball-reference.com/leagues/NBA_2022_per_minute.html) and [22-23](https://www.basketball-reference.com/leagues/NBA_2023_totals.html) season data. where you can find the documentation for the variables.
