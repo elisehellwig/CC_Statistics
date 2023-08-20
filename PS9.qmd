@@ -49,11 +49,13 @@ There are many ways of measuring correlation, but one of the most common is the 
 
 ![Pearson's Correlation Coefficent](data/plots/Correlation_examples2.png)
 
+## Pearson's r in Python
+
 There are many functions in python you can use to calculate the Pearson correlation coefficient. The `pandas` package has a method called `corr` that calculates the correlation coefficents for all pairs of variables in a DataFrame. This is very useful and efficient, but you need to make sure you don't have any string variables in your DataFrame.
 
-```{python }
+```{python}
 
-diabetes.corr()
+print(diabetes.corr())
 
 ```
 
@@ -68,16 +70,16 @@ While correlation tells us how closely our independent variable tracks our depen
 n_rand = 500
 
 df = pd.DataFrame({'X':rand.uniform(-5, 5, n_rand)})
-df['Y1'] = df.X*0.8 + rand.normal(0, 2, n_rand)
-df['Y2'] = df.X*0.8 + rand.normal(0, 10, n_rand)
-df['Y3'] = df.X*3.5 + rand.normal(0, 2, n_rand)
-df['Y4'] = df.X*3.5 + rand.normal(0, 10, n_rand)
+df['Y1'] = df.X*1 + rand.normal(0, 2, n_rand) 
+df['Y2'] = df.X*1 + rand.normal(0, 10, n_rand)
+df['Y3'] = df.X*5 + rand.normal(0, 2, n_rand)
+df['Y4'] = df.X*5 + rand.normal(0, 10, n_rand)
 
 titles = ['High Correlation, Small Effect', 'Low Correlation, Small Effect',
 'High Correlation, Large Effect', 'Low Correlation, Large Effect']
 
 fig2, axs2 = plt.subplots(2, 2, sharey=True, sharex=True,
-figsize=(8,10))
+figsize=(8,9))
 
 for i, ax in enumerate(fig2.axes):
     ax.scatter(df.X, df.iloc[:, i+1], s=3)
