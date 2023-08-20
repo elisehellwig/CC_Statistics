@@ -108,3 +108,14 @@ A more famous, and harmful, example of this is the preported link between vaccin
 # Questions
 
 For this problem set please use the NBA Player dataset provided. This has per 36 Minute data from the 2021-2022 season and total points scored from the 2022-2023 season. The original source of the data is [BasketballReference.com](https://www.basketball-reference.com/)'s [21-22](https://www.basketball-reference.com/leagues/NBA_2022_per_minute.html) and [22-23](https://www.basketball-reference.com/leagues/NBA_2023_totals.html) season data. where you can find the documentation for the variables.
+
+You will also need your results from PS8.
+
+1. Calculate the Pearson's $r$ for every pair of variables in your dataset.
+2. Compare the correlation coefficients ($r$) for every independent variable paired with your dependent variable.
+   A. Which has the highest correlation?
+   B. Is that the same variable you used in your linear model? If not, create another linear model using the variable with the highest correlation. 
+3. Are there any independent variables that are strongly positively or negatively correlated? Why might that be?
+4. Are there any variables that are strongly correlated with many other variables in the dataset? Why do you think that is?
+5. Which pairs of variables have a clear causal direction (ex changes in A clearly cause changes B)? Which pairs have an ambiguous causal direction?
+6. If you found a strong correlation between the rank of a player (Rk) and their total points scored, would this be useful to you when trying to understand what makes a good basketball player?
