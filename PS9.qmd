@@ -60,7 +60,9 @@ diabetes.corr()
 
 By looking at how all the variables correlate with `target`, we can see that BMI, blood pressure, and blood triglicerides are positively correlated with our target variable. This is in line with what we saw in our scatterplots earlier. "Good Cholesteral" (HDL) is also negatively correlated with disease progression, but the strength of the correlation is weaker. Overall, BMI seems like a pretty good choice for a predictor variable. However, if we wanted to try another variable to our model, blood triglyceride level would be a good alternative.
 
+## Correlation vs Effect Size
 
+While correlation tells us how closely our independent variable tracks our dependent variable, it doesn't tell us how much of a change in our dependent variable a change in our independent variable will produce. For example, if adding expensive plant food to your lemon tree produces only 5 more lemons a year, you probably wouldn't spend the money. However, if the product doubled your lemon harvest it would be worth the extra cost. Both correlation and effect size are important in evaluating our model, as the figure below illustrates. 
 ```{python }
 
 n_rand = 500
