@@ -28,7 +28,20 @@ diabetes_orig = pd.read_csv('https://www4.stat.ncsu.edu/~boos/var.select/diabete
 #convert variable names to lower case
 diabetes_orig = diabetes_orig.rename(columns=str.lower)
 
-## Measuring Correlation
+#rename S variables
+namedict = {'s1': 'totchol', 's2':'ldl', 's3':'hdl', 's4':'tch', 
+'s5':'ltg', 's6':'glucose', 'y':'target'}
+diabetes=diabetes_orig.rename(columns=namedict)
+
+
+```
+
+
+
+# Assessing A Linear Regression Model
+In the previous problem set we represented (or modeled) the relationship between to variables with a line, a process called linear regression. This enabled us to predict the value of our dependent variable based the value of our independent variable. However, the question remains, how good is that prediction? There are many ways to assess how good a particular particular model is for a given set of data. Correlation is an easy way to guage how well one variable might predict another variable.
+
+# Measuring Correlation
 Correlation is the measure of how much one variable changes as another one changes. If an increase in one variable also leads in an increase in a second variable, these two variables are positively correlated. An example of this would be height and weight in humans. If an increase in one variable leads to a decrease in a second variable, these variables are negatively correlated. An example of negatively correlated variables are the hours of sleep you get and the likelihood of you getting in a traffic accident.
 
 There are many ways of measuring correlation, but one of the most common is the [Pearson Correlation Coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient), which is represented with a lowercase $r$. Pearson's $r$ tells you how closely two variables follow a linear relationship (Figure 1). This means that there still could be a (non-linear) relationship between two variables even if $r$ is close to zero. That is why it is always important to plot your data!
