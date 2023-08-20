@@ -87,9 +87,9 @@ for i, ax in enumerate(fig2.axes):
 
 
 # Correlation $\neq$ Causation
-![Correlation - xkcd 552](data/plots/correlation_2x.png)
+Linear regression models assess the degree of correlation between two or more variables. However, just because two variables are correlated, does not mean one is necessarily caused by the other. This can happen in three primary ways: reverse causation, confounding factors, and spurious correlation. 
 
-Linear regression models assess the degree of correlation between two or more variables. However, just because two variables are correlated, does not mean one is necessarily caused by the other. This can happen in two primary ways: hidden causation and reverse causation. 
+![Correlation - xkcd 552](data/plots/correlation_2x.png)
 
 
 ## Reverse Causation
