@@ -105,6 +105,8 @@ Sometimes things are correlated by chance. For example, The Church of the Flying
 
 A more famous, and harmful, example of this is the preported link between vaccines and autism. The hypothesis that the two were related was originally put forward because people generally recieve the MMR vaccine around age 2, which is also the time people start exhibiting the first signs of autism. Then, in 1998, Andrew Wakefield and a number of other collegues published a small study claiming there was a link between the MMR vaccine and autism. It was later discovered that the authors of the study cherrypicked their data to suit their pre-conceived notions and financial support. The paper was completely retracted by the journal it was published in, but the damage had already been done. 
 
+Of the three problems, spurious correlation is the most difficult to deal with. We will discuss ways to mitigate the risk of spurious correlation in future problem sets.
+
 
 # Questions
 
