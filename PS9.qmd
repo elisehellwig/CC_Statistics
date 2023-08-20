@@ -58,7 +58,7 @@ diabetes.corr()
 ```
 
 
-By looking at how all the variables correlate with `target`, we can see that BMI, blood pressure, and blood triglicerides are positively correlated with our target variable. This is in line with what we saw in our scatterplots earlier. "Good Cholesteral" (HDL) is also negatively correlated with disease progression, but the strength of the correlation is weaker.
+By looking at how all the variables correlate with `target`, we can see that BMI, blood pressure, and blood triglicerides are positively correlated with our target variable. This is in line with what we saw in our scatterplots earlier. "Good Cholesteral" (HDL) is also negatively correlated with disease progression, but the strength of the correlation is weaker. Overall, BMI seems like a pretty good choice for a predictor variable. However, if we wanted to try another variable to our model, blood triglyceride level would be a good alternative.
 
 
 ```{python }
