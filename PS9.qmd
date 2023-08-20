@@ -38,7 +38,7 @@ diabetes=diabetes_orig.rename(columns=namedict)
 
 
 
-# Assessing A Linear Regression Model
+# Model Assessment
 In the previous problem set we represented (or modeled) the relationship between to variables with a line, a process called linear regression. This enabled us to predict the value of our dependent variable based the value of our independent variable. However, the question remains, how good is that prediction? There are many ways to assess how good a particular particular model is for a given set of data. Correlation is an easy way to guage how well one variable might predict another variable.
 
 # Measuring Correlation
