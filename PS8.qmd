@@ -159,7 +159,7 @@ Linear regression is the process of finding a line (a model) that best fits our 
 
 Our linear model is summarized by two parameters: $m$ (slope) and $b$ (y-intercept). To find the parameters for the line that best fits our data, we minimize the squared differences between the $y$ values of our line and the $y$ values of our data. That is why this process is sometimes called "Least Squares Regression".
 
-There are several steps estimating the parameters for a linear regression in python using the `scikit-learn` package. First we need to import the `LinearRegression` class, which we did at the top of the problem set. Next we need to create an instance of that class, which we will call `model`. For now we can use the default parameter settings.
+There are several steps estimating the parameters for a linear regression in python using the `scikit-learn` package. First we need to import the `LinearRegression` class, which we did at the top of the problem set. Next we need to create an instance of that class, which we will call `model`. For now we can use the default parameter settings. 
 
 ```{python}
 
@@ -167,7 +167,7 @@ model = LinearRegression()
 
 ```
 
-Next we need to 'fit' the model. Fitting a model is providing that model with data that it can use to estimate the model parameters. In this case those parameters are $m$ and $b$. We use the `fit` method to fit a linear regression model, with the arguments being our predictor variable (BMI) and our response variable (target). Because `scikit-learn` is based off of the package `numpy` we will need to use double brackets instead of single ones when referring to our DataFrame columns.
+Next we need to 'fit' the model. Fitting a model is providing that model with data that it can use to estimate the model parameters. In this case those parameters are $m$ and $b$. We use the `fit` method to fit a linear regression model, with the arguments being our predictor variable (BMI) and our response variable (target). This is like plugging in data into our linear regression formula. Because `scikit-learn` is based off of the package `numpy` we will need to use double brackets instead of single ones when referring to our DataFrame columns. 
 
 ```{python}
 
