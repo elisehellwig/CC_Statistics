@@ -1,12 +1,18 @@
 ---
-title: "PS9 - Linear Regression Model Assessment"
+title: "PS10 - Study Design"
 format: pdf
 jupyter: python3
 ---
 
-# Setup
+# Introduction
 
-We will be using the `statsmodel` package and `diabetes` dataset for this problem set.
+Please watch [Controlled Experiments](https://www.youtube.com/watch?v=kkBDa-ICvyY&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=10) 
+and [Sampling Methods and Bias with Surveys](https://www.youtube.com/watch?v=Rf-fIpB4D50&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=11) before doing this problem set. This problem set does not require any 
+coding. However, that does not mean it is less important than the any of the 
+other problem sets. In fact, it is probably more important. There is an often 
+quoted adage in statistics: "Talking to a statistician after you finished your 
+experiment is like talking to a doctor at an autopsy." Statistics is not a cure 
+for poor study design. Rather good study design enables you to do (any) statistics.
 
 ```{python}
 import pandas as pd
