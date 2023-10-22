@@ -6,8 +6,10 @@ jupyter: python3
 
 # Introduction
 
-Please watch [Controlled Experiments](https://www.youtube.com/watch?v=kkBDa-ICvyY&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=10) 
-and [Sampling Methods and Bias with Surveys](https://www.youtube.com/watch?v=Rf-fIpB4D50&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=11) before doing this problem set. This problem set does not require any 
+Please watch [Controlled Experiments](https://www.youtube.com/watch?v=kkBDa-ICvyY&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=10),
+[Sampling Methods and Bias with Surveys](https://www.youtube.com/watch?v=Rf-fIpB4D50&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=11) and 
+[Henrietta Lacks, the Tuskegee Experiment, and Ethical Data Collection](https://www.youtube.com/watch?v=CzNANZnoiRs&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=13)
+before doing this problem set. This problem set does not require any 
 coding. However, that does not mean it is less important than the any of the 
 other problem sets. In fact, it is probably more important. There is an often 
 quoted adage in statistics: "Talking to a statistician after you finished your 
