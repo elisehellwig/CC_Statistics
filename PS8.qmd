@@ -163,6 +163,7 @@ There are several steps estimating the parameters for a linear regression in pyt
 
 ```{python}
 
+#formula 
 model = LinearRegression()
 
 ```
