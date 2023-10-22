@@ -40,23 +40,26 @@ subjects are humans. However,
   - Statistical analysis tends to be more complicated
   - Often times cost less given the same amount of data generated
 
-#pd.set_option('display.precision', 2)
 
-pd.set_option('display.float_format', lambda x: '%.3f' % x)
+# Experimental Studies
 
-# load diabetes data
-diabetes_orig = pd.read_csv('https://www4.stat.ncsu.edu/~boos/var.select/diabetes.tab.txt', sep='\t')
+The gold standard of experimental studies are double-blinded randomized controlled
+experiments. 
 
-#rename diabetes data columns
-diabetes_orig = diabetes_orig.rename(columns=str.lower)
+## Controlled
 
-namedict = {'s1': 'totchol', 's2':'ldl', 's3':'hdl', 's4':'tch', 
-'s5':'ltg', 's6':'glucose', 'y':'target'}
+## Randomized
 
-diabetes=diabetes_orig.rename(columns=namedict)
+## (Double) Blinded
 
-```
+# Observational Studies
 
-# Not all models are created equal
+## Cross-sectional
 
+## Longitudinal Study
 
+Cohort study
+
+## Case-Control
+
+# Questions
