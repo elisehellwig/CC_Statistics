@@ -65,3 +65,21 @@ Cohort study
 ## Case-Control
 
 # Questions
+
+1. Design an experimental study you would like to run. 
+   a. What question are you trying to answer?
+   b. What treatments would you include in the study?
+   c. If you need to recruit subjects, how would you ensure they are a representative sample of the population?
+   d. How would you go about randomizing the subjects in your study into experimental and control groups?
+   e. Would it be possibly for your study subjects to be blind to the treatment? How would you go about accomplishing thats?
+   f. Would it be possibly for your study to be double-blinded?
+   g. What data would you collect? What data types would be included? How would you collect it?
+   h. What restrictions might you face and what ethical concerns would you need to consider?
+2. Design an observational study you would like to run.
+   a. What question are you trying to answer?
+   b. Why wouldn't it be possible to answer this question with an experimental study?
+   c. What type of study would it be (longitudinal, cross-sectional, or case-control)? Why are you choosing that type?
+   d. If you need to recruit subjects, how would you ensure they are a representative sample of the population?
+   e. What data would you collect? What data types would be included? How would you collect it?
+   f. What confounding factors might limit your ability to draw conclusions about your data?
+   g. What restrictions might you face and what ethical concerns would you need to consider?
