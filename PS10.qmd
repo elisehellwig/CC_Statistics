@@ -15,8 +15,30 @@ experiment is like talking to a doctor at an autopsy." Statistics is not a cure
 for poor study design. Rather good study design enables you to do (any) statistics.
 
 
-#set options to always display all columns in DataFrame
-pd.set_option('display.max_columns', None)
+# Study Types
+
+Broadly speaking there are two study types: experimental studies and observational
+studies. Experimental studies involve some sort of artificial manipulation of
+the study subjects or their environment. This could be as inocuous as having someone use a step tracking app on their phone or as intensive as a multi-step cancer treatment. Because the researchers conducting the experiment are 
+
+Observational studies do just that, they observe. They do not try to change 
+anything about the study subjects or their environment, they just record data on
+what is already happening. In some cases, like with wildlife observation,
+researchers take great pains to avoid influencing their subjects. 
+
+Observational studies do still require some oversight, especially when the study
+subjects are humans. However, 
+
+- Experiemental Studies
+  - Tend to be shorter term
+  - More restrictions/ethical concerns
+  - Statistics can be less complicated
+  - Tend to be more expensive
+- Observational Studies
+  - Can be long term
+  - Fewer restrictions, except in the case of human subjects
+  - Statistical analysis tends to be more complicated
+  - Often times cost less given the same amount of data generated
 
 #pd.set_option('display.precision', 2)
 
