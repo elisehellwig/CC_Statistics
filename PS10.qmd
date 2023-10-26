@@ -58,6 +58,39 @@ boxes as possible. Interestingly enough
 
 # Observational Studies
 
+Sometimes it is not ethical to do an experiment, or even if it is ethical, it 
+it may not be legal, practical, or possible. There are plenty of 
+-   Impact of greenspace on mental health
+-   Impact of marraige on life expectancy
+-   Relationship between media consumption and vaccination status
+
+Any study looking at data from the past is going to be inherently observational.
+Paleontology has shaped how we understand our world and our place in it. 
+Studies in about the natural world are also predominantly observational, because 
+it is almost impossible to manipulate systems that are so extensive in space and
+time. 
+
+Finally, sometimes we aren't trying to answer a question that requires an
+experiment. For example, how long can whales hold their breath? Or where do the
+bats go in the winter? Or how much of its life does a sea otter spend in the ocean?
+
+## Case-Control
+
+For situations where we want to do an experimental study, but can't due to 
+ethical, legal, or practical reasons, a case-control study is often a good
+alternative. A case-control study compares two groups of people that already fall
+into an 'experimental' or 'control' group. Because we did not assign people to 
+one group or the other, and then apply a treatment, this is not an experiment.
+However, it is often as close to an experiment as we can get. 
+
+For example, say we wanted to look at the impact of cigarettes on the immune system. 
+Given what we already know about the impact of cigarettes on other parts of 
+the human body, it would be morally reprehensible to force someone to smoke 
+cigarettes, even as part of a study. Instead what we can do is compare the 
+immune systems of people who already either smoke or don't smoke. We just have 
+to make sure each group constitutes a representative sample in all other ways 
+besides smoking behavoir.
+
 ## Cross-sectional
 
 ## Longitudinal Study
