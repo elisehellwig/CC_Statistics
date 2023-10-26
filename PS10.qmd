@@ -56,6 +56,10 @@ boxes as possible. Interestingly enough
 
 ## (Double) Blinded
 
+While studies of all different types should be controlled and randomized, studies
+with human participants also have an additional layer of complexity: blindedness.
+Unlike most organisms (or environments) people study, humans are aware of 
+
 # Observational Studies
 
 Sometimes it is not ethical to do an experiment, or even if it is ethical, it 
@@ -95,9 +99,11 @@ besides smoking behavoir.
 
 ## Longitudinal Study
 
-Cohort study
+Longitudinal studies, also called cohort studies, are frequently used when the
+topic of interest acts on long time scales. Cancer risk is frequently investigated
+via longitudinal study, as are the various impacts of climate change.
 
-## Case-Control
+
 
 # Questions
 
