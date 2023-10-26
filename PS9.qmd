@@ -115,14 +115,16 @@ Of the three problems, spurious correlation is the most difficult to deal with. 
 # Questions
 
 For this problem set please use the NBA Player dataset from PS8. 
+
 1. Calculate the Pearson's $r$ for every pair of variables in your dataset.
-   A. Why does the left diagonal of your matrix have the value of 1? Would those variable pairs be useful to use in your model?
-   B. Which pair of variables has the strongest and weakest correlation?
+   a. Why does the left diagonal of your matrix have the value of 1? Would those variable pairs be useful to use in your model?
+   b. Which pair of variables has the strongest and weakest correlation?
+   
 2. Compare the correlation coefficients ($r$) for every independent variable paired with your dependent variable.
-   A. Rank the independent variables in order of absolute value of correlation. Which has the strongest correlation?
-   B. Using your plots from PS8, rank the independent variables based on effect size.
-   C. Does the strength of the correlation depend on the units of the variables? How about the effect size?
-   D. If you answered yes to either part of 2C, how could you solve that issue?
+   a. Rank the independent variables in order of absolute value of correlation. Which has the strongest correlation?
+   b. Using your plots from PS8, rank the independent variables based on effect size.
+   c. Does the strength of the correlation depend on the units of the variables? How about the effect size?
+   d. If you answered yes to either part of 2C, how could you solve that issue?
 3. Are there any independent variables that are strongly positively or negatively correlated? Why might that be?
 4. Are there any variables that are strongly correlated with many other variables in the dataset? Why do you think that is?
 5. Which pairs of variables have a clear causal direction (ex changes in A clearly cause changes B)? Which pairs have an ambiguous causal direction?
