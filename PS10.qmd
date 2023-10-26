@@ -45,8 +45,10 @@ subjects are humans. However,
 
 # Experimental Studies
 
-The gold standard of experimental studies are double-blinded randomized controlled
-experiments. 
+Double-blinded randomized controlled experiments are the gold standard of 
+experimental study design. However, not every study can meet that standard, and 
+even fewer actually do. The key is to design your study check as many of those
+boxes as possible. Interestingly enough 
 
 ## Controlled
 
