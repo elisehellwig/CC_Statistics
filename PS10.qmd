@@ -97,6 +97,25 @@ besides smoking behavoir.
 
 ## Cross-sectional
 
+Cross-sectional studies are studies that look at the state of the study system
+at a particular moment. You can think of them as snapshots, pictures of
+the world at a given point in time. Because cross-sectional studies only
+collect data from their study subjects once, they are relatively limited in the 
+types of questions they can answer. Generally they are limited to questions of 
+prevelance, aka "What is out there?". This could be prevelance of a disease
+(human or animal), species population counts, or how many people under 25 use
+TikTok more than once a day. The 
+[American Community Survey](https://www.census.gov/programs-surveys/acs) (ACS) 
+is a cross-sectional survey conducted by the US Census every year that documents
+the changes in the U.S.'s demographics, housing, and workforce. 
+
+The key to cross-sectional studies is sampling a representative sample of the
+population you are trying to understand. If you over or under represent some 
+sections of the population, your results will be incorrect. For example, if you
+wanted to know what the prevalence of lung cancer was in the United States, but 
+you only surveyed college students (because you work at a University), you would
+drastically underestimate the number of people with lung cancer.
+
 ## Longitudinal Study
 
 Longitudinal studies, also called cohort studies, are frequently used when the
