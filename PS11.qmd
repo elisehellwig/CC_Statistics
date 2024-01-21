@@ -66,9 +66,9 @@ generator object `rng`.
 
 ```{python}
 
-roll_10 = rng.choice(x, 10, p=p) #roll our unfair die 10 times
+roll_5 = rng.choice(x, 5, p=p) #roll our unfair die 5 times
 
-np.mean(roll_10) #calculate the empirical mean
+np.mean(roll_5) #calculate the empirical mean
 
 ```
 
