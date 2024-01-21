@@ -39,7 +39,9 @@ $$
 E(X) = \Sigma (X \cdot P(X))
 $$
 
-If we have an unfair 6-sided die, where you are 3 times as likely to roll a 5 or a 6 as any other value we can calculate the expected value using our formula from before.
+If we have an unfair 6-sided die, where you are 3 times as likely to roll a 5 or
+a 6 as any other value we can calculate the expected value using our formula 
+from before.
 
 $$
 E(X) = (1\cdot 0.1)+(2\cdot 0.1)+(3\cdot 0.1)+(4\cdot 0.1)+(5\cdot 0.3)+(6\cdot 0.3) 
@@ -58,11 +60,54 @@ sum(xp) #sum X*P(X)
 
 ```
 
+Now that we have a theoretical expected value, it's time to calculate some 
+empirical means. We can do this with the `choice` method from our random number
+generator object `rng`. 
 
+```{python}
+
+roll_10 = rng.choice(x, 10, p=p) #roll our unfair die 10 times
+
+np.mean(roll_10) #calculate the empirical mean
+
+```
+
+If we only roll the unfair die 10 times, the empirical mean is not very close to
+our expected value of 4.3. However, the more times we roll the die, the closer 
+we will get. In order to make calculating the mean of our samples easier, let's 
+create a function.
+
+```{python}
+
+def unfair_mean(n):
+
+    x = np.arange(1, 7) #values of our distribution
+    p = np.array([0.1, 0.1, 0.1, 0.1, 0.3, 0.3]) #probabilities for each value
+
+    rolls = rng.choice(x, n, p=p) #draw n values from our distribution
+    mu = np.mean(rolls) #calculate the mean of our n values
+
+    return mu
+
+```
+
+ Once we have our function, we can easily calculate a sample mean for a wide 
+ variety of sample sizes.
+
+```{python}
+
+Ns = [10**i for i in range(1, 9)] # powers of 10
+
+# calculating sample means with sample sizes of increasing powers of 10
+[unfair_mean(n) for n in Ns] 
+ 
+```
 
 # Questions
-
-1. Theoretical vs. Empirical Probability
+1. Python questions
+   1. How would we need to change our use of the method `choice` if we were trying to simulate pulling numbers from a bag, instead of rolling dice.
+2. Theoretical vs. Empirical Probability
    1. Create a discrete probability distribution ($X$) and plot it. It should have at least 5 possible values and the likelihood of each value should not be the same. Also remember, the sum total of the probabilities must be 1.
    2. Calculate the expected value ($E(X)$) of your probability distribution.
-   3. Simulate your probability distribution using python and calculate the empirical mean for each run. 
+   3. Write a function that simulates a sample of abritrary size from your probability distribution and calculates the mean of that sample.
+   4. Determine which power of 10 sample size will produce at least 5 means in a row that are with in 0.1 of the theoretical expected value. How about within 0.01 of the theoretical expected value.
