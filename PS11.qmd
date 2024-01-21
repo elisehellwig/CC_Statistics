@@ -28,7 +28,9 @@ rng = rand.default_rng(seed=281)
 
 ```
 
-# Theoretical vs. Empirical Probability
+
+# Theoretical vs. Empirical Means
+
 If we have a discrete probability distribution, (ex. rolling a die), it is very 
 easy to calculate the expected value ($E(X)$, theoretical mean) of the 
 distribution. We simply multiple each value in the distribution with the 
@@ -105,7 +107,7 @@ Ns = [10**i for i in range(1, 9)] # powers of 10
 
 # Questions
 
-## Theoretical Probability and Free throws
+## Theoretical Probability and Free Throws
 
 Malik Monk is one of the best free throw shooters for the Sacramento Kings. 
 While his overall free throw (FT) percentage is around 85%, his actual
