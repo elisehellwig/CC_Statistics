@@ -12,12 +12,19 @@ before completing this problem set.
 
 ## Setup
 
-For this problem set we will need the `random` module of the `numpy` package, which we used previously in PS7.
+For this problem set we will need the numpy package, and also specifically the
+random module from the numpy package (numpy.random), which we used previously in
+PS7. To generate random numbers using numpy.random we will need to create a 
+random number generator object using the `default_rng` function. We will use the 
+seed value of 281 so that others can replicate these results if they want.
 
 ```{python}
 
 import numpy as np
 import numpy.random as rand
+
+
+rng = rand.default_rng(seed=281)
 
 ```
 
