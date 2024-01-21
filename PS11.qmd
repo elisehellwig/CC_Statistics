@@ -1,0 +1,12 @@
+---
+title: "PS11 - Probability"
+format: pdf
+jupyter: python3
+---
+
+# Introduction
+
+Please watch [Probability Part 1](https://youtu.be/OyddY7DlV58?si=fZFJNF5doZ_4mDTV) 
+and [Probability Part 2](https://youtu.be/oZCskBpHWyk?si=lCFQbjzEHPfgg-Z1)
+before completing this problem set.
+
