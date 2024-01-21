@@ -128,6 +128,14 @@ Questions:
 
 ## Empirical Probability and Rolling Dice
 
+If we have a fair 10-sided die (d10), we know the theoretical probability of
+rolling a 10 is 0.1. Additionally, we can calculate the empirical probability of
+rolling a 10 using the `choice` method to simulate die rolls. How large does our 
+sample of die rolls need to be before our empirical probability of rolling a 
+10 is reliably* less than 0.01 away from the theoretical probability?  
+
+$^{*}$ The empirical probability should be less than 0.01 away from the
+theoretical probability at least 3 times in a row.
 
 ## Theoretical vs. Empirical Means
    1. Create a discrete probability distribution ($X$) and plot it. It should have at least 5 possible values and the likelihood of each value should not be the same. Also remember, the sum total of the probabilities must be 1.
