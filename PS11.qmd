@@ -119,9 +119,15 @@ using the following assumptions:
 * The probability of the foul resulting in 1 FT is 20%, the probability of a foul resulting in 2 FTs is 60% and the probability of a foul resulting in 3 FTs is 20%. No 1-and-1 FTs are awarded.
 
 Questions:
-1. What is the probability that Malik Monk makes two FTs the first time he gets fouled.
-2. What is the probability Monk makes 
-3. If Monk is fouled twice during a game, what is the probability he will make at least 2 free throws.
+
+1. What is the probability that Malik Monk makes two FTs when he gets fouled?
+2. What is the probability Monk makes the the third FT when he gets fouled?
+3. What the probability that Monk made his first free throw, given that he made his second, for a given foul?
+4. If Monk is fouled twice during a game, what is the probability he will make at least 2 free throws?
+
+
+## Empirical Probability and Rolling Dice
+
 
 ## Theoretical vs. Empirical Means
    1. Create a discrete probability distribution ($X$) and plot it. It should have at least 5 possible values and the likelihood of each value should not be the same. Also remember, the sum total of the probabilities must be 1.
