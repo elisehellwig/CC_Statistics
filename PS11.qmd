@@ -142,3 +142,4 @@ theoretical probability at least 3 times in a row.
    2. Calculate the expected value ($E(X)$) of your probability distribution.
    3. Write a function that simulates a sample of abritrary size from your probability distribution and calculates the mean of that sample.
    4. Determine which power of 10 sample size will produce at least 5 means in a row that are with in 0.1 of the theoretical expected value. How about within 0.01 of the theoretical expected value.
+   5. How would we need to change our use of the method `choice` if we were trying to simulate pulling numbers from a bag, instead of rolling dice.
