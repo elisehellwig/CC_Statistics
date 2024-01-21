@@ -104,9 +104,26 @@ Ns = [10**i for i in range(1, 9)] # powers of 10
 ```
 
 # Questions
-1. Python questions
-   1. How would we need to change our use of the method `choice` if we were trying to simulate pulling numbers from a bag, instead of rolling dice.
-2. Theoretical vs. Empirical Probability
+
+## Theoretical Probability and Free throws
+
+Malik Monk is one of the best free throw shooters for the Sacramento Kings. 
+While his overall free throw (FT) percentage is around 85%, his actual
+performance likely depends on previous performance. Answer the questions below
+using the following assumptions: 
+
+* Monk only makes FTs for fouls against himself.
+* Monk's baseline FT probability is 75%.
+* The probability of Monk making a free throw if he just made one (same set of free throws) is 90%.
+* The probability of Monk making a free throw after just missing one is 65%.
+* The probability of the foul resulting in 1 FT is 20%, the probability of a foul resulting in 2 FTs is 60% and the probability of a foul resulting in 3 FTs is 20%. No 1-and-1 FTs are awarded.
+
+Questions:
+1. What is the probability that Malik Monk makes two FTs the first time he gets fouled.
+2. What is the probability Monk makes 
+3. If Monk is fouled twice during a game, what is the probability he will make at least 2 free throws.
+
+## Theoretical vs. Empirical Means
    1. Create a discrete probability distribution ($X$) and plot it. It should have at least 5 possible values and the likelihood of each value should not be the same. Also remember, the sum total of the probabilities must be 1.
    2. Calculate the expected value ($E(X)$) of your probability distribution.
    3. Write a function that simulates a sample of abritrary size from your probability distribution and calculates the mean of that sample.
