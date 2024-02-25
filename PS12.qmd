@@ -1,0 +1,102 @@
+---
+title: "PS12 - The Binomial Probability Distribution"
+format: pdf
+jupyter: python3
+---
+
+# Introduction
+
+Please watch [The Binomial Distribution](binom) before completing this problem
+set.
+
+[binom]: https://youtu.be/WR0nMTr6uOo?si=1q7k2HHgyPrZS-LG
+[geom]: https://youtu.be/5VMTeBoEcQg?si=coHG9uuy6SA6F7eX
+
+## Setup
+
+For this problem set we will be using the scipy.stats and math modules.
+
+```{python}
+
+import scipy.stats as ss
+import math
+
+
+```
+
+
+# The Binomial Probability Distribution
+
+The binomial distribution describes situations where there are a series of 
+*independent* events that only have two outcomes. When we say events are
+independent in probability we mean that the outcome of one event does not impact
+the outcome of another event. This means flipping coins is a good example of 
+binomially distributed events, but the outcome of a series of basketball games
+might not be. 
+
+If we are developing a new allergy drug, and we run a trial with $n$
+people, and the probability that the drug works on any one person is $p$, we can represent the probability the drug working for exactly $k$ people in our trial
+as $binom(n, p, k)$, where
+
+$$
+binom(n, p, k) = _n C_k p^k(1-p)^{(n-k)}
+$$
+
+and 
+
+$$
+_n C_k = \frac{n!}{k!(n-k)!}
+$$
+
+If we have 50 people in our trial and there is a 75% chance of the allergy
+medication for any given person, the probability of the drug helping exactly
+40 people is 9.9%. This is not especially helpful since there isn't much of a 
+difference between 40 and 41 people percenage-wise. What we might want to know
+instead the average number of people we would expect to respond to the
+medication in our trial. The mean (or expected value) of the binomial 
+distribution is $n\cdot p$, so on average we would expect 38 people to respond
+to our medication. 
+
+
+# The Cummulative Binomial Distribution 
+
+While it can be helpful to know the probability that our drug will help exactly
+$k$ people or the average number that it will help, it might be more helpful to
+know the probability that our drug will effect at least $k$ people. When talking
+about the probability of at least or at most $k$ events happening, we are
+talking about the cummulative binomial distribution. There is a formula for 
+the cummulative binomial probability distribution, but it is quite complicated
+and difficult to use. For the binomial distribution, it is much easier to just 
+sum up the values of the regular probability distribution to get the number we
+are interested in. For our example study, there is a 26% chance that at least
+40 people will respond to our treatment.
+
+# Parameters
+
+As you have probably noticed, the variables $n$ and $p$ have come up quite a lot
+in this problem set. This because they are the numbers that uniquely define a
+binomial distribution. For a given number of trials ($n$) and probability
+that each of those trials is a success ($p$), there is only one possible 
+binomial distribution that satisfies both of those two conditions. When we have
+numbers that uniquely define a distribution like that, we call them the
+the distribution's parameters. So the parameters of the binomial distribution
+are $n$ and $p$. Each different type of probability distribution will have at
+least one parameter, but some will have more. 
+
+# Questions
+
+1. Write a function that calculates the binomial coefficient formula for 
+   arbitrary values of $n$ and $k$. Check your work by comparing the output of
+   your function to `math.comb()`.
+2. Write a function that calculates the value of the binomial distribution for
+   given values of $n$, $p$, and $k$ ($binom(n,p,k)$). Check your work by 
+   comparing the output of your function to `scipy.stats.binom.pmf()`.
+3. Describe three situations not mentioned in the Crash Course video or this 
+   problem set, that could be represented with a binomial distribution. For each
+   situation, pick reasonable values of $n$ and $p$, and calculate probabilities
+   of the binomial distribution for values of $k$ from 0 through the value of 
+   $n$ that you picked
+4. Use the numbers calculated in question 3, to calculate the cummulative 
+   bionmial distribution for one of your hypothetical situations.
+5. Plot both the probability and cummulative probability distributions from 
+   the situation you picked for question 4.
