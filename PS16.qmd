@@ -1,0 +1,57 @@
+---
+title: "PSX - Comparing Distributions"
+format: pdf
+jupyter: python3
+---
+
+# Similarities 
+
+The binomial and geometric distributions are both *discrete* distributions. This
+means they only make sense for certain values of $k$, the variable plotted on
+the x-axis. This is because both the binomal and geometric distributions are 
+based on the idea of a series of events or trials. It is is not possible to 
+have half an event, so naturally, it doesn't make sense for us to have a 
+probability for $k=1.5$. Mathematically speaking we say that discrete 
+distributions are only defined on negative and positive whole numbers, aka the
+integers. 
+
+For the binomial and geometric distributions we can be even more specific if
+we think about how we count events. Specifically, having a negative event count
+is also nonsensical. This means we can limit the possible values for $k$ to be
+non-negative integers, also called the natural numbers.
+
+This is not necessarily true for all discrete distributions though. For example,
+the distribution used to model point spreads in many sports is definitly 
+discrete (you can't score half points in baseball). However it can be positive
+or negative depending on who wins.
+
+# Differences 
+
+As mentioned previously, both binomial and geometric distributions represent 
+Bernoulli trials, or situations where we have multiple events that can take on
+only one of two posssible outcomes. The difference between the two distributions
+is what they count. For the binomial distribution, we count the number of 
+successes we get given a set number of events. For the geometric distribution,
+we count the number of events necessary to get one success.
+
+## Binomial Distribution
+
+* Number of events: fixed ($n$)
+* Number of successes: variable ($k$)
+* Probability of success: fixed ($p$)
+* Parameters: $n$, $p$
+* Mean: $np$
+* Possible values of $k$: 0, 1, 2,..., $n$
+
+## Geometric Distribution
+
+* Number of events: variable ($k$)
+* Number of successes: fixed (1)
+* Probability of success: fixed ($p$)
+* Parameters: $p$
+* Mean: $\frac{1}{p}$
+* Possible values of $k$: 1, 2, 3...
+
+For this version of the geometric distribution, the possible values of $k$ do
+not totally align with the possible values of $k$ for the binomial distribution.
+Because of this inconsistency, there is an alternative geometric distribution
