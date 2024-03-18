@@ -6,30 +6,50 @@ jupyter: python3
 
 # Introduction
 
-Please watch [Controlled Experiments](https://www.youtube.com/watch?v=kkBDa-ICvyY&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=10),
-[Sampling Methods and Bias with Surveys](https://www.youtube.com/watch?v=Rf-fIpB4D50&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=11) and 
-[Henrietta Lacks, the Tuskegee Experiment, and Ethical Data Collection](https://www.youtube.com/watch?v=CzNANZnoiRs&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=13)
-before doing this problem set. This problem set does not require any 
-coding. However, that does not mean it is less important than the any of the 
-other problem sets. In fact, it is probably more important. There is an often 
-quoted adage in statistics: "Talking to a statistician after you finished your 
-experiment is like talking to a doctor at an autopsy." Statistics is not a cure 
-for poor study design. Rather good study design enables you to do (any) statistics.
+Please watch the following videos from Crash Course Statistics before completing this problem set:
+
+- [Controlled Experiments](https://www.youtube.com/watch?v=kkBDa-ICvyY&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=10)
+- [Sampling Methods and Bias with Surveys](https://www.youtube.com/watch?v=Rf-fIpB4D50&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=11)
+- [Henrietta Lacks, the Tuskegee Experiment, and Ethical Data Collection](https://www.youtube.com/watch?v=CzNANZnoiRs&list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr&index=13)
+
+For more information on observational studies (and their pitfalls) watch [Does Coffee Increase Lifespan?](https://www.youtube.com/watch?v=_lRy4BR5XNE) from Healthcare Triage.
+
+This problem set does not require any coding. However, that does not mean it is
+less important than the any of the other problem sets. In fact, it is probably
+more important. There is an often quoted adage in statistics: "Talking to a 
+statistician after you finished your experiment is like talking to a doctor at 
+an autopsy." Statistics is not a cure for poor study design. Rather good study
+design enables you to do (any) statistics.
 
 
 # Study Types
 
 Broadly speaking there are two study types: experimental studies and observational
 studies. Experimental studies involve some sort of artificial manipulation of
-the study subjects or their environment. This could be as inocuous as having someone use a step tracking app on their phone or as intensive as a multi-step cancer treatment. Because the researchers conducting the experiment are 
+the study subjects or their environment. This manipulation is called the 
+"treatment." The treatment could be as inocuous as having 
+someone use a step tracking app on their phone or as intensive as a multi-step 
+cancer treatment. Because the researchers conducting the experiment are intervening
+in the normal progression of the world, it is very important all (human) 
+participants involved consent to participate and are not coerced. Additionally, 
+there are limitations on what types of experiments can be done on subjects that 
+cannot consent (ex animals) depending on how intelligent they are and the nature 
+of the study. There are also limitations on what types of experiments can be 
+conducted on endangered species, and often times researchers may need to secure
+additional permits.
 
 Observational studies do just that, they observe. They do not try to change 
 anything about the study subjects or their environment, they just record data on
 what is already happening. In some cases, like with wildlife observation,
-researchers take great pains to avoid influencing their subjects. 
+researchers take great pains to avoid influencing their subjects. For humans,
+this means that the researchers do not encourage people to do things they 
+otherwise wouldn't do or discourage them from doing things they would do.
 
-Observational studies do still require some oversight, especially when the study
-subjects are humans. However, 
+Because of the lack of interference, observational studies generally go through
+a less rigorous pproval process. However, they do require some oversight, 
+especially if the subjects are humans. All human studies, observational and 
+experimental must be reviewed by an Institutional Review Board (IRB), though
+some may qualify for an exemption from ongoing review.
 
 - Experiemental Studies
   - Tend to be shorter term
@@ -48,17 +68,60 @@ subjects are humans. However,
 Double-blinded randomized controlled experiments are the gold standard of 
 experimental study design. However, not every study can meet that standard, and 
 even fewer actually do. The key is to design your study check as many of those
-boxes as possible. Interestingly enough 
+boxes as possible.
 
 ## Controlled
 
+One of the keys to any good experiment is to demonstrate that the treatement
+actually did something. Basically, your observed outcome would not have happened
+if you had sat around and did nothing. Generally speaking, the way you do that is
+with a control group. The control group is, simply put, the group that doesn't 
+have the experimental treatment. If you are investigating the effect of a new 
+pain killer for sore muscles, the control group would be a group of people
+who worked out to the point of soreness but didn't take the medication. If you 
+do the experiment and give everyone the medication, you won't be able to tell
+if the medication helped, or if they just weren't that sore to begin with. 
+
 ## Randomized
+
+Once you split people up into an experimental/treatment group and a control 
+group, you need to have a way of splitting your participants into those two
+groups. The best way to ensure that the only difference between the groups
+is your experimental treatment is to randomize membership between those groups. 
+If your population includes sub-populations (ex. freshmen through seniors in 
+high school), you may randomly assign each participant in the sub-populations to
+a random group. This ensures that one group doesn't have a disproportionate number
+of one of the sub-population participants. This process is called stratified
+randomization.
 
 ## (Double) Blinded
 
 While studies of all different types should be controlled and randomized, studies
 with human participants also have an additional layer of complexity: blindedness.
-Unlike most organisms (or environments) people study, humans are aware of 
+Unlike many organisms (or environments) people study, humans are aware that they 
+are being studied and will respond (even unconciously) to that. In particular, 
+people receiving medical treatment may feel better even if nothing was actually
+done (ex. they were given a sugar pill).
+
+If a person is blind to the treatment, that means they don't know if they are in
+the treatment or control group. Participants have all the same types of 
+interactions with the people running the study, they just do not receive the 
+treatment itself. In the medical field,
+this could look like giving an IV drip of saline instead of the medicine. In
+psychology, a scientist might have people read a random page of a book instead of
+the political commentary the treatment group is being primed with before taking
+a survey about their beliefs. In animal studies, researchers ensure that the 
+subjects in the treatment and control groups get the same amount of handling as
+that can be a significant source of stress and impact the results.
+
+The people collecting the data can also have an impact on the data being collected. 
+While everyone would like to think they are impartial, if you spent several years
+and a lot of money to be able to run a study, you would be pretty invested in it
+turning out well. This can impact the way people collect data, even if they are 
+unaware of it. Consequently, the best practice is for both the scientist and the
+participant to be unaware of whether the participant is part of the treatment
+or control group.
+
 
 # Observational Studies
 
@@ -80,9 +143,9 @@ bats go in the winter? Or how much of its life does a sea otter spend in the oce
 
 ## Case-Control
 
-For situations where we want to do an experimental study, but can't due to 
-ethical, legal, or practical reasons, a case-control study is often a good
-alternative. A case-control study compares two groups of people that already fall
+Sometimes there are situations where we want to do an experimental study, 
+but can't due to ethical, legal, or practical reasons. In this case, a 
+case-control study is often a good alternative. A case-control study compares two groups of people that already fall
 into an 'experimental' or 'control' group. Because we did not assign people to 
 one group or the other, and then apply a treatment, this is not an experiment.
 However, it is often as close to an experiment as we can get. 
@@ -118,11 +181,11 @@ drastically underestimate the number of people with lung cancer.
 
 ## Longitudinal Study
 
-Longitudinal studies, also called cohort studies, are frequently used when the
-topic of interest acts on long time scales. Cancer risk is frequently investigated
+Longitudinal studies, also called cohort studies, look at the same study 
+subjects or study system over a period of time. They are frequently used when the
+topic of interest acts on long time scales or when the goal is to assess the 
+risk of a particular outcome. Cancer risk is frequently investigated
 via longitudinal study, as are the various impacts of climate change.
-
-
 
 # Questions
 
