@@ -115,11 +115,11 @@ Of the three problems, spurious correlation is the most difficult to deal with. 
 # Questions
 
 For this problem set please use the NBA Player dataset from PS8. 
-
+ 
 1. Calculate the Pearson's $r$ for every pair of variables in your dataset.
    a. Why does the left diagonal of your matrix have the value of 1? Would those variable pairs be useful to use in your model?
    b. Which pair of variables has the strongest and weakest correlation?
-   
+
 2. Compare the correlation coefficients ($r$) for every independent variable paired with your dependent variable.
    a. Rank the independent variables in order of absolute value of correlation. Which has the strongest correlation?
    b. Using your plots from PS8, rank the independent variables based on effect size.
