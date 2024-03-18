@@ -1,0 +1,132 @@
+---
+title: "PS13 - Geometric Distributions"
+format: pdf
+jupyter: python3
+---
+
+# Introduction
+
+Please watch [Geometric Distributions and the Birthday Paradox](geom) before
+completing this problem set.
+
+[binom]: https://youtu.be/WR0nMTr6uOo?si=1q7k2HHgyPrZS-LG
+[geom]: https://youtu.be/5VMTeBoEcQg?si=coHG9uuy6SA6F7eX
+
+## Setup
+
+For this problem set we will be using the scipy.stats module again.
+
+# The Geometric Probability Distribution
+
+Like the binomial distribution, the geometric distribution describes series of 
+*independent* events that only have two outcomes.  Because
+there are only two outcomes, if the probability of the first
+outcome ("success") is $p$, then the probability of the second outcome
+("failure") is $1-p$. However, the binomial and geometric distributions answer
+two different questions. The binomial distribution tells us what
+the probability is that we will see a given number of successes after $n$
+tries. The geometric distribution answers the question what is the
+probability that your first success will be on a particular try. 
+We can represent this idea with the following formula. The geometric 
+distribution, $geom(p, k)$, is
+
+$$
+geom(p, k) = (1-p)^{k-1}p
+$$
+
+where $p$ represents the probability that any event will be a success, and $k$
+represents the number of events it takes to get a single success. 
+This type of situation where
+are exactly two possible outcomes is often called binomial trial even when not
+not used in conjunction with the binomial distribution. They are also referred
+to as [Bernoulli trials][bern] after a statistician who analyzed them.
+
+[bern]: https://en.wikipedia.org/wiki/Bernoulli_trial
+
+You can use
+this formula to help you determine whether it is worth it to wait for a
+straight stick block when playing tetris. If all tetris block shapes have an
+equal chance of being the next block ($\frac{1}{7}$), the probability that the
+straight block will first appear in three rounds is 10.4%. 
+
+Like with the
+binomial distribution, knowing the probability for a single value of $k$ is
+not that helpful. It would be more helpful to know the average number of blocks
+you would need to use before getting the coveted straight block. For geometric
+distributions, that value is $\frac{1}{p}$. In our case, that means we would 
+have to wait an average of 7 blocks.
+
+You also might want to know the likelihood of needing to use at most three
+blocks before getting a straight block. Like with the binomial distribution,
+when we ask questions using at most or at least, that generally means we need
+the cummulative probability distribution. 
+
+# The Cummulative Geometric Distribution 
+
+The cummulative geometric distribution tells us how likely it is that our first
+success will happen **on or before** the $k$-th event. Unlike the the binomial
+distribution, there is a nice formula for the cumulative geometric distribution.
+
+$$
+geom_c(p,k) = 1 - (1-p)^k
+$$
+
+Even if we didn't know this formula, we could still figure out the 
+chance that we will get a straight block on or before the 4th block using the
+rules of probability. In this case, we will use the multiplication (AND) rule
+and the complement (NOT) rule. In probability, it can get computationally
+complex to figure out the likelihood that multiple things will happen,
+especially if they are not mutually exclusive (OR rule). This is why the 
+complement rule is so useful. If you ever see a $1-$ in a probability equation,
+it very likely comes from the complement rule.
+
+In the case of the geometric distribution, it is much easier to determine the
+probability that we will get no successes over $k$ trials than it is that we
+will get one or more successes over $k$ trials. Since the events in a geometric
+distribution are independent, we can use the product rule to calculate the
+likelihood of getting zero straight blocks in the next four blocks. If the
+probability of not getting a straight block is $\frac{6}{7}$, then the
+probability of getting a block other than a straight block four times is  
+
+$$
+\frac{6}{7} \cdot \frac{6}{7} \cdot \frac{6}{7} \cdot \frac{6}{7} = \left( \frac{6}{7}\right)^4
+$$
+
+Since we want to know the probability of *not* getting zero straight blocks,
+the formula for that is one minus the probability of getting zero straight 
+blocks or 
+
+$$
+1 - \left( \frac{6}{7}\right)^4 = 46.0\%
+$$
+
+
+# Parameters
+
+Because the number of successes in the geometric distribution is fixed, and
+the number of events in the distribution makes up the x-axis, the only parameter
+needed to define the geometric distribution is $p$. You may have already guessed
+this as the mean of the geometric distribution only depends on $p$.
+
+# Questions
+
+1. Write a function that takes a value $p$ as an argument, and returns
+   another function. The returned function should take an argument ($k$), and
+   should use it to calculate $geom(p,k)$. Check your work by comparing your
+   output to `scipy.stats.geom.pmf()`.
+2. Describe three situations not described in the Crash Course video or this 
+   problem set, that could be represented with a geometric distribution. For
+   each situation, pick a reasonable value of $p$, and calculate probabilities
+   of the geometric distribution for values of $k$ from 1 through 50. 
+3. Use the scipy.stats module to calculate the values of the cummulative
+   geometric distribution for the three situations described in question 2.
+4. Plot both the probability and cummulative probability distributions one of 
+   the situations you described in question 2.
+5. Using the logic from the Cummulative Geometric Distribution section, write a
+   formula for calculating the probability that you get at least 2 successes in
+   your first $k$ trials. Your function should have two inputs, the probability 
+   of a success $p$, and the number of trials $k$.
+6. Use this function to create a plot of the probability that you will get at 
+   least two successes in your first $k$ trials, with $k$ ranging from 2 to 50.
+   Assume that the probability of success is 50%.
+   (EC: Why didn't we start at $k=1$?)
