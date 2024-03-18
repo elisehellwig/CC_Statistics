@@ -83,6 +83,11 @@ the distribution's parameters. So the parameters of the binomial distribution
 are $n$ and $p$. Each different type of probability distribution will have at
 least one parameter, but some will have more. 
 
+## What about $k$?
+
+You may also have noticed $k$ frequently mentioned in this problem set but not
+in the list of parameters. This is because $k$ is the value plotted on the x-axis. The binomial distribution $binom(n,p)$ tells us the probability 
+
 # Questions
 
 1. Write a function that calculates the binomial coefficient formula for 
